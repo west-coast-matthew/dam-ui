@@ -1,0 +1,149 @@
+.fcp-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 32px 64px;
+}
+
+.fcp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.fcp-header h1 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.fcp-muted {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.fcp-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.fcp-stack--tight {
+  gap: 12px;
+}
+
+.fcp-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.fcp-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 40px;
+}
+
+.fcp-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.fcp-divider {
+  width: 100%;
+  margin: 4px 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.fcp-indent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 28px;
+}
+
+.fcp-affix-button {
+  display: grid;
+  place-items: center;
+  margin-right: -6px;
+  padding: 4px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.fcp-affix-button:hover {
+  color: var(--color-text);
+}
+
+.fcp-affix-button:focus-visible {
+  outline: 2px solid var(--color-accent);
+}
+
+.fcp-rules {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.fcp-rules li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fcp-rules li.is-met {
+  color: var(--color-positive);
+}
+
+.fcp-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 24px;
+  align-items: start;
+}
+
+.fcp-form__wide {
+  grid-column: 1 / -1;
+}
+
+.fcp-error {
+  margin-top: 6px;
+  color: var(--color-negative);
+}
+
+.fcp-saved {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-positive);
+}
+
+@media (max-width: 720px) {
+  .fcp-page {
+    padding: 20px 16px 48px;
+  }
+
+  .fcp-header {
+    flex-direction: column;
+  }
+
+  .fcp-grid-2,
+  .fcp-form,
+  .fcp-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
