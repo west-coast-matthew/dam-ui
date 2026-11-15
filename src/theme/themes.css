@@ -1,0 +1,86 @@
+/*
+ * Colour tokens for each theme. Components only use these variables, so every
+ * theme shares the same markup. The active theme is set as data-theme on <html>.
+ */
+
+/* White: light surfaces with a deep blue navigation rail (theme-references/example1.png). */
+:root,
+[data-theme='white'] {
+  color-scheme: light;
+  --color-bg: #eef1f7;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f5f7fb;
+  --color-surface-raised: #ffffff;
+  --color-border: #e3e7f0;
+  --color-text: #1c1f3a;
+  --color-text-muted: #7b8199;
+  --color-nav-bg: #23239b;
+  --color-nav-text: #c9cbff;
+  --color-nav-active: #ffffff;
+  --color-nav-active-bg: rgba(255, 255, 255, 0.14);
+  --color-accent: #2f2fd0;
+  --color-accent-contrast: #ffffff;
+  --color-highlight-bg: #23239b;
+  --color-highlight-text: #ffffff;
+  --color-positive: #1a9e65;
+  --color-negative: #d93f45;
+  --color-chart-1: #2f2fd0;
+  --color-chart-2: #2fb48b;
+  --color-chart-3: #e2669c;
+  --color-grid: #e8ebf3;
+  --shadow-card: 0 6px 20px rgba(35, 35, 155, 0.08);
+}
+
+/* Blue: shades of indigo throughout (theme-references/example.png). */
+[data-theme='blue'] {
+  color-scheme: dark;
+  --color-bg: #2a2c63;
+  --color-surface: #33367a;
+  --color-surface-alt: #2f3170;
+  --color-surface-raised: #3d4090;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-text: #ffffff;
+  --color-text-muted: #a3a6d6;
+  --color-nav-bg: #2a2c63;
+  --color-nav-text: #a3a6d6;
+  --color-nav-active: #ffffff;
+  --color-nav-active-bg: rgba(255, 255, 255, 0.08);
+  --color-accent: #6c6fe6;
+  --color-accent-contrast: #ffffff;
+  --color-highlight-bg: #6264d8;
+  --color-highlight-text: #ffffff;
+  --color-positive: #3ddc84;
+  --color-negative: #ff5c5c;
+  --color-chart-1: #8a8cff;
+  --color-chart-2: #3ddc84;
+  --color-chart-3: #ff8fc0;
+  --color-grid: rgba(255, 255, 255, 0.07);
+  --shadow-card: 0 8px 24px rgba(10, 10, 40, 0.25);
+}
+
+/* Dark: near-black with greys. */
+[data-theme='dark'] {
+  color-scheme: dark;
+  --color-bg: #0f1012;
+  --color-surface: #1a1b1e;
+  --color-surface-alt: #151619;
+  --color-surface-raised: #232428;
+  --color-border: #2c2d33;
+  --color-text: #ececf0;
+  --color-text-muted: #8b8d96;
+  --color-nav-bg: #141517;
+  --color-nav-text: #8b8d96;
+  --color-nav-active: #ffffff;
+  --color-nav-active-bg: #26272c;
+  --color-accent: #9a9cff;
+  --color-accent-contrast: #0f1012;
+  --color-highlight-bg: #2a2b31;
+  --color-highlight-text: #ffffff;
+  --color-positive: #3ddc84;
+  --color-negative: #ff6b6b;
+  --color-chart-1: #9a9cff;
+  --color-chart-2: #3ddc84;
+  --color-chart-3: #ff8fc0;
+  --color-grid: #26272c;
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.4);
+}

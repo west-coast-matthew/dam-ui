@@ -1,0 +1,391 @@
+.laf {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-bg);
+}
+
+/* Navigation rail */
+.laf-nav {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 72px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 0;
+  background: var(--color-nav-bg);
+  border-right: 1px solid var(--color-border);
+  color: var(--color-nav-text);
+}
+
+.laf-nav__logo {
+  font-size: 22px;
+  color: var(--color-nav-active);
+  margin-bottom: 40px;
+}
+
+.laf-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.laf-nav a {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  color: inherit;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.laf-nav a:hover,
+.laf-nav a.is-active {
+  color: var(--color-nav-active);
+  background: var(--color-nav-active-bg);
+}
+
+.laf-nav__logout {
+  margin-top: auto;
+}
+
+/* Layout */
+.laf-body {
+  flex: 1;
+  min-width: 0;
+  padding: 28px 32px 40px;
+}
+
+.laf-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.laf-header h1 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.laf-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 24px;
+}
+
+.laf-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.laf-side {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Shared pieces */
+.laf-card,
+.laf-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+  transition: background-color 0.25s, border-color 0.25s;
+}
+
+.laf-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+h2 {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.laf-muted {
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.laf-eyebrow {
+  color: var(--color-text-muted);
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.laf-positive {
+  color: var(--color-positive);
+  font-weight: 600;
+}
+
+.laf-negative {
+  color: var(--color-negative);
+  font-weight: 600;
+}
+
+.laf-button {
+  padding: 8px 14px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* KPI row */
+.laf-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.laf-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.laf-kpi__value {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.laf-kpi__label {
+  color: var(--color-text-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+.laf-kpi--highlight {
+  background: var(--color-highlight-bg);
+  color: var(--color-highlight-text);
+  border-color: transparent;
+}
+
+.laf-kpi--highlight .laf-kpi__label {
+  color: inherit;
+  opacity: 0.75;
+}
+
+.sparkline {
+  width: 100%;
+  height: 48px;
+  color: currentColor;
+  opacity: 0.9;
+}
+
+/* Activity chart */
+.laf-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.laf-activity__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.laf-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.laf-tabs button {
+  padding: 4px 9px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.laf-tabs button[aria-pressed='true'] {
+  color: var(--color-text);
+  border-color: var(--color-text-muted);
+}
+
+.line-chart {
+  margin: 0;
+}
+
+.line-chart svg {
+  display: block;
+}
+
+.line-chart__axis {
+  fill: var(--color-text-muted);
+  font-size: 11px;
+}
+
+.line-chart__legend {
+  display: flex;
+  gap: 18px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.line-chart__legend i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+/* Highlight cards */
+.laf-collections {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.laf-collections__name {
+  font-weight: 600;
+  margin: 2px 0 18px;
+}
+
+.laf-collections__count {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Side panels */
+.laf-stat {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+}
+
+.laf-stat__label {
+  color: var(--color-text-muted);
+}
+
+.ring-gauge {
+  width: 56px;
+  height: 56px;
+}
+
+.laf-stat__numbers {
+  text-align: right;
+}
+
+.laf-stat__value {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.laf-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.laf-table th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 8px;
+}
+
+.laf-table td {
+  padding: 10px 0;
+  border-top: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+.laf-table td + td,
+.laf-table th + th {
+  padding-left: 12px;
+}
+
+.laf-table__sub {
+  display: block;
+  font-size: 11px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .laf-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .laf-side {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .laf {
+    flex-direction: column;
+  }
+
+  .laf-nav {
+    position: static;
+    height: auto;
+    width: 100%;
+    flex-direction: row;
+    padding: 10px 16px;
+    gap: 16px;
+  }
+
+  .laf-nav__logo {
+    margin: 0;
+  }
+
+  .laf-nav ul {
+    flex-direction: row;
+  }
+
+  .laf-nav__logout {
+    margin: 0 0 0 auto;
+  }
+
+  .laf-body {
+    padding: 20px 16px 32px;
+  }
+
+  .laf-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .laf-collections {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
