@@ -6,6 +6,7 @@ import { DefaultDashboard } from './pages/DefaultDashboard'
 import { Lightboxes } from './pages/Lightboxes'
 import { Login } from './pages/Login'
 import { UserManagement } from './pages/UserManagement'
+import { ApplicationStatusDemo } from './pages/mockups/ApplicationStatusDemo'
 import { AssetBrowseDemo } from './pages/mockups/AssetBrowseDemo'
 import { AssetUploadDemo } from './pages/mockups/AssetUploadDemo'
 import { FormControlPalette } from './pages/mockups/FormControlPalette'
@@ -41,4 +42,5 @@ export const router = createBrowserRouter([
   { path: '/mock/lifecycle-states', element: <LifecycleStates /> },
   { path: '/mock/asset-upload', element: <AssetUploadDemo /> },
   { path: '/mock/recent-activity', element: <RecentActivityDemo /> },
+  { path: '/mock/application-status', element: <ApplicationStatusDemo /> },
 ])
