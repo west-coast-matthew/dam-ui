@@ -35,7 +35,8 @@
   gap: 12px;
 }
 
-.laf-nav a {
+.laf-nav a,
+.laf-nav button {
   display: grid;
   place-items: center;
   width: 44px;
@@ -46,6 +47,7 @@
 }
 
 .laf-nav a:hover,
+.laf-nav button:hover,
 .laf-nav a.is-active {
   color: var(--color-nav-active);
   background: var(--color-nav-active-bg);
@@ -53,6 +55,10 @@
 
 .laf-nav__logout {
   margin-top: auto;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
 }
 
 /* Layout */

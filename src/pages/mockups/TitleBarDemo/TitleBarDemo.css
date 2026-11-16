@@ -24,27 +24,6 @@
   font-weight: 600;
 }
 
-.tbd-signed-out {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  min-height: 100vh;
-  padding: 24px;
-  text-align: center;
-}
-
-.tbd-signed-out h1 {
-  font-size: 24px;
-  font-weight: 600;
-}
-
-.tbd-signed-out p {
-  color: var(--color-text-muted);
-  margin-bottom: 8px;
-}
-
 @media (max-width: 720px) {
   .tbd-content {
     padding: 20px 16px 48px;
