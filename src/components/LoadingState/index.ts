@@ -1,1 +1,1 @@
-export { LoadingState, type LoadingStateProps } from './LoadingState'
+export { LoadingState, type LoadingStateProps, type LoadingStateSize } from './LoadingState'
