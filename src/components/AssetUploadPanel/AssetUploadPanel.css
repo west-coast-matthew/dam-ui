@@ -1,0 +1,325 @@
+/* Asset upload panel. Class prefix: aup- */
+
+.aup {
+  min-width: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+/* :where keeps this reset at zero specificity so .aup-body's padding wins. */
+:where(.aup) fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* ---------- Header ---------- */
+.aup-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.aup-header__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.aup-header__subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Body: files on the left, shared details on the right ---------- */
+.aup-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 24px;
+  padding: 20px;
+}
+
+.aup-body:disabled .aup-details,
+.aup-body:disabled .aup-files__list {
+  opacity: 0.6;
+}
+
+.aup-files {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.aup-details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  align-self: start;
+}
+
+.aup-details__title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* ---------- Drop zone ---------- */
+.aup-drop {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 180px;
+  padding: 28px 16px;
+  text-align: center;
+  color: var(--color-text-muted);
+  background: var(--color-surface-alt);
+  border: 2px dashed var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+}
+
+.aup-drop:hover,
+.aup-drop--over {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.aup-drop--over {
+  background: color-mix(in srgb, var(--color-accent) 8%, var(--color-surface-alt));
+}
+
+.aup-drop:focus-within {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.aup-drop--disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.aup-drop--disabled:hover {
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.aup-files--error .aup-drop {
+  border-color: var(--color-negative);
+}
+
+.aup-drop__text {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.aup-drop__browse {
+  color: var(--color-accent);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.aup-drop__hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+/* Hidden but still focusable, so Tab reaches it and Enter/Space open the picker. */
+.aup-drop__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- Rejected files ---------- */
+.aup-rejected {
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--color-text);
+  background: color-mix(in srgb, var(--color-negative) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-negative) 30%, transparent);
+}
+
+.aup-rejected p {
+  margin: 0 0 4px;
+}
+
+.aup-rejected ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--color-text-muted);
+}
+
+.aup-rejected strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* ---------- File list ---------- */
+.aup-files__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.aup-files__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 420px;
+  margin: 0;
+  padding: 0 4px 0 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.aup-file {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) minmax(160px, 220px) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 12px;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+}
+
+.aup-file__thumb {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  overflow: hidden;
+  border-radius: 8px;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+
+.aup-file__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.aup-file__details {
+  min-width: 0;
+}
+
+.aup-file__name {
+  margin: 0;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.aup-file__meta {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.aup-file__title .fc-input {
+  min-height: 36px;
+  background: var(--color-surface);
+}
+
+/* ---------- Footer ---------- */
+.aup-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+.aup-footer__status {
+  min-width: 0;
+}
+
+.aup-footer__actions {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.aup-message {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 13px;
+}
+
+.aup-message--error {
+  color: var(--color-negative);
+}
+
+.aup-message--success {
+  color: var(--color-positive);
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .aup-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .aup-header,
+  .aup-body,
+  .aup-footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .aup-file {
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+  }
+
+  .aup-file__thumb {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* The title field moves to its own row under the name. */
+  .aup-file__title {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
