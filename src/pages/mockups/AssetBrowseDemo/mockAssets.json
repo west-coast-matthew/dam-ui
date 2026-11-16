@@ -1,0 +1,2082 @@
+[
+  {
+    "id": "00000000-0000-4000-8000-000000000001",
+    "title": "Golden Harbor",
+    "originalFilename": "harbor-001.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 47919,
+    "createdAt": "2026-09-25T08:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-001-small.svg",
+        "width": 220,
+        "height": 330
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-001-large.svg",
+        "width": 360,
+        "height": 540
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-001-preview.svg",
+        "width": 800,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000002",
+    "title": "Quiet Ridge",
+    "originalFilename": "ridge-002.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 55838,
+    "createdAt": "2026-08-19T07:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-002-small.svg",
+        "width": 220,
+        "height": 110
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-002-large.svg",
+        "width": 360,
+        "height": 180
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-002-preview.svg",
+        "width": 1200,
+        "height": 600
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000003",
+    "title": null,
+    "originalFilename": "atrium-003.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 63757,
+    "createdAt": "2026-07-13T06:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-003-small.svg",
+        "width": 220,
+        "height": 391
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-003-large.svg",
+        "width": 360,
+        "height": 640
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-003-preview.svg",
+        "width": 675,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000004",
+    "title": "Early Canopy",
+    "originalFilename": "canopy-004.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 71676,
+    "createdAt": "2026-06-06T05:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-004-small.svg",
+        "width": 220,
+        "height": 220
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-004-large.svg",
+        "width": 360,
+        "height": 360
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-004-preview.svg",
+        "width": 1200,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000005",
+    "title": "Bold Quarry",
+    "originalFilename": "quarry-005.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 79595,
+    "createdAt": "2026-04-30T04:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-005-small.svg",
+        "width": 220,
+        "height": 293
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-005-large.svg",
+        "width": 360,
+        "height": 480
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-005-preview.svg",
+        "width": 900,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000006",
+    "title": null,
+    "originalFilename": "meadow-006.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 87514,
+    "createdAt": "2026-03-24T03:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-006-small.svg",
+        "width": 220,
+        "height": 330
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-006-large.svg",
+        "width": 360,
+        "height": 540
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-006-preview.svg",
+        "width": 800,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000007",
+    "title": "Misty Skyline",
+    "originalFilename": "skyline-007.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 95433,
+    "createdAt": "2026-02-15T02:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-007-small.svg",
+        "width": 220,
+        "height": 110
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-007-large.svg",
+        "width": 360,
+        "height": 180
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-007-preview.svg",
+        "width": 1200,
+        "height": 600
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000008",
+    "title": "Golden Studio",
+    "originalFilename": "studio-008.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 103352,
+    "createdAt": "2026-01-09T01:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-008-small.svg",
+        "width": 220,
+        "height": 391
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-008-large.svg",
+        "width": 360,
+        "height": 640
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-008-preview.svg",
+        "width": 675,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000009",
+    "title": null,
+    "originalFilename": "portrait-009.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 111271,
+    "createdAt": "2026-09-29T00:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-009-small.svg",
+        "width": 220,
+        "height": 220
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-009-large.svg",
+        "width": 360,
+        "height": 360
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-009-preview.svg",
+        "width": 1200,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000010",
+    "title": "Northern Product",
+    "originalFilename": "product-010.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 119190,
+    "createdAt": "2026-08-22T23:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-010-small.svg",
+        "width": 220,
+        "height": 293
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-010-large.svg",
+        "width": 360,
+        "height": 480
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-010-preview.svg",
+        "width": 900,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000011",
+    "title": "Early Facade",
+    "originalFilename": "facade-011.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 127109,
+    "createdAt": "2026-07-16T22:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-011-small.svg",
+        "width": 220,
+        "height": 330
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-011-large.svg",
+        "width": 360,
+        "height": 540
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-011-preview.svg",
+        "width": 800,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000012",
+    "title": null,
+    "originalFilename": "shoreline-012.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 135028,
+    "createdAt": "2026-06-09T21:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-012-small.svg",
+        "width": 220,
+        "height": 110
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-012-large.svg",
+        "width": 360,
+        "height": 180
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-012-preview.svg",
+        "width": 1200,
+        "height": 600
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000013",
+    "title": "Winter Harbor",
+    "originalFilename": "harbor-013.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 142947,
+    "createdAt": "2026-05-03T20:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-013-small.svg",
+        "width": 220,
+        "height": 391
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-013-large.svg",
+        "width": 360,
+        "height": 640
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-013-preview.svg",
+        "width": 675,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000014",
+    "title": "Misty Ridge",
+    "originalFilename": "ridge-014.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 150866,
+    "createdAt": "2026-03-27T19:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-014-small.svg",
+        "width": 220,
+        "height": 220
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-014-large.svg",
+        "width": 360,
+        "height": 360
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-014-preview.svg",
+        "width": 1200,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000015",
+    "title": null,
+    "originalFilename": "atrium-015.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 158785,
+    "createdAt": "2026-02-18T18:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-015-small.svg",
+        "width": 220,
+        "height": 293
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-015-large.svg",
+        "width": 360,
+        "height": 480
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-015-preview.svg",
+        "width": 900,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000016",
+    "title": "Quiet Canopy",
+    "originalFilename": "canopy-016.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 166704,
+    "createdAt": "2026-01-12T17:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-016-small.svg",
+        "width": 220,
+        "height": 330
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-016-large.svg",
+        "width": 360,
+        "height": 540
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-016-preview.svg",
+        "width": 800,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000017",
+    "title": "Northern Quarry",
+    "originalFilename": "quarry-017.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 174623,
+    "createdAt": "2026-10-02T16:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-017-small.svg",
+        "width": 220,
+        "height": 110
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-017-large.svg",
+        "width": 360,
+        "height": 180
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-017-preview.svg",
+        "width": 1200,
+        "height": 600
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000018",
+    "title": null,
+    "originalFilename": "meadow-018.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 182542,
+    "createdAt": "2026-08-26T15:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-018-small.svg",
+        "width": 220,
+        "height": 391
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-018-large.svg",
+        "width": 360,
+        "height": 640
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-018-preview.svg",
+        "width": 675,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000019",
+    "title": "Bold Skyline",
+    "originalFilename": "skyline-019.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 190461,
+    "createdAt": "2026-07-20T14:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-019-small.svg",
+        "width": 220,
+        "height": 220
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-019-large.svg",
+        "width": 360,
+        "height": 360
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-019-preview.svg",
+        "width": 1200,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000020",
+    "title": "Winter Studio",
+    "originalFilename": "studio-020.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 198380,
+    "createdAt": "2026-06-13T13:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-020-small.svg",
+        "width": 220,
+        "height": 293
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-020-large.svg",
+        "width": 360,
+        "height": 480
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-020-preview.svg",
+        "width": 900,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000021",
+    "title": null,
+    "originalFilename": "portrait-021.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 206299,
+    "createdAt": "2026-05-07T12:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-021-small.svg",
+        "width": 220,
+        "height": 330
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-021-large.svg",
+        "width": 360,
+        "height": 540
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-021-preview.svg",
+        "width": 800,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000022",
+    "title": "Golden Product",
+    "originalFilename": "product-022.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 214218,
+    "createdAt": "2026-03-31T11:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-022-small.svg",
+        "width": 220,
+        "height": 110
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-022-large.svg",
+        "width": 360,
+        "height": 180
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-022-preview.svg",
+        "width": 1200,
+        "height": 600
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000023",
+    "title": "Quiet Facade",
+    "originalFilename": "facade-023.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 222137,
+    "createdAt": "2026-02-22T10:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-023-small.svg",
+        "width": 220,
+        "height": 391
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-023-large.svg",
+        "width": 360,
+        "height": 640
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-023-preview.svg",
+        "width": 675,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000024",
+    "title": null,
+    "originalFilename": "shoreline-024.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 230056,
+    "createdAt": "2026-01-16T09:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-024-small.svg",
+        "width": 220,
+        "height": 220
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-024-large.svg",
+        "width": 360,
+        "height": 360
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-024-preview.svg",
+        "width": 1200,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000025",
+    "title": "Early Harbor",
+    "originalFilename": "harbor-025.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 237975,
+    "createdAt": "2026-10-06T08:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-025-small.svg",
+        "width": 220,
+        "height": 293
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-025-large.svg",
+        "width": 360,
+        "height": 480
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-025-preview.svg",
+        "width": 900,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000026",
+    "title": "Bold Ridge",
+    "originalFilename": "ridge-026.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 245894,
+    "createdAt": "2026-08-30T07:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-026-small.svg",
+        "width": 220,
+        "height": 330
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-026-large.svg",
+        "width": 360,
+        "height": 540
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-026-preview.svg",
+        "width": 800,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000027",
+    "title": null,
+    "originalFilename": "atrium-027.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 253813,
+    "createdAt": "2026-07-24T06:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-027-small.svg",
+        "width": 220,
+        "height": 110
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-027-large.svg",
+        "width": 360,
+        "height": 180
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-027-preview.svg",
+        "width": 1200,
+        "height": 600
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000028",
+    "title": "Misty Canopy",
+    "originalFilename": "canopy-028.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 261732,
+    "createdAt": "2026-06-17T05:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-028-small.svg",
+        "width": 220,
+        "height": 391
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-028-large.svg",
+        "width": 360,
+        "height": 640
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-028-preview.svg",
+        "width": 675,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000029",
+    "title": "Golden Quarry",
+    "originalFilename": "quarry-029.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 269651,
+    "createdAt": "2026-05-11T04:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-029-small.svg",
+        "width": 220,
+        "height": 220
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-029-large.svg",
+        "width": 360,
+        "height": 360
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-029-preview.svg",
+        "width": 1200,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000030",
+    "title": null,
+    "originalFilename": "meadow-030.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 277570,
+    "createdAt": "2026-04-04T03:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-030-small.svg",
+        "width": 220,
+        "height": 293
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-030-large.svg",
+        "width": 360,
+        "height": 480
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-030-preview.svg",
+        "width": 900,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000031",
+    "title": "Northern Skyline",
+    "originalFilename": "skyline-031.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 285489,
+    "createdAt": "2026-02-26T02:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-031-small.svg",
+        "width": 220,
+        "height": 330
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-031-large.svg",
+        "width": 360,
+        "height": 540
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-031-preview.svg",
+        "width": 800,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000032",
+    "title": "Early Studio",
+    "originalFilename": "studio-032.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 293408,
+    "createdAt": "2026-01-20T01:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-032-small.svg",
+        "width": 220,
+        "height": 110
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-032-large.svg",
+        "width": 360,
+        "height": 180
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-032-preview.svg",
+        "width": 1200,
+        "height": 600
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000033",
+    "title": null,
+    "originalFilename": "portrait-033.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 301327,
+    "createdAt": "2026-10-10T00:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-033-small.svg",
+        "width": 220,
+        "height": 391
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-033-large.svg",
+        "width": 360,
+        "height": 640
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-033-preview.svg",
+        "width": 675,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000034",
+    "title": "Winter Product",
+    "originalFilename": "product-034.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 309246,
+    "createdAt": "2026-09-02T23:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-034-small.svg",
+        "width": 220,
+        "height": 220
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-034-large.svg",
+        "width": 360,
+        "height": 360
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-034-preview.svg",
+        "width": 1200,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000035",
+    "title": "Misty Facade",
+    "originalFilename": "facade-035.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 317165,
+    "createdAt": "2026-07-27T22:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-035-small.svg",
+        "width": 220,
+        "height": 293
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-035-large.svg",
+        "width": 360,
+        "height": 480
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-035-preview.svg",
+        "width": 900,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000036",
+    "title": null,
+    "originalFilename": "shoreline-036.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 325084,
+    "createdAt": "2026-06-20T21:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-036-small.svg",
+        "width": 220,
+        "height": 330
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-036-large.svg",
+        "width": 360,
+        "height": 540
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-036-preview.svg",
+        "width": 800,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000037",
+    "title": "Quiet Harbor",
+    "originalFilename": "harbor-037.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 333003,
+    "createdAt": "2026-05-14T20:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-037-small.svg",
+        "width": 220,
+        "height": 110
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-037-large.svg",
+        "width": 360,
+        "height": 180
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-037-preview.svg",
+        "width": 1200,
+        "height": 600
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000038",
+    "title": "Northern Ridge",
+    "originalFilename": "ridge-038.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 340922,
+    "createdAt": "2026-04-07T19:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-038-small.svg",
+        "width": 220,
+        "height": 391
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-038-large.svg",
+        "width": 360,
+        "height": 640
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-038-preview.svg",
+        "width": 675,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000039",
+    "title": null,
+    "originalFilename": "atrium-039.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 348841,
+    "createdAt": "2026-03-01T18:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-039-small.svg",
+        "width": 220,
+        "height": 220
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-039-large.svg",
+        "width": 360,
+        "height": 360
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-039-preview.svg",
+        "width": 1200,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000040",
+    "title": "Bold Canopy",
+    "originalFilename": "canopy-040.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 356760,
+    "createdAt": "2026-01-23T17:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-040-small.svg",
+        "width": 220,
+        "height": 293
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-040-large.svg",
+        "width": 360,
+        "height": 480
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-040-preview.svg",
+        "width": 900,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000041",
+    "title": "Winter Quarry",
+    "originalFilename": "quarry-041.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 364679,
+    "createdAt": "2026-10-13T16:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-041-small.svg",
+        "width": 220,
+        "height": 330
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-041-large.svg",
+        "width": 360,
+        "height": 540
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-041-preview.svg",
+        "width": 800,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000042",
+    "title": null,
+    "originalFilename": "meadow-042.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 372598,
+    "createdAt": "2026-09-06T15:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-042-small.svg",
+        "width": 220,
+        "height": 110
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-042-large.svg",
+        "width": 360,
+        "height": 180
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-042-preview.svg",
+        "width": 1200,
+        "height": 600
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000043",
+    "title": "Golden Skyline",
+    "originalFilename": "skyline-043.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 380517,
+    "createdAt": "2026-07-31T14:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-043-small.svg",
+        "width": 220,
+        "height": 391
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-043-large.svg",
+        "width": 360,
+        "height": 640
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-043-preview.svg",
+        "width": 675,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000044",
+    "title": "Quiet Studio",
+    "originalFilename": "studio-044.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 388436,
+    "createdAt": "2026-06-24T13:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-044-small.svg",
+        "width": 220,
+        "height": 220
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-044-large.svg",
+        "width": 360,
+        "height": 360
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-044-preview.svg",
+        "width": 1200,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000045",
+    "title": null,
+    "originalFilename": "portrait-045.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 396355,
+    "createdAt": "2026-05-18T12:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-045-small.svg",
+        "width": 220,
+        "height": 293
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-045-large.svg",
+        "width": 360,
+        "height": 480
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-045-preview.svg",
+        "width": 900,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000046",
+    "title": "Early Product",
+    "originalFilename": "product-046.png",
+    "mediaType": "IMAGE",
+    "mimeType": "image/png",
+    "fileSize": 404274,
+    "createdAt": "2026-04-11T11:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-046-small.svg",
+        "width": 220,
+        "height": 330
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-046-large.svg",
+        "width": 360,
+        "height": 540
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-046-preview.svg",
+        "width": 800,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000047",
+    "title": "Bold Facade",
+    "originalFilename": "facade-047.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 412193,
+    "createdAt": "2026-03-05T10:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-047-small.svg",
+        "width": 220,
+        "height": 110
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-047-large.svg",
+        "width": 360,
+        "height": 180
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-047-preview.svg",
+        "width": 1200,
+        "height": 600
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000048",
+    "title": null,
+    "originalFilename": "shoreline-048.jpg",
+    "mediaType": "IMAGE",
+    "mimeType": "image/jpeg",
+    "fileSize": 420112,
+    "createdAt": "2026-01-27T09:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-048-small.svg",
+        "width": 220,
+        "height": 391
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-048-large.svg",
+        "width": 360,
+        "height": 640
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-048-preview.svg",
+        "width": 675,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000049",
+    "title": "Misty Teaser",
+    "originalFilename": "teaser-049.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 3532279,
+    "createdAt": "2026-10-17T08:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-049-small.svg",
+        "width": 220,
+        "height": 94
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-049-large.svg",
+        "width": 360,
+        "height": 154
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-049-preview.svg",
+        "width": 1200,
+        "height": 514
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000050",
+    "title": "Golden Interview",
+    "originalFilename": "interview-050.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 3603550,
+    "createdAt": "2026-09-10T07:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-050-small.svg",
+        "width": 220,
+        "height": 165
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-050-large.svg",
+        "width": 360,
+        "height": 270
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-050-preview.svg",
+        "width": 1200,
+        "height": 900
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000051",
+    "title": null,
+    "originalFilename": "walkthrough-051.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 3674821,
+    "createdAt": "2026-08-04T06:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-051-small.svg",
+        "width": 220,
+        "height": 124
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-051-large.svg",
+        "width": 360,
+        "height": 203
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-051-preview.svg",
+        "width": 1200,
+        "height": 675
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000052",
+    "title": "Northern Launch",
+    "originalFilename": "launch-052.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 3746092,
+    "createdAt": "2026-06-28T05:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-052-small.svg",
+        "width": 220,
+        "height": 391
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-052-large.svg",
+        "width": 360,
+        "height": 640
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-052-preview.svg",
+        "width": 675,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000053",
+    "title": "Early B-Roll",
+    "originalFilename": "b-roll-053.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 3817363,
+    "createdAt": "2026-05-22T04:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-053-small.svg",
+        "width": 220,
+        "height": 124
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-053-large.svg",
+        "width": 360,
+        "height": 203
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-053-preview.svg",
+        "width": 1200,
+        "height": 675
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000054",
+    "title": null,
+    "originalFilename": "tutorial-054.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 3888634,
+    "createdAt": "2026-04-15T03:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-054-small.svg",
+        "width": 220,
+        "height": 94
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-054-large.svg",
+        "width": 360,
+        "height": 154
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-054-preview.svg",
+        "width": 1200,
+        "height": 514
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000055",
+    "title": "Winter Teaser",
+    "originalFilename": "teaser-055.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 3959905,
+    "createdAt": "2026-03-09T02:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-055-small.svg",
+        "width": 220,
+        "height": 165
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-055-large.svg",
+        "width": 360,
+        "height": 270
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-055-preview.svg",
+        "width": 1200,
+        "height": 900
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000056",
+    "title": "Misty Interview",
+    "originalFilename": "interview-056.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 4031176,
+    "createdAt": "2026-01-31T01:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-056-small.svg",
+        "width": 220,
+        "height": 124
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-056-large.svg",
+        "width": 360,
+        "height": 203
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-056-preview.svg",
+        "width": 1200,
+        "height": 675
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000057",
+    "title": null,
+    "originalFilename": "walkthrough-057.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 4102447,
+    "createdAt": "2026-10-21T00:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-057-small.svg",
+        "width": 220,
+        "height": 391
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-057-large.svg",
+        "width": 360,
+        "height": 640
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-057-preview.svg",
+        "width": 675,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000058",
+    "title": "Quiet Launch",
+    "originalFilename": "launch-058.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 4173718,
+    "createdAt": "2026-09-13T23:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-058-small.svg",
+        "width": 220,
+        "height": 124
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-058-large.svg",
+        "width": 360,
+        "height": 203
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-058-preview.svg",
+        "width": 1200,
+        "height": 675
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000059",
+    "title": "Northern B-Roll",
+    "originalFilename": "b-roll-059.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 4244989,
+    "createdAt": "2026-08-07T22:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-059-small.svg",
+        "width": 220,
+        "height": 94
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-059-large.svg",
+        "width": 360,
+        "height": 154
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-059-preview.svg",
+        "width": 1200,
+        "height": 514
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000060",
+    "title": null,
+    "originalFilename": "tutorial-060.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 4316260,
+    "createdAt": "2026-07-01T21:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-060-small.svg",
+        "width": 220,
+        "height": 165
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-060-large.svg",
+        "width": 360,
+        "height": 270
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-060-preview.svg",
+        "width": 1200,
+        "height": 900
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000061",
+    "title": "Bold Teaser",
+    "originalFilename": "teaser-061.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 4387531,
+    "createdAt": "2026-05-25T20:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-061-small.svg",
+        "width": 220,
+        "height": 124
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-061-large.svg",
+        "width": 360,
+        "height": 203
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-061-preview.svg",
+        "width": 1200,
+        "height": 675
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000062",
+    "title": "Winter Interview",
+    "originalFilename": "interview-062.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 4458802,
+    "createdAt": "2026-04-18T19:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-062-small.svg",
+        "width": 220,
+        "height": 391
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-062-large.svg",
+        "width": 360,
+        "height": 640
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-062-preview.svg",
+        "width": 675,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000063",
+    "title": null,
+    "originalFilename": "walkthrough-063.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 4530073,
+    "createdAt": "2026-03-12T18:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-063-small.svg",
+        "width": 220,
+        "height": 124
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-063-large.svg",
+        "width": 360,
+        "height": 203
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-063-preview.svg",
+        "width": 1200,
+        "height": 675
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000064",
+    "title": "Golden Launch",
+    "originalFilename": "launch-064.mp4",
+    "mediaType": "VIDEO",
+    "mimeType": "video/mp4",
+    "fileSize": 4601344,
+    "createdAt": "2026-02-03T17:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-064-small.svg",
+        "width": 220,
+        "height": 94
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-064-large.svg",
+        "width": 360,
+        "height": 154
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-064-preview.svg",
+        "width": 1200,
+        "height": 514
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000065",
+    "title": "Quiet Brand Guidelines",
+    "originalFilename": "brand-guidelines-065.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 554735,
+    "createdAt": "2026-10-24T16:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-065-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-065-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-065-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000066",
+    "title": null,
+    "originalFilename": "spec-sheet-066.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 562654,
+    "createdAt": "2026-09-17T15:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-066-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-066-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-066-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000067",
+    "title": "Early Press Kit",
+    "originalFilename": "press-kit-067.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 570573,
+    "createdAt": "2026-08-11T14:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-067-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-067-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-067-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000068",
+    "title": "Bold Annual Report",
+    "originalFilename": "annual-report-068.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 578492,
+    "createdAt": "2026-07-05T13:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-068-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-068-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-068-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000069",
+    "title": null,
+    "originalFilename": "catalog-069.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 586411,
+    "createdAt": "2026-05-29T12:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-069-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-069-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-069-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000070",
+    "title": "Misty Style Guide",
+    "originalFilename": "style-guide-070.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 594330,
+    "createdAt": "2026-04-22T11:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-070-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-070-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-070-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000071",
+    "title": "Golden Brand Guidelines",
+    "originalFilename": "brand-guidelines-071.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 602249,
+    "createdAt": "2026-03-16T10:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-071-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-071-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-071-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000072",
+    "title": null,
+    "originalFilename": "spec-sheet-072.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 610168,
+    "createdAt": "2026-02-07T09:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-072-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-072-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-072-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000073",
+    "title": "Northern Press Kit",
+    "originalFilename": "press-kit-073.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 618087,
+    "createdAt": "2026-10-28T08:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-073-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-073-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-073-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000074",
+    "title": "Early Annual Report",
+    "originalFilename": "annual-report-074.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 626006,
+    "createdAt": "2026-09-21T07:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-074-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-074-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-074-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000075",
+    "title": null,
+    "originalFilename": "catalog-075.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 633925,
+    "createdAt": "2026-08-15T06:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-075-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-075-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-075-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000076",
+    "title": "Winter Style Guide",
+    "originalFilename": "style-guide-076.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 641844,
+    "createdAt": "2026-07-09T05:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-076-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-076-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-076-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000077",
+    "title": "Misty Brand Guidelines",
+    "originalFilename": "brand-guidelines-077.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 649763,
+    "createdAt": "2026-06-02T04:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-077-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-077-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-077-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000078",
+    "title": null,
+    "originalFilename": "spec-sheet-078.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 657682,
+    "createdAt": "2026-04-26T03:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-078-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-078-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-078-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000079",
+    "title": "Quiet Press Kit",
+    "originalFilename": "press-kit-079.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 665601,
+    "createdAt": "2026-03-20T02:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-079-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-079-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-079-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000080",
+    "title": "Northern Annual Report",
+    "originalFilename": "annual-report-080.pdf",
+    "mediaType": "DOCUMENT",
+    "mimeType": "application/pdf",
+    "fileSize": 673520,
+    "createdAt": "2026-02-11T01:00:00",
+    "thumbnails": {
+      "small": {
+        "url": "/mock-assets/thumbs/asset-080-small.svg",
+        "width": 220,
+        "height": 285
+      },
+      "large": {
+        "url": "/mock-assets/thumbs/asset-080-large.svg",
+        "width": 360,
+        "height": 466
+      },
+      "preview": {
+        "url": "/mock-assets/thumbs/asset-080-preview.svg",
+        "width": 927,
+        "height": 1200
+      }
+    }
+  }
+]

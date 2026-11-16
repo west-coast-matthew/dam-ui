@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="640" viewBox="0 0 360 640">
+  <rect width="360" height="640" fill="#cccccc"/>
+  <circle cx="259.2" cy="192" r="32.4" fill="#0d0d0d" opacity="0.8"/>
+  <path d="M0 640 L115.2 332.8 L198 499.2 L259.2 384 L360 588.8 L360 640 Z" fill="#0d0d0d" opacity="0.6"/>
+  <text x="20" y="35" font-family="Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#0d0d0d">#013</text>
+  <text x="20" y="620" font-family="Helvetica, Arial, sans-serif" font-size="18.8" fill="#0d0d0d" opacity="0.8">large 360×640</text>
+</svg>
