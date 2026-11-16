@@ -1,5 +1,5 @@
 ---
-status: ready
+status: completed
 ---
 
 # Enable Image Browse Panel

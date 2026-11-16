@@ -1,0 +1,31 @@
+.abd-content {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 28px 32px 64px;
+}
+
+.abd-content h1 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.abd-muted {
+  margin: 4px 0 20px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.abd-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 720px) {
+  .abd-content {
+    padding: 20px 16px 48px;
+  }
+}
