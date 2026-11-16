@@ -5,6 +5,7 @@ import { FormControlPalette } from './pages/mockups/FormControlPalette'
 import { LifecycleStates } from './pages/mockups/LifecycleStates'
 import { LookAndFeel } from './pages/mockups/LookAndFeel'
 import { Panels } from './pages/mockups/Panels'
+import { RecentActivityDemo } from './pages/mockups/RecentActivityDemo'
 import { TitleBarDemo } from './pages/mockups/TitleBarDemo'
 
 export const router = createBrowserRouter([
@@ -16,4 +17,5 @@ export const router = createBrowserRouter([
   { path: '/mock/asset-browse', element: <AssetBrowseDemo /> },
   { path: '/mock/lifecycle-states', element: <LifecycleStates /> },
   { path: '/mock/asset-upload', element: <AssetUploadDemo /> },
+  { path: '/mock/recent-activity', element: <RecentActivityDemo /> },
 ])
