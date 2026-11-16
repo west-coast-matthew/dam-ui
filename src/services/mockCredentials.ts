@@ -6,4 +6,5 @@ export const MOCK_ACCOUNT = {
   username: 'alex',
   password: 'dam-demo',
   displayName: 'Alex Morgan',
+  role: 'admin',
 } as const
