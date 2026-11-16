@@ -4,8 +4,4 @@ status: ready
 
 # Enable Component Lifecycle States
 
-## Goal
-
-## Requirements
-
-## Acceptance criteria
+update the two components reflecting application loading state to reflect so that the loading state uses a spinner and the effor state has some type of alert icon
