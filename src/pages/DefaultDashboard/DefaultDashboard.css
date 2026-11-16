@@ -1,0 +1,28 @@
+/* Three columns: Recently added assets takes one, Recent activity takes two. */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.dashboard-grid__one {
+  grid-column: span 1;
+  min-width: 0;
+}
+
+.dashboard-grid__two {
+  grid-column: span 2;
+  min-width: 0;
+}
+
+@media (max-width: 1100px) {
+  .dashboard-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dashboard-grid__one,
+  .dashboard-grid__two {
+    grid-column: auto;
+  }
+}

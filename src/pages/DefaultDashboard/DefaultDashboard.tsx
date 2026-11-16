@@ -1,0 +1,69 @@
+import { useEffect, useState } from 'react'
+import { PageHeader } from '../../layout/PageHeader'
+import { RecentActivityPanel, type RecentActivity } from '../../components/RecentActivityPanel'
+import { RecentlyAddedAssetsPanel, type RecentlyAddedAssets } from '../../components/RecentlyAddedAssetsPanel'
+import { useWorkspace } from '../../workspace/useWorkspace'
+import { mockActivity } from '../mockups/RecentActivityDemo/mockActivity'
+import { mockRecentlyAdded } from './mockDashboard'
+import './DefaultDashboard.css'
+
+interface DashboardData {
+  recentlyAdded: RecentlyAddedAssets
+  activity: RecentActivity
+}
+
+interface LoadState {
+  data: DashboardData | null
+  isLoading: boolean
+  isError: boolean
+}
+
+/** The page users land on after signing in: a high-level overview of the workspace. */
+export function DefaultDashboard() {
+  const { current } = useWorkspace()
+  const [requestId, setRequestId] = useState(0)
+  const [load, setLoad] = useState<LoadState>({ data: null, isLoading: true, isError: false })
+
+  // Simulated request until the API is connected.
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const now = Date.now()
+      setLoad({ data: { recentlyAdded: mockRecentlyAdded(now), activity: mockActivity(now) }, isLoading: false, isError: false })
+    }, 600)
+    return () => clearTimeout(timer)
+  }, [requestId])
+
+  const onRetry = () => {
+    setLoad({ data: null, isLoading: true, isError: false })
+    setRequestId((n) => n + 1)
+  }
+
+  return (
+    <>
+      <PageHeader title="Dashboard" description={`An overview of recent work in ${current.name}.`} />
+      <div className="dashboard-grid">
+        <div className="dashboard-grid__one">
+          <RecentlyAddedAssetsPanel
+            data={load.data?.recentlyAdded ?? null}
+            isLoading={load.isLoading}
+            isError={load.isError}
+            onRetry={onRetry}
+            onAssetOpen={(asset) => console.log('[DefaultDashboard] open asset', asset.id, asset.originalFilename)}
+            onBatchOpen={(batch) => console.log('[DefaultDashboard] open batch', batch.id, batch.uploadedAt)}
+          />
+        </div>
+        <div className="dashboard-grid__two">
+          <RecentActivityPanel
+            title="Recent activity"
+            data={load.data?.activity ?? null}
+            isLoading={load.isLoading}
+            isError={load.isError}
+            onRetry={onRetry}
+            onItemOpen={({ section, item }) => console.log('[DefaultDashboard] open activity', section, item.id)}
+            onViewAll={(section) => console.log('[DefaultDashboard] view all', section)}
+          />
+        </div>
+      </div>
+    </>
+  )
+}
