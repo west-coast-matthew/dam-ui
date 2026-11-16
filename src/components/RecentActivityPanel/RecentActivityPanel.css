@@ -1,0 +1,275 @@
+/* Recent activity panel. Class prefix: rap- */
+
+.rap {
+  /* Lets the panel adapt to its own width (e.g. in a sidebar), not the window's. */
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+/* ---------- Header and tabs ---------- */
+.rap-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 16px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.rap-header__title {
+  margin: 0 4px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.rap-tabs {
+  display: flex;
+  gap: 4px;
+  min-width: 0;
+  overflow-x: auto;
+  /* Scrolls only on very narrow screens; no visible scrollbar. */
+  scrollbar-width: none;
+}
+
+.rap-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px 12px;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.15s;
+}
+
+.rap-tab:hover {
+  color: var(--color-text);
+}
+
+.rap-tab[aria-selected='true'] {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* Underline for the selected tab. */
+.rap-tab[aria-selected='true']::after {
+  content: '';
+  position: absolute;
+  inset: auto 6px -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-accent);
+}
+
+.rap-tab:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+  border-radius: 8px;
+}
+
+.rap-tab__count {
+  min-width: 20px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.rap-tab[aria-selected='true'] .rap-tab__count {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+/* ---------- Body ---------- */
+.rap-body {
+  min-height: 200px;
+  padding: 8px;
+}
+
+.rap-empty {
+  display: grid;
+  place-items: center;
+  min-height: 184px;
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.rap-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---------- Rows ---------- */
+.rap-row {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+.rap-row--interactive {
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.rap-row--interactive:hover {
+  background: var(--color-surface-alt);
+}
+
+.rap-row--interactive:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.rap-row__leading {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+}
+
+.rap-thumb {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-alt);
+}
+
+.rap-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+}
+
+.rap-row__main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.rap-row__primary,
+.rap-row__secondary {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rap-row__primary {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.rap-row__secondary {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.rap-row__trailing {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.rap-row__time {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* ---------- Badges ---------- */
+.rap-badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  --badge: var(--color-text-muted);
+  color: var(--badge);
+  background: color-mix(in srgb, var(--badge) 14%, transparent);
+}
+
+.rap-badge--accent { --badge: var(--color-accent); }
+.rap-badge--positive { --badge: var(--color-positive); }
+.rap-badge--negative { --badge: var(--color-negative); }
+.rap-badge--pending { --badge: var(--color-chart-3); }
+
+/* ---------- View all ---------- */
+.rap-more {
+  display: flex;
+  justify-content: flex-end;
+  padding: 4px 4px 0;
+}
+
+.rap-more .fc-button {
+  gap: 4px;
+}
+
+/* Narrow panel: drop the tab icons so all three tabs fit. */
+@container (max-width: 440px) {
+  .rap-tab svg {
+    display: none;
+  }
+
+  .rap-tab {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+/* Very narrow: smaller rows. */
+@container (max-width: 320px) {
+  .rap-header {
+    padding: 14px 8px 0;
+  }
+
+  .rap-row {
+    grid-template-columns: 32px minmax(0, 1fr) auto;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .rap-row__leading,
+  .rap-thumb,
+  .rap-icon {
+    width: 32px;
+    height: 32px;
+  }
+}
