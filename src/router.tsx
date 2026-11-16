@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router'
 import { AssetBrowseDemo } from './pages/mockups/AssetBrowseDemo'
+import { AssetUploadDemo } from './pages/mockups/AssetUploadDemo'
 import { FormControlPalette } from './pages/mockups/FormControlPalette'
 import { LifecycleStates } from './pages/mockups/LifecycleStates'
 import { LookAndFeel } from './pages/mockups/LookAndFeel'
@@ -14,4 +15,5 @@ export const router = createBrowserRouter([
   { path: '/mock/title-bar', element: <TitleBarDemo /> },
   { path: '/mock/asset-browse', element: <AssetBrowseDemo /> },
   { path: '/mock/lifecycle-states', element: <LifecycleStates /> },
+  { path: '/mock/asset-upload', element: <AssetUploadDemo /> },
 ])
