@@ -1,4 +1,5 @@
 .error-state {
+  --error-badge: 56px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,9 +10,31 @@
   text-align: center;
 }
 
+.error-state--sm {
+  --error-badge: 40px;
+  gap: 6px;
+  min-height: 120px;
+  padding: 16px;
+}
+
+/* The alert icon sits in a softly tinted circle in the theme's negative colour. */
 .error-state__icon {
+  display: grid;
+  place-items: center;
+  width: var(--error-badge);
+  height: var(--error-badge);
+  margin-bottom: 6px;
+  border-radius: 50%;
   color: var(--color-negative);
-  margin-bottom: 4px;
+  background: color-mix(in srgb, var(--color-negative) 14%, transparent);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-negative) 6%, transparent);
+}
+
+.error-state__icon svg {
+  width: 50%;
+  height: 50%;
+  /* Nudge up slightly so the triangle looks centred. */
+  margin-top: -2px;
 }
 
 .error-state__title {
@@ -21,9 +44,17 @@
   color: var(--color-text);
 }
 
+.error-state--sm .error-state__title {
+  font-size: 14px;
+}
+
 .error-state__message {
   margin: 0 0 8px;
   max-width: 420px;
   font-size: 14px;
   color: var(--color-text-muted);
+}
+
+.error-state--sm .error-state__message {
+  font-size: 13px;
 }

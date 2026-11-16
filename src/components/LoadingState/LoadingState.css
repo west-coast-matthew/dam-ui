@@ -1,4 +1,5 @@
 .loading-state {
+  --loading-size: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,13 +11,43 @@
   text-align: center;
 }
 
+.loading-state--sm {
+  --loading-size: 24px;
+  gap: 10px;
+  min-height: 120px;
+  padding: 16px;
+}
+
+.loading-state--lg {
+  --loading-size: 64px;
+  gap: 18px;
+  min-height: 360px;
+}
+
 .loading-state__spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid var(--color-border);
-  border-top-color: var(--color-accent);
-  border-radius: 50%;
-  animation: loading-state-spin 0.8s linear infinite;
+  width: var(--loading-size);
+  height: var(--loading-size);
+  animation: loading-state-rotate 1.4s linear infinite;
+}
+
+.loading-state__track,
+.loading-state__arc {
+  fill: none;
+  stroke-width: 4.5;
+}
+
+.loading-state__track {
+  stroke: var(--color-border);
+}
+
+/* The arc grows and shrinks while the whole spinner turns. */
+.loading-state__arc {
+  stroke: var(--color-accent);
+  stroke-linecap: round;
+  stroke-dasharray: 1 126;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  animation: loading-state-dash 1.4s ease-in-out infinite;
 }
 
 .loading-state__label {
@@ -24,10 +55,29 @@
   font-size: 14px;
 }
 
-@keyframes loading-state-spin {
+.loading-state--sm .loading-state__label {
+  font-size: 13px;
+}
+
+.loading-state--lg .loading-state__label {
+  font-size: 15px;
+}
+
+@keyframes loading-state-rotate {
   to { transform: rotate(360deg); }
 }
 
+@keyframes loading-state-dash {
+  0% { stroke-dasharray: 1 126; stroke-dashoffset: 0; }
+  50% { stroke-dasharray: 90 126; stroke-dashoffset: -30; }
+  100% { stroke-dasharray: 90 126; stroke-dashoffset: -125; }
+}
+
+/* Reduced motion: a slow, steady turn with a fixed arc. */
 @media (prefers-reduced-motion: reduce) {
-  .loading-state__spinner { animation-duration: 2.4s; }
+  .loading-state__spinner { animation-duration: 3s; }
+  .loading-state__arc {
+    animation: none;
+    stroke-dasharray: 60 126;
+  }
 }
