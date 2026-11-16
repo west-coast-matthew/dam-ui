@@ -10,6 +10,7 @@ import {
 } from '../../../components/AssetBrowsePanel'
 import { Button, SegmentedControl } from '../../../components/FormControls'
 import { TitleBar } from '../../../components/TitleBar'
+import { useLogout } from '../../../auth/useLogout'
 import { mockAssetPage, type AssetQuery } from './mockApi'
 import './AssetBrowseDemo.css'
 
@@ -36,6 +37,7 @@ export function AssetBrowseDemo() {
   const [mode, setMode] = useState<ResponseMode>('success')
   const [requestId, setRequestId] = useState(0)
   const [load, setLoad] = useState<LoadState>(INITIAL)
+  const logOut = useLogout()
 
   // Simulated request: runs whenever the query, response mode or retry counter changes.
   // Each handler below marks the panel as loading before changing what triggers this.
@@ -85,7 +87,10 @@ export function AssetBrowseDemo() {
 
   return (
     <>
-      <TitleBar userName="Alex Morgan" onLogout={() => console.log('[AssetBrowseDemo] onLogout')} />
+      <TitleBar userName="Alex Morgan" onLogout={() => {
+        console.log('[AssetBrowseDemo] onLogout')
+        void logOut()
+      }} />
       <main className="abd-content">
         <h1>Asset browse panel</h1>
         <p className="abd-muted">

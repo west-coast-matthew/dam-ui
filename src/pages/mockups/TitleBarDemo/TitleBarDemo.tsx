@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { Button } from '../../../components/FormControls'
+import { useLogout } from '../../../auth/useLogout'
 import { Panel, PanelGrid } from '../../../components/Panel'
 import { TitleBar } from '../../../components/TitleBar'
 import { THEMES } from '../../../theme/themes'
@@ -11,23 +10,13 @@ const MOCK_USER = 'Alex Morgan'
 
 /** Mockup page showing the main title bar above sample content. */
 export function TitleBarDemo() {
-  const [signedIn, setSignedIn] = useState(true)
+  const logOut = useLogout()
   const { theme } = useTheme()
   const { current, workspaces } = useWorkspace()
 
-  if (!signedIn) {
-    return (
-      <main className="tbd-signed-out">
-        <h1>You've been signed out</h1>
-        <p>This is a mockup, so nothing actually happened.</p>
-        <Button onClick={() => setSignedIn(true)}>Sign back in</Button>
-      </main>
-    )
-  }
-
   return (
     <>
-      <TitleBar userName={MOCK_USER} onLogout={() => setSignedIn(false)} />
+      <TitleBar userName={MOCK_USER} onLogout={logOut} />
       <main className="tbd-content">
         <h1>Title bar</h1>
         <p className="tbd-muted">

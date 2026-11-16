@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'motion/react'
+import { useLogout } from '../../../auth/useLogout'
 import { ThemeSelect } from '../../../components/ThemeSelect'
 import { Icon, type IconName } from './icons'
 import { LineChart, RingGauge, Sparkline } from './charts'
@@ -35,6 +36,7 @@ function formatChange(change: number) {
 /** Mockup dashboard used to compare the White, Blue and Dark themes. */
 export function LookAndFeel() {
   const [range, setRange] = useState<(typeof RANGES)[number]>('2w')
+  const logOut = useLogout()
 
   return (
     <div className="laf">
@@ -49,9 +51,9 @@ export function LookAndFeel() {
             </li>
           ))}
         </ul>
-        <a href="#" className="laf-nav__logout" aria-label="Log out" title="Log out">
+        <button type="button" className="laf-nav__logout" aria-label="Log out" title="Log out" onClick={logOut}>
           <Icon name="logout" />
-        </a>
+        </button>
       </nav>
 
       <div className="laf-body">

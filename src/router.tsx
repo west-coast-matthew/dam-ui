@@ -1,8 +1,10 @@
 import { createBrowserRouter, Navigate } from 'react-router'
+import { RequireAuth } from './auth/RequireAuth'
 import { AppLayout } from './layout/AppLayout'
 import { AssetManagement } from './pages/AssetManagement'
 import { DefaultDashboard } from './pages/DefaultDashboard'
 import { Lightboxes } from './pages/Lightboxes'
+import { Login } from './pages/Login'
 import { UserManagement } from './pages/UserManagement'
 import { AssetBrowseDemo } from './pages/mockups/AssetBrowseDemo'
 import { AssetUploadDemo } from './pages/mockups/AssetUploadDemo'
@@ -14,10 +16,15 @@ import { RecentActivityDemo } from './pages/mockups/RecentActivityDemo'
 import { TitleBarDemo } from './pages/mockups/TitleBarDemo'
 
 export const router = createBrowserRouter([
-  // Main application: after signing in, users land on the dashboard.
+  // Main application: signed-out visitors go to /login; after signing in, users land on the dashboard.
   { path: '/', element: <Navigate to="/dashboard" replace /> },
+  { path: '/login', element: <Login /> },
   {
-    element: <AppLayout />,
+    element: (
+      <RequireAuth>
+        <AppLayout />
+      </RequireAuth>
+    ),
     children: [
       { path: '/dashboard', element: <DefaultDashboard /> },
       { path: '/users', element: <UserManagement /> },

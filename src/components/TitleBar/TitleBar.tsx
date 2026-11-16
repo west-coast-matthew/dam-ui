@@ -79,6 +79,10 @@ export function TitleBar({ userName, onLogout }: TitleBarProps) {
               </MenuItemRadio>
             ))}
           </MenuGroup>
+          <MenuSeparator />
+          <MenuItem icon={<TitleBarIcon name="logout" size={16} />} onSelect={onLogout}>
+            Log out
+          </MenuItem>
         </Menu>
         <button type="button" className="titlebar__icon-button" aria-label="Log out" title="Log out" onClick={onLogout}>
           <TitleBarIcon name="logout" />
