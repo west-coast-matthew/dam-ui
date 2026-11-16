@@ -11,8 +11,9 @@ function readSession(): AuthUser | null {
     const raw = sessionStorage.getItem(SESSION_KEY)
     if (!raw) return null
     const parsed = JSON.parse(raw) as Partial<AuthUser>
-    return typeof parsed.username === 'string' && typeof parsed.displayName === 'string'
-      ? { username: parsed.username, displayName: parsed.displayName }
+    // A session saved before roles existed has no role; treat it as signed out.
+    return typeof parsed.username === 'string' && typeof parsed.displayName === 'string' && typeof parsed.role === 'string'
+      ? { username: parsed.username, displayName: parsed.displayName, role: parsed.role }
       : null
   } catch {
     return null

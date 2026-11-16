@@ -1,9 +1,11 @@
 import { MOCK_ACCOUNT } from './mockCredentials'
+import type { UserRole } from './userService'
 
 /** The signed-in user. */
 export interface AuthUser {
   username: string
   displayName: string
+  role: UserRole
 }
 
 /** Thrown when the user name or password is wrong. */
@@ -27,7 +29,7 @@ export async function login(username: string, password: string): Promise<AuthUse
   if (username.trim().toLowerCase() !== MOCK_ACCOUNT.username || password !== MOCK_ACCOUNT.password) {
     throw new InvalidCredentialsError()
   }
-  return { username: MOCK_ACCOUNT.username, displayName: MOCK_ACCOUNT.displayName }
+  return { username: MOCK_ACCOUNT.username, displayName: MOCK_ACCOUNT.displayName, role: MOCK_ACCOUNT.role }
 }
 
 /** Emulates ending the session on the server. */
