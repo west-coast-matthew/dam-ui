@@ -1,0 +1,45 @@
+.asd-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 28px 32px 64px;
+}
+
+.asd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.asd-header h1 {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.asd-muted {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.asd-controls {
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+/* Roughly the width it gets on the dashboard. */
+.asd-panel {
+  max-width: 440px;
+}
+
+@media (max-width: 720px) {
+  .asd-page {
+    padding: 20px 16px 48px;
+  }
+
+  .asd-header {
+    flex-direction: column;
+  }
+}

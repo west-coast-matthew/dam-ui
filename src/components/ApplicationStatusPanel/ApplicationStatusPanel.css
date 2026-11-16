@@ -1,0 +1,170 @@
+/* Application status panel. Class prefix: asp- */
+
+.asp {
+  /* Status colours: green and red from the theme, plus yellow for warnings. */
+  --asp-healthy: var(--color-positive);
+  --asp-critical: var(--color-negative);
+  --asp-warning: #e0a800;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+}
+
+[data-theme='blue'] .asp,
+[data-theme='dark'] .asp {
+  --asp-warning: #f5c542;
+}
+
+.asp-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 16px 14px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.asp-header__titles {
+  min-width: 0;
+}
+
+.asp-header__title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.asp-header__summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--color-text);
+}
+
+.asp-header__checked {
+  color: var(--color-text-muted);
+}
+
+.asp-body {
+  min-height: 180px;
+  padding: 8px 20px 12px;
+}
+
+.asp-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.asp-row {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.asp-row:last-child {
+  border-bottom: 0;
+}
+
+.asp-row .asp-dot {
+  margin-top: 5px;
+}
+
+.asp-row__name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.asp-row__detail {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.asp-path {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+
+/* ---------- Dot and label ---------- */
+.asp-dot {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--asp-tone);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--asp-tone) 22%, transparent);
+}
+
+.asp-status {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--asp-tone);
+  background: color-mix(in srgb, var(--asp-tone) 14%, transparent);
+}
+
+.asp-dot--healthy,
+.asp-status--healthy,
+.asp-meter--healthy { --asp-tone: var(--asp-healthy); }
+
+.asp-dot--warning,
+.asp-status--warning,
+.asp-meter--warning { --asp-tone: var(--asp-warning); }
+
+.asp-dot--critical,
+.asp-status--critical,
+.asp-meter--critical { --asp-tone: var(--asp-critical); }
+
+/* In the light theme, darken yellow text so it stays readable. */
+:root:not([data-theme='blue']):not([data-theme='dark']) .asp-status--warning {
+  color: color-mix(in srgb, var(--asp-warning) 60%, #000);
+}
+
+/* ---------- Storage meter ---------- */
+.asp-meter {
+  position: relative;
+  height: 8px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+}
+
+.asp-meter__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 999px;
+  background: var(--asp-tone);
+  transition: width 0.4s ease, background-color 0.2s;
+}
+
+.asp-meter__threshold {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 1px;
+  background: var(--color-text-muted);
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .asp-meter__fill { transition: none; }
+}
