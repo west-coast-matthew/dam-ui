@@ -147,3 +147,23 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* Progress indicator demo */
+.fcp-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fcp-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.fcp-progress__static {
+  display: grid;
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+}

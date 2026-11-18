@@ -3,6 +3,7 @@ import { RequireAuth } from './auth/RequireAuth'
 import { AppLayout } from './layout/AppLayout'
 import { AssetManagement } from './pages/AssetManagement'
 import { DefaultDashboard } from './pages/DefaultDashboard'
+import { InitializeWizard } from './pages/Initialize'
 import { Lightboxes } from './pages/Lightboxes'
 import { Login } from './pages/Login'
 import { UserManagement } from './pages/UserManagement'
@@ -20,6 +21,8 @@ export const router = createBrowserRouter([
   // Main application: signed-out visitors go to /login; after signing in, users land on the dashboard.
   { path: '/', element: <Navigate to="/dashboard" replace /> },
   { path: '/login', element: <Login /> },
+  // First-time setup. Open to everyone; later an "is initialized" API check will send new installations here.
+  { path: '/initialize', element: <InitializeWizard /> },
   {
     element: (
       <RequireAuth>

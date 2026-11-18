@@ -13,6 +13,7 @@ import {
   TextField,
 } from '../../../components/FormControls'
 import { Panel, PanelGrid } from '../../../components/Panel'
+import { StepProgress } from '../../../components/StepProgress'
 import { ThemeSelect } from '../../../components/ThemeSelect'
 import { Icon } from './icons'
 import { PASSWORD_RULES, validateEmail, validateUsername } from './validation'
@@ -410,6 +411,43 @@ function ExampleForm() {
   )
 }
 
+const DEMO_STEPS = [
+  { id: 'account', label: 'Account' },
+  { id: 'details', label: 'Details' },
+  { id: 'files', label: 'Files' },
+  { id: 'review', label: 'Review' },
+]
+
+function ProgressIndicator() {
+  const [current, setCurrentState] = useState(1)
+  const [reached, setReached] = useState(1)
+  const setCurrent = (next: number) => {
+    setCurrentState(next)
+    setReached((r) => Math.max(r, next))
+  }
+  const done = current >= DEMO_STEPS.length
+  return (
+    <Panel title="Progress indicator" subtitle="StepProgress: finished steps, and the furthest step reached, can be clicked to jump to them" columns={1}>
+      <div className="fcp-progress">
+        <StepProgress steps={DEMO_STEPS} current={current} reached={reached} onStepSelect={setCurrent} label="Example progress" />
+        <div className="fcp-actions">
+          <Button variant="secondary" disabled={current === 0} onClick={() => setCurrent(current - 1)}>Back</Button>
+          <Button disabled={done} onClick={() => setCurrent(current + 1)}>
+            {current === DEMO_STEPS.length - 1 ? 'Finish' : 'Next'}
+          </Button>
+          {done && <Button variant="ghost" onClick={() => { setCurrentState(0); setReached(0) }}>Start again</Button>}
+        </div>
+        <div className="fcp-progress__static">
+          <p className="fcp-muted">First step</p>
+          <StepProgress steps={DEMO_STEPS} current={0} label="First step example" />
+          <p className="fcp-muted">All steps complete</p>
+          <StepProgress steps={DEMO_STEPS} current={DEMO_STEPS.length} label="Completed example" />
+        </div>
+      </div>
+    </Panel>
+  )
+}
+
 /** Mockup page showing every form control and its states, grouped into Panels. */
 export function FormControlPalette() {
   return (
@@ -432,6 +470,7 @@ export function FormControlPalette() {
         <Sliders />
         <Buttons />
         <FileUpload />
+        <ProgressIndicator />
         <ExampleForm />
       </PanelGrid>
     </div>

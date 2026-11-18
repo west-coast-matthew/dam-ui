@@ -1,0 +1,161 @@
+.step-progress {
+  --marker: 32px;
+  min-width: 0;
+}
+
+/* "Step x of y" summary: shown only when the labels are hidden on narrow screens. */
+.step-progress__summary {
+  display: none;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.step-progress__summary strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.step-progress__list {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--step-count), minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The connecting line runs between the first and last marker centres; the filled part shows progress. */
+.step-progress__list::before,
+.step-progress__list::after {
+  content: '';
+  position: absolute;
+  top: calc(var(--marker) / 2 - 1px);
+  left: calc(50% / var(--step-count));
+  height: 2px;
+  border-radius: 1px;
+}
+
+.step-progress__list::before {
+  right: calc(50% / var(--step-count));
+  background: var(--color-border);
+}
+
+.step-progress__list::after {
+  width: calc((100% - 100% / var(--step-count)) * var(--step-fill) / 100);
+  background: var(--color-accent);
+  transition: width 0.35s ease;
+}
+
+.step-progress__step {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.step-progress__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: center;
+}
+
+button.step-progress__item {
+  cursor: pointer;
+}
+
+button.step-progress__item:hover .step-progress__label {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+button.step-progress__item:focus-visible {
+  outline: none;
+}
+
+button.step-progress__item:focus-visible .step-progress__marker {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.step-progress__marker {
+  display: grid;
+  place-items: center;
+  width: var(--marker);
+  height: var(--marker);
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  transition: background-color 0.25s, border-color 0.25s, color 0.25s, box-shadow 0.25s;
+}
+
+.step-progress__label {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.step-progress__step--complete .step-progress__marker {
+  color: var(--color-accent-contrast);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.step-progress__step--visited .step-progress__marker {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.step-progress__step--current .step-progress__marker {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 18%, transparent);
+}
+
+.step-progress__step--current .step-progress__label {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step-progress__list::after,
+  .step-progress__marker {
+    transition: none;
+  }
+}
+
+/* Narrow: markers only, with the summary line naming the current step. */
+@media (max-width: 560px) {
+  .step-progress {
+    --marker: 26px;
+  }
+
+  .step-progress__summary {
+    display: block;
+  }
+
+  .step-progress__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
