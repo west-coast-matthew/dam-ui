@@ -1,4 +1,4 @@
-import type { TreeDropPosition, TreeNode } from './types'
+import type { TreeDropPosition, TreeNode, TreeNodeType } from './types'
 
 export interface VisibleNode {
   node: TreeNode
@@ -10,6 +10,19 @@ export interface VisibleNode {
 }
 
 export const hasChildren = (node: TreeNode) => (node.children?.length ?? 0) > 0
+
+/** Asset buckets are always leaves; categories (and untyped nodes) can hold children. */
+export const canHaveChildren = (node: TreeNode) => node.type !== 'assetBucket'
+
+/** Asset buckets must sit inside a category, never at the top level. */
+export const canBeTopLevel = (node: TreeNode) => node.type !== 'assetBucket'
+
+/** Lower-case name of a node type for menus and messages. */
+export function typeNoun(type: TreeNodeType | undefined): string {
+  if (type === 'assetBucket') return 'asset bucket'
+  if (type === 'category') return 'category'
+  return 'item'
+}
 
 /** Ids of every node in the tree that has children. */
 export function allParentIds(nodes: TreeNode[], out: string[] = []): string[] {

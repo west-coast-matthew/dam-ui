@@ -5,7 +5,7 @@ import { PageHeader } from '../../layout/PageHeader'
 export function CategoryManagement() {
   return (
     <>
-      <PageHeader title="Categories" description="Organise the current workspace's categories. Changes are saved together." />
+      <PageHeader title="Categories" description="Organise the current workspace's categories and the asset buckets inside them. Changes are saved together." />
       <CategoryManagementPanel />
     </>
   )

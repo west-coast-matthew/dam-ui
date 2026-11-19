@@ -214,3 +214,37 @@
 .tree__row--drop-after::after {
   bottom: -1px;
 }
+
+/* Node types */
+
+.tree__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 20px;
+  margin-right: 2px;
+}
+
+.tree__icon--category {
+  color: var(--color-accent);
+}
+
+.tree__icon--assetBucket {
+  color: var(--color-chart-2);
+}
+
+.tree__row--selected .tree__icon {
+  color: inherit;
+}
+
+.tree__count {
+  flex: none;
+  margin-left: 2px;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.tree__row--selected .tree__count {
+  color: inherit;
+  opacity: 0.8;
+}

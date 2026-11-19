@@ -1,7 +1,16 @@
 import { useState } from 'react'
 import { Checkbox } from '../../../components/FormControls'
 import { ThemeSelect } from '../../../components/ThemeSelect'
-import { TreeControl, type TreeNode } from '../../../components/TreeControl'
+import {
+  appendTreeNode,
+  moveTreeNode,
+  removeTreeNode,
+  TreeControl,
+  typeNoun,
+  type TreeMove,
+  type TreeNode,
+  type TreeNodeType,
+} from '../../../components/TreeControl'
 import { mockTree, renameNode } from './mockTree'
 import './CustomComponents.css'
 
@@ -32,6 +41,26 @@ export function CustomComponents() {
     record(`onLabelEdit: "${node.label}" → "${newLabel}"`)
   }
 
+  // The demo applies adds and deletes straight away; a real page would ask first (see the Categories page).
+  const onAdd = (parent: TreeNode, type: TreeNodeType) => {
+    const node: TreeNode = { id: crypto.randomUUID(), label: `New ${typeNoun(type)}`, type, ...(type === 'assetBucket' ? { count: 0 } : {}) }
+    setTree((prev) => appendTreeNode(prev, parent.id, node))
+    record(`onAdd: ${typeNoun(type)} in ${parent.label}`)
+  }
+
+  const onEdit = (node: TreeNode) => record(`onEdit: ${node.label} (a page would open a form here)`)
+
+  const onDelete = (node: TreeNode) => {
+    setTree((prev) => removeTreeNode(prev, node.id))
+    setSelected((s) => (s?.id === node.id ? null : s))
+    record(`onDelete: ${node.label}`)
+  }
+
+  const onMove = ({ node, target, position }: TreeMove) => {
+    setTree((prev) => moveTreeNode(prev, node.id, target.id, position))
+    record(`onMove: ${node.label} ${position} ${target.label}`)
+  }
+
   const onExpandedChange = (node: TreeNode, expanded: boolean) =>
     record(`onExpandedChange: ${node.label} ${expanded ? 'expanded' : 'collapsed'}`)
 
@@ -49,12 +78,13 @@ export function CustomComponents() {
         <h2 className="cc-section-title">Tree control</h2>
         <p className="cc-muted cc-intro">
           Click a node to select it and the arrow to expand it. Hover for its description.
-          {editable && ' Double-click a label, or press F2, to rename it.'}
-          {subtreeExpand && ' Right-click a node with children (or press Shift+F10) to expand or collapse everything below it.'}
+          {' Folders are categories; buckets are asset buckets, with their asset count.'}
+          {editable && ' Double-click a label (or press F2) to rename it, drag items to move them, and right-click (or press Shift+F10) to add, edit or delete.'}
+          {subtreeExpand && ' Right-click a category to expand or collapse everything below it.'}
         </p>
 
         <div className="cc-controls">
-          <Checkbox label="Inline label editing" checked={editable} onChange={(e) => setEditable(e.target.checked)} />
+          <Checkbox label="Editable" checked={editable} onChange={(e) => setEditable(e.target.checked)} />
           <Checkbox label="Right-click subtree expand" checked={subtreeExpand}
             onChange={(e) => setSubtreeExpand(e.target.checked)} />
           <Checkbox label="Expand all" checked={expandAll} onChange={(e) => setExpandAll(e.target.checked)} />
@@ -70,7 +100,12 @@ export function CustomComponents() {
               expandAll={expandAll}
               enableSubtreeExpand={subtreeExpand}
               onSelect={onSelect}
-              onLabelEdit={editable ? onLabelEdit : undefined}
+              editable={editable}
+              onLabelEdit={onLabelEdit}
+              onAdd={onAdd}
+              onEdit={onEdit}
+              onDelete={onDelete}
+              onMove={onMove}
               onExpandedChange={onExpandedChange}
             />
           </div>
@@ -86,8 +121,19 @@ export function CustomComponents() {
                   <dd><code>{selected.id}</code></dd>
                   <dt>Description</dt>
                   <dd>{selected.description ?? <span className="cc-muted">None</span>}</dd>
-                  <dt>Children</dt>
-                  <dd>{selected.children?.length ?? 0}</dd>
+                  <dt>Type</dt>
+                  <dd>{typeNoun(selected.type)}</dd>
+                  {selected.type === 'assetBucket' ? (
+                    <>
+                      <dt>Assets</dt>
+                      <dd>{selected.count ?? 0}</dd>
+                    </>
+                  ) : (
+                    <>
+                      <dt>Children</dt>
+                      <dd>{selected.children?.length ?? 0}</dd>
+                    </>
+                  )}
                 </dl>
               ) : (
                 <p className="cc-muted">Nothing selected yet.</p>

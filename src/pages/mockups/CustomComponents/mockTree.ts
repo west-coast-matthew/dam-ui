@@ -1,7 +1,7 @@
 import type { TreeNode } from '../../../components/TreeControl'
 
-/** Sample category hierarchy, as the categories API might return it. */
-export const mockTree: TreeNode[] = [
+/** Sample hierarchy before node types are applied; see `typed` below. */
+const raw: TreeNode[] = [
   {
     id: 'marketing',
     label: 'Marketing',
@@ -70,6 +70,24 @@ export const mockTree: TreeNode[] = [
     ],
   },
   { id: 'uncategorized', label: 'Uncategorized', description: 'Assets that have not been filed yet.' },
+]
+
+/** Stable pseudo-random asset count per id, so the demo looks the same on every load. */
+const countFor = (id: string) => [...id].reduce((n, ch) => (n * 31 + ch.charCodeAt(0)) % 997, 7) % 400
+
+/** Nodes with children become categories; leaves become asset buckets with an asset count. */
+const typed = (nodes: TreeNode[]): TreeNode[] =>
+  nodes.map((n) =>
+    n.children?.length
+      ? { ...n, type: 'category', children: typed(n.children) }
+      : { ...n, type: 'assetBucket', count: n.id === 'uncategorized' ? 0 : countFor(n.id) },
+  )
+
+/** Sample category hierarchy with asset buckets, as the categories API might return it. */
+export const mockTree: TreeNode[] = [
+  ...typed(raw.filter((n) => n.id !== 'uncategorized')),
+  // Asset buckets can't be top-level, so the loose bucket lives in its own category.
+  { id: 'inbox', label: 'Inbox', type: 'category', description: 'Assets waiting to be filed.', children: typed(raw.filter((n) => n.id === 'uncategorized')) },
 ]
 
 /** Returns a copy of the tree with one node's label replaced. */

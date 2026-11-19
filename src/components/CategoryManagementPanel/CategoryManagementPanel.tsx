@@ -11,8 +11,9 @@ import {
   updateTreeNode,
   type TreeMove,
   type TreeNode,
+  type TreeNodeType,
 } from '../TreeControl'
-import { CategoryFormModal, type NewCategory } from './CategoryFormModal'
+import { CategoryFormModal, type CategoryFields } from './CategoryFormModal'
 import { diffTrees, isEmptyChangeSet, nameTaken, newCategoryId, parentIdOf, siblingsOf, summarize, toTree } from './categoryTree'
 import { DeleteCategoryModal } from './DeleteCategoryModal'
 import { useCategoryList, useSaveCategories } from './useCategories'
@@ -37,9 +38,10 @@ const PlusIcon = () => (
 )
 
 /**
- * Shows the current workspace's categories in a tree and edits them: add (top level or as a
- * child), rename inline, move by drag and drop, and delete. Edits collect as pending changes and
- * are saved together with Save changes, or thrown away with Cancel changes.
+ * Shows the current workspace's categories and the asset buckets inside them, and edits them: add
+ * categories (top level or inside a category) and asset buckets (inside a category), edit a title
+ * and description, rename inline, move by drag and drop, and delete. Edits collect as pending
+ * changes and are saved together with Save changes, or thrown away with Cancel changes.
  */
 export function CategoryManagementPanel({ className }: CategoryManagementPanelProps) {
   const { current } = useWorkspace()
@@ -59,7 +61,8 @@ function CategoryEditor({ workspaceId, workspaceName, className }: CategoryEdito
   const saved = useMemo(() => (categories.data ? toTree(categories.data) : undefined), [categories.data])
   /** Pending edits; null when there are none. */
   const [draft, setDraft] = useState<TreeNode[] | null>(null)
-  const [adding, setAdding] = useState<{ parent: TreeNode | null } | null>(null)
+  const [adding, setAdding] = useState<{ parent: TreeNode | null; type: TreeNodeType } | null>(null)
+  const [editing, setEditing] = useState<TreeNode | null>(null)
   const [deleting, setDeleting] = useState<TreeNode | null>(null)
   const [notice, setNotice] = useState<Notice | null>(null)
 
@@ -82,10 +85,14 @@ function CategoryEditor({ workspaceId, workspaceName, className }: CategoryEdito
     save.reset()
   }
 
+  /** Whether another node at the same level as `node` already has the name. */
+  const clashes = (node: TreeNode, name: string) =>
+    !!tree && nameTaken(siblingsOf(tree, parentIdOf(tree, node.id) ?? null), name, node.id)
+
   const onLabelEdit = (node: TreeNode, label: string) => {
     if (!tree) return
-    if (nameTaken(siblingsOf(tree, parentIdOf(tree, node.id) ?? null), label, node.id)) {
-      setNotice({ tone: 'warning', text: `There's already a category named '${label}' at that level, so the name wasn't changed.` })
+    if (clashes(node, label)) {
+      setNotice({ tone: 'warning', text: `There's already something named '${label}' at that level, so the name wasn't changed.` })
       return
     }
     edit(updateTreeNode(tree, node.id, { label }))
@@ -96,17 +103,29 @@ function CategoryEditor({ workspaceId, workspaceName, className }: CategoryEdito
     const newParentId = position === 'inside' ? target.id : (parentIdOf(tree, target.id) ?? null)
     if (nameTaken(siblingsOf(tree, newParentId), node.label, node.id)) {
       const where = position === 'inside' ? target.label : 'that level'
-      setNotice({ tone: 'warning', text: `'${node.label}' wasn't moved: ${where} already has a category with that name.` })
+      setNotice({ tone: 'warning', text: `'${node.label}' wasn't moved: ${where} already has something with that name.` })
       return
     }
     edit(moveTreeNode(tree, node.id, target.id, position))
   }
 
-  const addCategory = ({ name, description }: NewCategory) => {
+  const addNode = ({ name, description }: CategoryFields) => {
     if (!tree || !adding) return
-    const node: TreeNode = { id: newCategoryId(), label: name, description: description || undefined }
+    const node: TreeNode = {
+      id: newCategoryId(),
+      label: name,
+      type: adding.type,
+      ...(adding.type === 'assetBucket' ? { count: 0 } : {}),
+      description: description || undefined,
+    }
     edit(appendTreeNode(tree, adding.parent?.id ?? null, node))
     setAdding(null)
+  }
+
+  const applyEdit = ({ name, description }: CategoryFields) => {
+    if (!tree || !editing) return
+    edit(updateTreeNode(tree, editing.id, { label: name, description: description || undefined }))
+    setEditing(null)
   }
 
   const deleteCategory = () => {
@@ -131,11 +150,14 @@ function CategoryEditor({ workspaceId, workspaceName, className }: CategoryEdito
     setNotice(null)
   }
 
-  const count = categories.data?.length
   let status: string | undefined
   if (busy) status = 'Saving changes…'
   else if (dirty) status = `Unsaved changes: ${summarize(changes!)}`
-  else if (count !== undefined) status = `${count} ${count === 1 ? 'category' : 'categories'} in ${workspaceName}`
+  else if (categories.data) {
+    const buckets = categories.data.filter((c) => c.type === 'assetBucket').length
+    const cats = categories.data.length - buckets
+    status = `${cats} ${cats === 1 ? 'category' : 'categories'} and ${buckets} asset ${buckets === 1 ? 'bucket' : 'buckets'} in ${workspaceName}`
+  }
 
   return (
     <section className={`cm-card${className ? ` ${className}` : ''}`} aria-labelledby="cm-title">
@@ -148,7 +170,8 @@ function CategoryEditor({ workspaceId, workspaceName, className }: CategoryEdito
           </p>
         </div>
         <div className="cm-actions">
-          <Button variant="ghost" icon={<PlusIcon />} disabled={!tree || busy} onClick={() => setAdding({ parent: null })}>
+          <Button variant="ghost" icon={<PlusIcon />} disabled={!tree || busy}
+            onClick={() => setAdding({ parent: null, type: 'category' })}>
             New category
           </Button>
           <Button variant="secondary" disabled={!dirty || busy} onClick={cancelChanges}>Cancel changes</Button>
@@ -181,17 +204,18 @@ function CategoryEditor({ workspaceId, workspaceName, className }: CategoryEdito
               maxHeight="60vh"
               emptyMessage="This workspace has no categories yet. Use New category to add the first one."
               enableSubtreeExpand
-              onLabelEdit={busy ? undefined : onLabelEdit}
-              onAddChild={busy ? undefined : (parent) => setAdding({ parent })}
-              addChildLabel="New category"
-              onDelete={busy ? undefined : setDeleting}
-              deleteLabel="Delete category"
-              onMove={busy ? undefined : onMove}
+              editable={!busy}
+              onLabelEdit={onLabelEdit}
+              onAdd={(parent, type) => setAdding({ parent, type })}
+              onEdit={setEditing}
+              onDelete={setDeleting}
+              onMove={onMove}
             />
             {tree && tree.length > 0 && (
               <p className="cm-help">
-                Right-click a category to add a category inside it or delete it. Double-click a name (or press F2) to
-                rename it, and drag categories to reorganise them.
+                Right-click a category to add a category or asset bucket inside it, or right-click anything to edit or
+                delete it. Double-click a name (or press F2) to rename it, and drag items to reorganise them. Asset
+                buckets always sit inside a category.
               </p>
             )}
           </>
@@ -200,20 +224,28 @@ function CategoryEditor({ workspaceId, workspaceName, className }: CategoryEdito
 
       {adding && tree && (
         <CategoryFormModal
+          type={adding.type}
           parentName={adding.parent?.label ?? null}
-          validateName={(name) => {
-            // The parent may have been changed since the dialog opened, so look it up again.
-            const parentId = adding.parent && findTreeNode(tree, adding.parent.id) ? adding.parent.id : null
-            return nameTaken(siblingsOf(tree, parentId), name)
-              ? `There's already a category named '${name.trim()}' here.`
-              : undefined
-          }}
+          validateName={(name) =>
+            nameTaken(siblingsOf(tree, adding.parent?.id ?? null), name)
+              ? `There's already something named '${name.trim()}' here.`
+              : undefined}
           onCancel={() => setAdding(null)}
-          onSubmit={addCategory}
+          onSubmit={addNode}
+        />
+      )}
+      {editing && tree && findTreeNode(tree, editing.id) && (
+        <CategoryFormModal
+          type={editing.type ?? 'category'}
+          initial={{ name: editing.label, description: editing.description ?? '' }}
+          validateName={(name) =>
+            clashes(editing, name) ? `There's already something named '${name.trim()}' at this level.` : undefined}
+          onCancel={() => setEditing(null)}
+          onSubmit={applyEdit}
         />
       )}
       {deleting && (
-        <DeleteCategoryModal category={deleting} onCancel={() => setDeleting(null)} onConfirm={deleteCategory} />
+        <DeleteCategoryModal node={deleting} onCancel={() => setDeleting(null)} onConfirm={deleteCategory} />
       )}
     </section>
   )

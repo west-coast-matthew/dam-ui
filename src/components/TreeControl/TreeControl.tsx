@@ -1,7 +1,17 @@
 import { Fragment, useEffect, useMemo, useRef, useState, type DragEvent, type KeyboardEvent, type MouseEvent } from 'react'
 import { LoadingState } from '../LoadingState'
-import { allParentIds, hasChildren, subtreeIds, subtreeParentIds, visibleNodes, type VisibleNode } from './treeUtils'
-import type { TreeDropPosition, TreeMove, TreeNode } from './types'
+import {
+  allParentIds,
+  canBeTopLevel,
+  canHaveChildren,
+  hasChildren,
+  subtreeIds,
+  subtreeParentIds,
+  typeNoun,
+  visibleNodes,
+  type VisibleNode,
+} from './treeUtils'
+import type { TreeDropPosition, TreeMove, TreeNode, TreeNodeType } from './types'
 import './TreeControl.css'
 
 export interface TreeControlProps {
@@ -17,24 +27,25 @@ export interface TreeControlProps {
   label?: string
   /** Called when the user selects a node (click, Enter or Space). */
   onSelect?: (node: TreeNode) => void
-  /**
-   * Called with the new label after an inline edit. When present, labels can be edited
-   * (double-click or F2); the parent applies the change by passing updated `nodes`.
-   */
-  onLabelEdit?: (node: TreeNode, newLabel: string) => void
   /** Called whenever a node is expanded or collapsed, e.g. to load its children on demand. */
   onExpandedChange?: (node: TreeNode, expanded: boolean) => void
-  /** When present, the right-click menu offers to add a child to any node. */
-  onAddChild?: (parent: TreeNode) => void
-  /** Menu text for `onAddChild`. */
-  addChildLabel?: string
-  /** When present, the right-click menu offers to delete a node. Ask for confirmation in the handler. */
-  onDelete?: (node: TreeNode) => void
-  /** Menu text for `onDelete`. */
-  deleteLabel?: string
   /**
-   * When present, nodes can be dragged before, after or into other nodes. The parent applies the
-   * move (moveTreeNode does it for plain TreeNode data) by passing updated `nodes`.
+   * Turns on editing. The tree never changes data itself: each edit raises one of the handlers
+   * below, and the parent applies it by passing updated `nodes`. Menu wording follows each node's
+   * type ("New asset bucket", "Delete category"), and each action appears only if its handler is given.
+   */
+  editable?: boolean
+  /** Inline rename (double-click or F2), with the new label. */
+  onLabelEdit?: (node: TreeNode, newLabel: string) => void
+  /** Right-click "New category" / "New asset bucket" on a category. */
+  onAdd?: (parent: TreeNode, type: TreeNodeType) => void
+  /** Right-click "Edit …", e.g. to open a form for the node's details. */
+  onEdit?: (node: TreeNode) => void
+  /** Right-click "Delete …" or the Delete key. Ask for confirmation in the handler. */
+  onDelete?: (node: TreeNode) => void
+  /**
+   * Drag-and-drop before, after or into other nodes. Asset buckets can't take children or sit at the
+   * top level, so those drops are refused. moveTreeNode applies a move to plain TreeNode data.
    */
   onMove?: (move: TreeMove) => void
   /** Selected node id when the parent controls selection. */
@@ -56,6 +67,8 @@ interface MenuItem {
   key: string
   label: string
   danger?: boolean
+  /** The action opens a dialog, which takes focus, so the menu doesn't hand focus back to the row. */
+  opensDialog?: boolean
   /** Starts a new group, drawn with a divider above it. */
   group: number
   run: () => void
@@ -91,8 +104,8 @@ const initialExpanded = (nodes: TreeNode[], expandAll: boolean, defaults?: strin
   new Set(expandAll ? allParentIds(nodes) : (defaults ?? []))
 
 /**
- * Hierarchical list with expand/collapse, selection and optional inline label editing,
- * right-click actions (subtree expand, add child, delete) and drag-and-drop.
+ * Hierarchical list of categories and asset buckets (or untyped nodes) with expand/collapse,
+ * selection and, when editable, inline renaming, right-click actions and drag-and-drop.
  */
 export function TreeControl({
   nodes,
@@ -100,13 +113,13 @@ export function TreeControl({
   loadingLabel = 'Loading…',
   label = 'Tree',
   onSelect,
-  onLabelEdit,
   onExpandedChange,
-  onAddChild,
-  addChildLabel = 'Add child',
-  onDelete,
-  deleteLabel = 'Delete',
-  onMove,
+  editable = false,
+  onLabelEdit: onLabelEditProp,
+  onAdd: onAddProp,
+  onEdit: onEditProp,
+  onDelete: onDeleteProp,
+  onMove: onMoveProp,
   selectedId: controlledSelectedId,
   defaultExpandedIds,
   expandAll = false,
@@ -128,7 +141,13 @@ export function TreeControl({
   const dragExpandTimer = useRef<{ id: string; timer: number } | null>(null)
 
   const selectedId = controlledSelectedId !== undefined ? controlledSelectedId : internalSelectedId
-  const editable = onLabelEdit !== undefined
+  // Edit handlers only count while the tree is editable.
+  const onLabelEdit = editable ? onLabelEditProp : undefined
+  const onAdd = editable ? onAddProp : undefined
+  const onEdit = editable ? onEditProp : undefined
+  const onDelete = editable ? onDeleteProp : undefined
+  const onMove = editable ? onMoveProp : undefined
+  const renamable = onLabelEdit !== undefined
   const draggable = onMove !== undefined
   const isLoading = loading || nodes === undefined
 
@@ -212,13 +231,26 @@ export function TreeControl({
         { key: 'collapse', label: 'Collapse all below', group: 0, run: () => setSubtreeExpanded(node, false) },
       )
     }
-    if (onAddChild) {
-      items.push({ key: 'add', label: addChildLabel, group: 1, run: () => {
+    if (onAdd && canHaveChildren(node)) {
+      const add = (type: TreeNodeType) => () => {
         markExpanded(node.id)
-        onAddChild(node)
-      } })
+        onAdd(node, type)
+      }
+      // Typed trees offer both kinds; an untyped tree just adds an untyped child.
+      if (node.type) {
+        items.push(
+          { key: 'add-category', label: 'New category', group: 1, opensDialog: true, run: add('category') },
+          { key: 'add-bucket', label: 'New asset bucket', group: 1, opensDialog: true, run: add('assetBucket') },
+        )
+      } else {
+        items.push({ key: 'add', label: 'New item', group: 1, opensDialog: true, run: add('category') })
+      }
     }
-    if (onDelete) items.push({ key: 'delete', label: deleteLabel, danger: true, group: 2, run: () => onDelete(node) })
+    const noun = typeNoun(node.type)
+    if (onEdit) items.push({ key: 'edit', label: `Edit ${noun}`, group: 2, opensDialog: true, run: () => onEdit(node) })
+    if (onDelete) {
+      items.push({ key: 'delete', label: `Delete ${noun}`, danger: true, group: 3, opensDialog: true, run: () => onDelete(node) })
+    }
     return items
   }
 
@@ -297,7 +329,7 @@ export function TreeControl({
         select(node)
         break
       case 'F2':
-        if (!editable) return
+        if (!renamable) return
         setEditingId(node.id)
         break
       case 'Delete':
@@ -346,17 +378,25 @@ export function TreeControl({
   const dropPosition = (e: DragEvent, target: TreeNode): TreeDropPosition => {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
     const ratio = (e.clientY - rect.top) / rect.height
+    // Nothing goes inside an asset bucket, so its row splits into before/after halves.
+    if (!canHaveChildren(target)) return ratio < 0.5 ? 'before' : 'after'
     if (ratio < 0.25) return 'before'
     // The bottom edge of an open parent sits right above its first child, so treat it as "inside".
     if (ratio > 0.75 && !(hasChildren(target) && expanded.has(target.id))) return 'after'
     return 'inside'
   }
 
-  const onDragOver = (e: DragEvent, target: TreeNode) => {
+  const onDragOver = (e: DragEvent, row: VisibleNode) => {
+    const target = row.node
     if (!drag || drag.blocked.has(target.id)) return
+    const position = dropPosition(e, target)
+    // Before/after a top-level node makes the dragged node top-level, which asset buckets can't be.
+    if (position !== 'inside' && row.parentId === null && !canBeTopLevel(drag.node)) {
+      if (dropTarget?.id === target.id) setDropTarget(null)
+      return
+    }
     e.preventDefault()
     e.dataTransfer.dropEffect = 'move'
-    const position = dropPosition(e, target)
     if (dropTarget?.id !== target.id || dropTarget.position !== position) setDropTarget({ id: target.id, position })
 
     // Rest on a collapsed parent to open it.
@@ -433,11 +473,11 @@ export function TreeControl({
           className={rowClass}
           style={{ paddingLeft: 8 + (level - 1) * 20 }}
           onClick={() => !isEditing && select(node)}
-          onDoubleClick={() => editable && !isEditing && setEditingId(node.id)}
+          onDoubleClick={() => renamable && !isEditing && setEditingId(node.id)}
           onContextMenu={(e) => onRowContextMenu(e, node)}
           onMouseEnter={(e) => showTooltip(e, node)}
           onMouseLeave={() => setTooltip(null)}
-          onDragOver={draggable ? (e) => onDragOver(e, node) : undefined}
+          onDragOver={draggable ? (e) => onDragOver(e, row) : undefined}
           onDrop={draggable ? (e) => onDrop(e, node) : undefined}
         >
           {parent ? (
@@ -457,6 +497,7 @@ export function TreeControl({
           ) : (
             <span className="tree__toggle tree__toggle--leaf" aria-hidden="true" />
           )}
+          {node.type && <NodeIcon type={node.type} />}
           {isEditing ? (
             <LabelEditor
               initial={node.label}
@@ -465,6 +506,12 @@ export function TreeControl({
             />
           ) : (
             <span className="tree__label">{node.label}</span>
+          )}
+          {node.type === 'assetBucket' && !isEditing && (
+            <>
+              <span className="tree__count" aria-hidden="true">({node.count ?? 0})</span>
+              <span className="tree__sr-only">, asset bucket, {node.count ?? 0} {node.count === 1 ? 'asset' : 'assets'}</span>
+            </>
           )}
           {node.description && (
             <span id={describedBy(node)} className="tree__sr-only">
@@ -527,8 +574,7 @@ export function TreeControl({
                 role="menuitem"
                 className={`tree__menu-item${item.danger ? ' tree__menu-item--danger' : ''}`}
                 onClick={() => {
-                  // Actions that open a dialog take focus themselves.
-                  closeMenu(menu.node, item.key !== 'add' && item.key !== 'delete')
+                  closeMenu(menu.node, !item.opensDialog)
                   item.run()
                 }}
               >
@@ -539,6 +585,25 @@ export function TreeControl({
         </div>
       )}
     </div>
+  )
+}
+
+/** Folder for a category, a box-shaped bucket for an asset bucket. */
+function NodeIcon({ type }: { type: TreeNodeType }) {
+  return (
+    <span className={`tree__icon tree__icon--${type}`} aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8"
+        strokeLinecap="round" strokeLinejoin="round">
+        {type === 'category' ? (
+          <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        ) : (
+          <>
+            <path d="M4 7h16l-1.5 12a2 2 0 0 1-2 1.8h-9a2 2 0 0 1-2-1.8z" />
+            <path d="M3 7h18M9 11h6" />
+          </>
+        )}
+      </svg>
+    </span>
   )
 }
 
