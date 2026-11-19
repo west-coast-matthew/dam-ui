@@ -27,14 +27,23 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     [workspaces],
   )
 
+  const upsertWorkspace = useCallback((workspace: Workspace) => {
+    setWorkspaces((list) =>
+      list.some((w) => w.id === workspace.id)
+        ? list.map((w) => (w.id === workspace.id ? { ...w, name: workspace.name } : w))
+        : [...list, { id: workspace.id, name: workspace.name }],
+    )
+  }, [])
+
   const value = useMemo(
     () => ({
       workspaces,
       current: workspaces.find((w) => w.id === currentId) ?? workspaces[0],
       selectWorkspace: setCurrentId,
       createWorkspace,
+      upsertWorkspace,
     }),
-    [workspaces, currentId, createWorkspace],
+    [workspaces, currentId, createWorkspace, upsertWorkspace],
   )
 
   return <WorkspaceContext.Provider value={value}>{children}</WorkspaceContext.Provider>

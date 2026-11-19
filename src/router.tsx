@@ -7,6 +7,7 @@ import { InitializeWizard } from './pages/Initialize'
 import { Lightboxes } from './pages/Lightboxes'
 import { Login } from './pages/Login'
 import { UserManagement } from './pages/UserManagement'
+import { WorkspaceManagement } from './pages/WorkspaceManagement'
 import { ApplicationStatusDemo } from './pages/mockups/ApplicationStatusDemo'
 import { AssetBrowseDemo } from './pages/mockups/AssetBrowseDemo'
 import { AssetUploadDemo } from './pages/mockups/AssetUploadDemo'
@@ -32,6 +33,7 @@ export const router = createBrowserRouter([
     children: [
       { path: '/dashboard', element: <DefaultDashboard /> },
       { path: '/users', element: <UserManagement /> },
+      { path: '/workspaces', element: <WorkspaceManagement /> },
       { path: '/lightboxes', element: <Lightboxes /> },
       { path: '/assets', element: <AssetManagement /> },
     ],
