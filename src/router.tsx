@@ -11,6 +11,7 @@ import { WorkspaceManagement } from './pages/WorkspaceManagement'
 import { ApplicationStatusDemo } from './pages/mockups/ApplicationStatusDemo'
 import { AssetBrowseDemo } from './pages/mockups/AssetBrowseDemo'
 import { AssetUploadDemo } from './pages/mockups/AssetUploadDemo'
+import { CustomComponents } from './pages/mockups/CustomComponents'
 import { FormControlPalette } from './pages/mockups/FormControlPalette'
 import { LifecycleStates } from './pages/mockups/LifecycleStates'
 import { LookAndFeel } from './pages/mockups/LookAndFeel'
@@ -48,4 +49,5 @@ export const router = createBrowserRouter([
   { path: '/mock/asset-upload', element: <AssetUploadDemo /> },
   { path: '/mock/recent-activity', element: <RecentActivityDemo /> },
   { path: '/mock/application-status', element: <ApplicationStatusDemo /> },
+  { path: '/mock/custom-components', element: <CustomComponents /> },
 ])
