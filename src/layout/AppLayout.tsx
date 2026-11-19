@@ -3,7 +3,7 @@ import { Outlet } from 'react-router'
 import { useAuth } from '../auth/useAuth'
 import { useLogout } from '../auth/useLogout'
 import { SideNav, type SideNavItem } from '../components/SideNav'
-import { AssetsIcon, DashboardIcon, InitializeIcon, LightboxIcon, UsersIcon, WorkspacesIcon } from '../components/SideNav/icons'
+import { AssetsIcon, CategoriesIcon, DashboardIcon, InitializeIcon, LightboxIcon, UsersIcon, WorkspacesIcon } from '../components/SideNav/icons'
 import { TitleBar } from '../components/TitleBar'
 import './AppLayout.css'
 
@@ -13,6 +13,7 @@ const NAV_ITEMS: SideNavItem[] = [
   { to: '/dashboard', label: 'Dashboard', icon: <DashboardIcon /> },
   { to: '/users', label: 'User management', icon: <UsersIcon /> },
   { to: '/workspaces', label: 'Workspaces', icon: <WorkspacesIcon /> },
+  { to: '/categories', label: 'Categories', icon: <CategoriesIcon /> },
   { to: '/lightboxes', label: 'Lightboxes', icon: <LightboxIcon /> },
   { to: '/assets', label: 'Asset management', icon: <AssetsIcon /> },
   // Temporary: until the app detects a new installation itself, the setup wizard is reached from here.

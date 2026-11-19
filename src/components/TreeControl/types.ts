@@ -6,3 +6,13 @@ export interface TreeNode {
   description?: string
   children?: TreeNode[]
 }
+
+/** Where a dragged node lands relative to the node it's dropped on. */
+export type TreeDropPosition = 'before' | 'after' | 'inside'
+
+/** A drag-and-drop move requested by the user. */
+export interface TreeMove {
+  node: TreeNode
+  target: TreeNode
+  position: TreeDropPosition
+}
