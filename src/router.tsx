@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router'
 import { RequireAuth } from './auth/RequireAuth'
 import { AppLayout } from './layout/AppLayout'
 import { AssetManagement } from './pages/AssetManagement'
+import { CategoryManagement } from './pages/CategoryManagement'
 import { DefaultDashboard } from './pages/DefaultDashboard'
 import { InitializeWizard } from './pages/Initialize'
 import { Lightboxes } from './pages/Lightboxes'
@@ -35,6 +36,7 @@ export const router = createBrowserRouter([
       { path: '/dashboard', element: <DefaultDashboard /> },
       { path: '/users', element: <UserManagement /> },
       { path: '/workspaces', element: <WorkspaceManagement /> },
+      { path: '/categories', element: <CategoryManagement /> },
       { path: '/lightboxes', element: <Lightboxes /> },
       { path: '/assets', element: <AssetManagement /> },
     ],
