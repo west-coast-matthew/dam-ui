@@ -1,4 +1,4 @@
-import type { CategoryChangeSet, CategoryRecord } from '../../services/categoryService'
+import type { CategoryChangeSet, CategoryNodeType, CategoryRecord } from '../../services/categoryService'
 import { findTreeNode, type TreeNode } from '../TreeControl'
 
 /** Prefix of ids given to categories that haven't been saved yet. */
@@ -6,7 +6,7 @@ const NEW_PREFIX = 'new-'
 
 export const newCategoryId = () => `${NEW_PREFIX}${crypto.randomUUID()}`
 
-/** Builds the tree from the API's flat list. */
+/** Builds the tree of categories and asset buckets from the API's flat list. */
 export function toTree(records: CategoryRecord[]): TreeNode[] {
   const children = new Map<string | null, CategoryRecord[]>()
   for (const r of records) {
@@ -22,6 +22,8 @@ export function toTree(records: CategoryRecord[]): TreeNode[] {
         return {
           id: r.id,
           label: r.name,
+          type: r.type,
+          ...(r.type === 'assetBucket' ? { count: r.assetCount } : {}),
           description: r.description || undefined,
           ...(kids.length ? { children: kids } : {}),
         }
@@ -30,6 +32,7 @@ export function toTree(records: CategoryRecord[]): TreeNode[] {
 }
 
 interface Flat {
+  type: CategoryNodeType
   parentId: string | null
   position: number
   name: string
@@ -41,7 +44,7 @@ function flatten(nodes: TreeNode[]): Map<string, Flat> {
   const out = new Map<string, Flat>()
   const walk = (list: TreeNode[], parentId: string | null) =>
     list.forEach((n, position) => {
-      out.set(n.id, { parentId, position, name: n.label, description: n.description ?? '' })
+      out.set(n.id, { type: n.type ?? 'category', parentId, position, name: n.label, description: n.description ?? '' })
       if (n.children) walk(n.children, n.id)
     })
   walk(nodes, null)
@@ -59,7 +62,7 @@ export function diffTrees(original: TreeNode[], draft: TreeNode[]): CategoryChan
     if (!old) {
       changes.created.push({ tempId: id, ...n })
     } else if (old.parentId !== n.parentId || old.position !== n.position || old.name !== n.name || old.description !== n.description) {
-      changes.updated.push({ id, ...n })
+      changes.updated.push({ id, parentId: n.parentId, position: n.position, name: n.name, description: n.description })
     }
   }
   // Only the top-most deleted categories; the API removes their descendants.

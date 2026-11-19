@@ -1,30 +1,37 @@
-// Category service. For now it emulates the API: data lives in memory per workspace (reset on
+// Category service: categories and the asset buckets inside them. For now it emulates the API: data lives in memory per workspace (reset on
 // reload) and every call waits a random 3-5 seconds to mimic network latency. Replace the bodies with
 // real requests once the UI talks to the API; callers only depend on these signatures.
 
-/** One category, as the API returns it. The hierarchy is expressed through parentId. */
+/** Categories hold categories and asset buckets; asset buckets hold assets. */
+export type CategoryNodeType = 'category' | 'assetBucket'
+
+/** One category or asset bucket, as the API returns it. The hierarchy is expressed through parentId. */
 export interface CategoryRecord {
   id: string
   workspaceId: string
-  /** null for a top-level category. */
+  type: CategoryNodeType
+  /** null for a top-level category. Asset buckets always have a category as parent. */
   parentId: string | null
   name: string
   /** Empty string when there is none. */
   description: string
   /** 0-based order among its siblings. */
   position: number
+  /** Number of assets in an asset bucket; always 0 for a category. Read-only. */
+  assetCount: number
 }
 
-/** A category created in this change set. Its id is temporary; `parentId` may be another temporary id. */
+/** A category or asset bucket created in this change set. Its id is temporary; `parentId` may be another temporary id. */
 export interface CategoryCreate {
   tempId: string
+  type: CategoryNodeType
   parentId: string | null
   name: string
   description: string
   position: number
 }
 
-/** The new state of an existing category whose name, description, parent or position changed. */
+/** The new state of an existing node whose name, description, parent or position changed. Its type can't change. */
 export type CategoryUpdate = Pick<CategoryRecord, 'id' | 'parentId' | 'name' | 'description' | 'position'>
 
 /** Everything a bulk save sends. It is applied all together or not at all. */
@@ -32,7 +39,7 @@ export interface CategoryChangeSet {
   /** In tree order, so a parent always comes before its children. */
   created: CategoryCreate[]
   updated: CategoryUpdate[]
-  /** Ids of deleted categories; their descendants go with them. */
+  /** Ids of deleted nodes; their descendants go with them. */
   deleted: string[]
 }
 
@@ -59,6 +66,8 @@ const FAILURE_RATE_KEY = 'dam-ui.mock-category-failure-rate'
 interface Seed {
   name: string
   description?: string
+  /** Present on asset buckets: how many assets they hold. */
+  assets?: number
   children?: Seed[]
 }
 
@@ -72,27 +81,40 @@ const SEEDS: Record<string, Seed[]> = {
           name: 'Campaigns',
           description: 'Grouped by campaign year.',
           children: [
-            { name: '2026', children: [{ name: 'Spring launch', description: 'Hero images and banners for the March launch.' }, { name: 'Summer sale' }] },
-            { name: '2025', children: [{ name: 'Rebrand', description: 'Archived after the 2026 refresh.' }] },
+            {
+              name: '2026',
+              children: [
+                { name: 'Spring launch', description: 'Hero images and banners for the March launch.', assets: 128 },
+                { name: 'Summer sale', assets: 46 },
+              ],
+            },
+            { name: '2025', children: [{ name: 'Rebrand', description: 'Archived after the 2026 refresh.', assets: 312 }] },
           ],
         },
-        { name: 'Brand', description: 'Approved logos, colours and typography.', children: [{ name: 'Logos' }, { name: 'Typography' }] },
-        { name: 'Social media' },
+        {
+          name: 'Brand',
+          description: 'Approved logos, colours and typography.',
+          children: [{ name: 'Logos', assets: 24 }, { name: 'Typography', assets: 9 }],
+        },
+        { name: 'Social media', assets: 0 },
       ],
     },
     {
       name: 'Product',
       description: 'Product photography and renders.',
       children: [
-        { name: 'Photography', children: [{ name: 'Studio', description: 'White-background studio shots.' }, { name: 'Lifestyle' }] },
-        { name: '3D renders' },
+        {
+          name: 'Photography',
+          children: [{ name: 'Studio', description: 'White-background studio shots.', assets: 540 }, { name: 'Lifestyle', assets: 87 }],
+        },
+        { name: '3D renders', assets: 15 },
       ],
     },
-    { name: 'Events', children: [{ name: 'Annual conference' }, { name: 'Webinars' }] },
+    { name: 'Animals', children: [{ name: 'Cats', assets: 0 }, { name: 'Dogs', assets: 234 }] },
   ],
   'workspace-1': [
-    { name: 'Clients', description: 'One category per client account.', children: [{ name: 'Acme' }, { name: 'Globex' }] },
-    { name: 'Internal' },
+    { name: 'Clients', description: 'One category per client account.', children: [{ name: 'Acme', assets: 61 }, { name: 'Globex', assets: 3 }] },
+    { name: 'Internal', children: [] },
   ],
 }
 
@@ -101,7 +123,8 @@ function seed(workspaceId: string): CategoryRecord[] {
   const walk = (list: Seed[], parentId: string | null) =>
     list.forEach((s, position) => {
       const id = crypto.randomUUID()
-      out.push({ id, workspaceId, parentId, name: s.name, description: s.description ?? '', position })
+      const type: CategoryNodeType = s.assets === undefined ? 'category' : 'assetBucket'
+      out.push({ id, workspaceId, type, parentId, name: s.name, description: s.description ?? '', position, assetCount: s.assets ?? 0 })
       if (s.children) walk(s.children, id)
     })
   walk(SEEDS[workspaceId] ?? [], null)
@@ -140,20 +163,21 @@ const sorted = (list: CategoryRecord[]) =>
     .sort((a, b) => (a.parentId ?? '').localeCompare(b.parentId ?? '') || a.position - b.position)
     .map((c) => ({ ...c }))
 
-function cleanFields(name: string, description: string) {
+function cleanFields(name: string, description: string, type: CategoryNodeType) {
   const n = name.trim()
   const d = description.trim()
-  if (!n) throw new CategoryServiceError('Category name is required.')
+  const Noun = type === 'assetBucket' ? 'Asset bucket' : 'Category'
+  if (!n) throw new CategoryServiceError(`${Noun} name is required.`)
   if (n.length > CATEGORY_NAME_MAX_LENGTH) {
-    throw new CategoryServiceError(`Category name must be at most ${CATEGORY_NAME_MAX_LENGTH} characters.`)
+    throw new CategoryServiceError(`${Noun} name must be at most ${CATEGORY_NAME_MAX_LENGTH} characters.`)
   }
   if (d.length > CATEGORY_DESCRIPTION_MAX_LENGTH) {
-    throw new CategoryServiceError(`Category description must be at most ${CATEGORY_DESCRIPTION_MAX_LENGTH} characters.`)
+    throw new CategoryServiceError(`${Noun} description must be at most ${CATEGORY_DESCRIPTION_MAX_LENGTH} characters.`)
   }
   return { name: n, description: d }
 }
 
-/** GET /workspaces/{workspaceId}/categories: every category, flat, ordered by parent then position. */
+/** GET /workspaces/{workspaceId}/categories: every category and asset bucket, flat, ordered by parent then position. */
 export async function listCategories(workspaceId: string): Promise<CategoryRecord[]> {
   await network()
   return sorted(categoriesOf(workspaceId))
@@ -183,7 +207,7 @@ export async function saveCategoryChanges(workspaceId: string, changes: Category
   for (const u of changes.updated) {
     const existing = byId.get(u.id)
     if (!existing) throw new CategoryServiceError('A category you changed no longer exists. Reload and try again.')
-    byId.set(u.id, { ...existing, ...cleanFields(u.name, u.description), parentId: u.parentId, position: u.position })
+    byId.set(u.id, { ...existing, ...cleanFields(u.name, u.description, existing.type), parentId: u.parentId, position: u.position })
   }
 
   const realIds = new Map<string, string>()
@@ -191,13 +215,23 @@ export async function saveCategoryChanges(workspaceId: string, changes: Category
   for (const c of changes.created) {
     const id = crypto.randomUUID()
     realIds.set(c.tempId, id)
-    byId.set(id, { id, workspaceId, parentId: resolve(c.parentId), position: c.position, ...cleanFields(c.name, c.description) })
+    byId.set(id, {
+      id, workspaceId, type: c.type, parentId: resolve(c.parentId), position: c.position, assetCount: 0,
+      ...cleanFields(c.name, c.description, c.type),
+    })
   }
 
   const next = [...byId.values()]
   for (const c of next) {
     if (c.parentId !== null && !byId.has(c.parentId)) {
       throw new CategoryServiceError(`The parent of '${c.name}' no longer exists. Reload and try again.`)
+    }
+    // Asset buckets live inside a category and hold no other nodes.
+    if (c.type === 'assetBucket' && c.parentId === null) {
+      throw new CategoryServiceError(`Asset bucket '${c.name}' must be inside a category.`)
+    }
+    if (c.parentId !== null && byId.get(c.parentId)!.type === 'assetBucket') {
+      throw new CategoryServiceError(`'${c.name}' can't be inside asset bucket '${byId.get(c.parentId)!.name}'.`)
     }
   }
   // No cycles: walking up from any category must reach the top.
@@ -214,7 +248,7 @@ export async function saveCategoryChanges(workspaceId: string, changes: Category
     const key = `${c.parentId ?? ''}\u0000${c.name.toLowerCase()}`
     if (siblingNames.has(key)) {
       const parent = c.parentId ? `'${byId.get(c.parentId)!.name}'` : 'the top level'
-      throw new CategoryServiceError(`There are two categories named '${c.name}' under ${parent}.`)
+      throw new CategoryServiceError(`There are two items named '${c.name}' under ${parent}.`)
     }
     siblingNames.add(key)
   }
