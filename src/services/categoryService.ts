@@ -275,6 +275,12 @@ function applyMockChanges(catalogId: string, changes: CategoryChangeSet): Catego
   return sorted(next)
 }
 
+/** Mock only: counts assets the mock asset service "uploaded" into a category. */
+export function recordMockAssets(catalogId: string, categoryId: string, count: number) {
+  const category = categoriesOf(catalogId).find((c) => c.id === categoryId)
+  if (category) category.assetCount += count
+}
+
 // ---- Public API ----
 
 /** GET /categories?catalogId=: every category in the catalog, flat. */

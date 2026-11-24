@@ -213,6 +213,10 @@
   border: 1px solid var(--color-border);
 }
 
+.aup-file--no-title {
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+}
+
 .aup-file__thumb {
   display: grid;
   place-items: center;

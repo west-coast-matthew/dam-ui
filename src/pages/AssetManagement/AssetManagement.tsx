@@ -1,6 +1,15 @@
+import { AssetEntryPanel } from '../../components/AssetEntryPanel'
 import { PageHeader } from '../../layout/PageHeader'
 
-/** Placeholder until this section is specified. */
+/** Asset management: for now, adding assets to the current workspace, one at a time or in bulk. */
 export function AssetManagement() {
-  return <PageHeader title="Asset management" description="Browse, upload and organise assets. (Coming soon.)" />
+  return (
+    <>
+      <PageHeader
+        title="Asset management"
+        description="Upload assets into a category of the current workspace, one at a time or in bulk."
+      />
+      <AssetEntryPanel />
+    </>
+  )
 }

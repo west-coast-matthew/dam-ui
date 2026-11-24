@@ -11,7 +11,7 @@ export function useCatalogList(workspaceId: string) {
 
 /** Every category in the catalog, flat. */
 export function useCategoryList(catalogId: string) {
-  return useQuery({ queryKey: categoriesKey(catalogId), queryFn: () => listCategories(catalogId) })
+  return useQuery({ queryKey: categoriesKey(catalogId), queryFn: () => listCategories(catalogId), enabled: catalogId !== '' })
 }
 
 /** Saves a change set in one go; the saved list replaces the cached one. */
