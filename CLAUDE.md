@@ -17,6 +17,16 @@ listed here.
 
 <!-- TODO: build / dev server / lint / test / single test -->
 
+## API connection
+
+`REACT_APP_API_URL` (e.g. in `.env.development`) is the API's root; `vite.config.ts` adds the
+`REACT_APP_` env prefix. Unset, every service in `src/services/` uses its in-memory mock. Under
+`vite` (dev) requests go through the `/dam-api` proxy to that URL, so the API needs no CORS; a
+production build calls the URL directly. `src/services/apiClient.ts` holds the shared client.
+Workspaces, catalogs, categories (workspace → catalog → category, `POST /categories/changes` for
+the editor's bulk save) and the heartbeat use the API; login, users, installation, assets and the
+dashboard's activity panels are still mocked.
+
 ## Specs workflow
 
 Work is tracked as specs in `specs/NNN-lower_case_name.md` with a `**Status:** ready|completed|cancelled`

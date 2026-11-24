@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
+import type { CatalogRecord } from '../../services/catalogService'
 import { useWorkspace } from '../../workspace/useWorkspace'
 import { ErrorState } from '../ErrorState'
-import { Button } from '../FormControls'
+import { Button, Select } from '../FormControls'
+import { LoadingState } from '../LoadingState'
 import {
   appendTreeNode,
   findTreeNode,
@@ -11,12 +13,11 @@ import {
   updateTreeNode,
   type TreeMove,
   type TreeNode,
-  type TreeNodeType,
 } from '../TreeControl'
 import { CategoryFormModal, type CategoryFields } from './CategoryFormModal'
 import { diffTrees, isEmptyChangeSet, nameTaken, newCategoryId, parentIdOf, siblingsOf, summarize, toTree } from './categoryTree'
 import { DeleteCategoryModal } from './DeleteCategoryModal'
-import { useCategoryList, useSaveCategories } from './useCategories'
+import { useCatalogList, useCategoryList, useSaveCategories } from './useCategories'
 import './CategoryManagementPanel.css'
 
 export interface CategoryManagementPanelProps {
@@ -38,30 +39,69 @@ const PlusIcon = () => (
 )
 
 /**
- * Shows the current workspace's categories and the asset buckets inside them, and edits them: add
- * categories (top level or inside a category) and asset buckets (inside a category), edit a title
- * and description, rename inline, move by drag and drop, and delete. Edits collect as pending
- * changes and are saved together with Save changes, or thrown away with Cancel changes.
+ * Shows the categories of one catalog in the current workspace (workspace → catalog → categories)
+ * and edits them: add categories (top level or inside another), edit a title and description,
+ * rename inline, move by drag and drop, and delete. Any category can hold assets. The catalog's
+ * default category can be renamed but not deleted or moved. Edits collect as pending changes and are
+ * saved together with Save changes, or thrown away with Cancel changes.
  */
 export function CategoryManagementPanel({ className }: CategoryManagementPanelProps) {
   const { current } = useWorkspace()
-  // Switching workspace starts over with that workspace's categories.
-  return <CategoryEditor key={current.id} workspaceId={current.id} workspaceName={current.name} className={className} />
+  // Switching workspace starts over with that workspace's catalogs.
+  return <CatalogChooser key={current.id} workspaceId={current.id} workspaceName={current.name} className={className} />
 }
 
-interface CategoryEditorProps {
+interface CatalogChooserProps {
   workspaceId: string
   workspaceName: string
   className?: string
 }
 
-function CategoryEditor({ workspaceId, workspaceName, className }: CategoryEditorProps) {
-  const categories = useCategoryList(workspaceId)
-  const save = useSaveCategories(workspaceId)
+function CatalogChooser({ workspaceId, workspaceName, className }: CatalogChooserProps) {
+  const catalogs = useCatalogList(workspaceId)
+  const [chosenId, setChosenId] = useState<string | null>(null)
+  const list = catalogs.data ?? []
+  const catalog = list.find((c) => c.id === chosenId) ?? list[0]
+  const cardClass = `cm-card${className ? ` ${className}` : ''}`
+
+  if (catalogs.isError && !catalogs.data) {
+    return (
+      <section className={cardClass} aria-label="Categories">
+        <div className="cm-body">
+          <ErrorState title="Couldn't load catalogs" message={errorMessage(catalogs.error)} onRetry={() => void catalogs.refetch()} />
+        </div>
+      </section>
+    )
+  }
+  if (!catalogs.data || !catalog) {
+    return (
+      <section className={cardClass} aria-label="Categories">
+        <div className="cm-body">
+          {catalogs.data
+            ? <p className="cm-help">{workspaceName} has no catalogs yet, so there are no categories to manage.</p>
+            : <LoadingState size="sm" label="Loading catalogs…" />}
+        </div>
+      </section>
+    )
+  }
+  // Switching catalog starts over with that catalog's categories.
+  return <CategoryEditor key={catalog.id} catalog={catalog} catalogs={list} onCatalogChange={setChosenId} className={cardClass} />
+}
+
+interface CategoryEditorProps {
+  catalog: CatalogRecord
+  catalogs: CatalogRecord[]
+  onCatalogChange: (id: string) => void
+  className: string
+}
+
+function CategoryEditor({ catalog, catalogs, onCatalogChange, className }: CategoryEditorProps) {
+  const categories = useCategoryList(catalog.id)
+  const save = useSaveCategories(catalog.id)
   const saved = useMemo(() => (categories.data ? toTree(categories.data) : undefined), [categories.data])
   /** Pending edits; null when there are none. */
   const [draft, setDraft] = useState<TreeNode[] | null>(null)
-  const [adding, setAdding] = useState<{ parent: TreeNode | null; type: TreeNodeType } | null>(null)
+  const [adding, setAdding] = useState<{ parent: TreeNode | null } | null>(null)
   const [editing, setEditing] = useState<TreeNode | null>(null)
   const [deleting, setDeleting] = useState<TreeNode | null>(null)
   const [notice, setNotice] = useState<Notice | null>(null)
@@ -114,8 +154,8 @@ function CategoryEditor({ workspaceId, workspaceName, className }: CategoryEdito
     const node: TreeNode = {
       id: newCategoryId(),
       label: name,
-      type: adding.type,
-      ...(adding.type === 'assetBucket' ? { count: 0 } : {}),
+      type: 'category',
+      count: 0,
       description: description || undefined,
     }
     edit(appendTreeNode(tree, adding.parent?.id ?? null, node))
@@ -154,13 +194,13 @@ function CategoryEditor({ workspaceId, workspaceName, className }: CategoryEdito
   if (busy) status = 'Saving changes…'
   else if (dirty) status = `Unsaved changes: ${summarize(changes!)}`
   else if (categories.data) {
-    const buckets = categories.data.filter((c) => c.type === 'assetBucket').length
-    const cats = categories.data.length - buckets
-    status = `${cats} ${cats === 1 ? 'category' : 'categories'} and ${buckets} asset ${buckets === 1 ? 'bucket' : 'buckets'} in ${workspaceName}`
+    const n = categories.data.length
+    status = `${n} ${n === 1 ? 'category' : 'categories'} in ${catalog.name}`
   }
+  const defaultName = categories.data?.find((c) => c.isDefault)?.name ?? 'the default category'
 
   return (
-    <section className={`cm-card${className ? ` ${className}` : ''}`} aria-labelledby="cm-title">
+    <section className={className} aria-labelledby="cm-title">
       <header className="cm-header">
         <div>
           <h2 id="cm-title" className="cm-header__title">Categories</h2>
@@ -170,8 +210,14 @@ function CategoryEditor({ workspaceId, workspaceName, className }: CategoryEdito
           </p>
         </div>
         <div className="cm-actions">
+          {catalogs.length > 1 && (
+            <Select aria-label="Catalog" className="cm-catalog" value={catalog.id} disabled={dirty || busy}
+              title={dirty ? 'Save or cancel your changes before switching catalog.' : undefined}
+              options={catalogs.map((c) => ({ value: c.id, label: c.name }))}
+              onChange={(e) => onCatalogChange(e.target.value)} />
+          )}
           <Button variant="ghost" icon={<PlusIcon />} disabled={!tree || busy}
-            onClick={() => setAdding({ parent: null, type: 'category' })}>
+            onClick={() => setAdding({ parent: null })}>
             New category
           </Button>
           <Button variant="secondary" disabled={!dirty || busy} onClick={cancelChanges}>Cancel changes</Button>
@@ -198,24 +244,26 @@ function CategoryEditor({ workspaceId, workspaceName, className }: CategoryEdito
         ) : (
           <>
             <TreeControl
-              label={`Categories in ${workspaceName}`}
+              label={`Categories in ${catalog.name}`}
               nodes={tree}
               loadingLabel="Loading categories…"
               maxHeight="60vh"
-              emptyMessage="This workspace has no categories yet. Use New category to add the first one."
+              emptyMessage="This catalog has no categories yet. Use New category to add the first one."
               enableSubtreeExpand
               editable={!busy}
               onLabelEdit={onLabelEdit}
-              onAdd={(parent, type) => setAdding({ parent, type })}
+              onAdd={(parent) => setAdding({ parent })}
+              addTypes={['category']}
               onEdit={setEditing}
               onDelete={setDeleting}
               onMove={onMove}
             />
             {tree && tree.length > 0 && (
               <p className="cm-help">
-                Right-click a category to add a category or asset bucket inside it, or right-click anything to edit or
-                delete it. Double-click a name (or press F2) to rename it, and drag items to reorganise them. Asset
-                buckets always sit inside a category.
+                Right-click a category to add a category inside it, edit it or delete it. Double-click a name (or press
+                F2) to rename it, and drag categories to reorganise them. The number after a name is how many assets
+                it holds. {defaultName} is the catalog's default category: assets without a category go there, so it
+                can't be deleted or moved.
               </p>
             )}
           </>
@@ -224,7 +272,6 @@ function CategoryEditor({ workspaceId, workspaceName, className }: CategoryEdito
 
       {adding && tree && (
         <CategoryFormModal
-          type={adding.type}
           parentName={adding.parent?.label ?? null}
           validateName={(name) =>
             nameTaken(siblingsOf(tree, adding.parent?.id ?? null), name)
@@ -236,7 +283,6 @@ function CategoryEditor({ workspaceId, workspaceName, className }: CategoryEdito
       )}
       {editing && tree && findTreeNode(tree, editing.id) && (
         <CategoryFormModal
-          type={editing.type ?? 'category'}
           initial={{ name: editing.label, description: editing.description ?? '' }}
           validateName={(name) =>
             clashes(editing, name) ? `There's already something named '${name.trim()}' at this level.` : undefined}
@@ -245,7 +291,7 @@ function CategoryEditor({ workspaceId, workspaceName, className }: CategoryEdito
         />
       )}
       {deleting && (
-        <DeleteCategoryModal node={deleting} onCancel={() => setDeleting(null)} onConfirm={deleteCategory} />
+        <DeleteCategoryModal node={deleting} defaultName={defaultName} onCancel={() => setDeleting(null)} onConfirm={deleteCategory} />
       )}
     </section>
   )

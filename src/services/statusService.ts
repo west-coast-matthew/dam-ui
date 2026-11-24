@@ -1,15 +1,19 @@
+import { apiRequest, isApiEnabled } from './apiClient'
+
 /**
  * Application status: the health of the services the DAM depends on.
- * The real API's GET /heartbeat reports the database today; storage details will need adding there.
+ * When REACT_APP_API_URL is set it comes from the API's GET /heartbeat, which reports only the
+ * database's state today; the other fields are null until the API reports them.
  */
 
 export type ServiceState = 'UP' | 'DOWN'
 
 export interface DatabaseStatus {
   state: ServiceState
-  /** e.g. "MariaDB 11.4" */
-  product: string
-  host: string
+  /** e.g. "MariaDB 11.4". Null when the API doesn't report it. */
+  product: string | null
+  /** Null when the API doesn't report it. */
+  host: string | null
   /** Round-trip time of the health query, when it succeeded. */
   responseTimeMs: number | null
 }
@@ -30,8 +34,9 @@ export interface ApplicationStatus {
   /** ISO date-time of the check. */
   checkedAt: string
   database: DatabaseStatus
-  storageLocation: StorageLocationStatus
-  /** Null when the storage location can't be read. */
+  /** Null when the API doesn't report storage (GET /heartbeat doesn't yet). */
+  storageLocation: StorageLocationStatus | null
+  /** Null when the storage location can't be read or isn't reported. */
   storageUsage: StorageUsage | null
 }
 
@@ -41,11 +46,27 @@ export type MockStatusScenario = 'healthy' | 'storage-warning' | 'storage-critic
 const TB = 1024 ** 4
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-/**
- * Emulates the status call to the API. Replace the body with a real request once the API reports
- * storage alongside the database; callers only depend on the signature.
- */
-export async function fetchApplicationStatus(scenario: MockStatusScenario = 'healthy', latencyMs = 700): Promise<ApplicationStatus> {
+/** The API's HeartbeatVO. It answers 200 when everything is UP and 503 (same body) otherwise. */
+interface HeartbeatResponse {
+  status: ServiceState
+  database: ServiceState
+  timestamp: string
+}
+
+/** The application's current status: from GET /heartbeat when an API is configured, otherwise the healthy mock. */
+export async function fetchApplicationStatus(): Promise<ApplicationStatus> {
+  if (!isApiEnabled()) return mockApplicationStatus()
+  const heartbeat = await apiRequest<HeartbeatResponse>('/heartbeat', { acceptStatuses: [503] })
+  return {
+    checkedAt: heartbeat.timestamp,
+    database: { state: heartbeat.database, product: null, host: null, responseTimeMs: null },
+    storageLocation: null,
+    storageUsage: null,
+  }
+}
+
+/** Emulates the status call so the demo page can show every state. Always mocked, even with an API configured. */
+export async function mockApplicationStatus(scenario: MockStatusScenario = 'healthy', latencyMs = 700): Promise<ApplicationStatus> {
   await delay(latencyMs)
   if (scenario === 'unreachable') throw new Error("The DAM service didn't respond to the status check.")
 

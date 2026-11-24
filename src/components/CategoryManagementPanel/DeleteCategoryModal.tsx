@@ -3,29 +3,21 @@ import { Modal } from '../Modal'
 import type { TreeNode } from '../TreeControl'
 
 export interface DeleteCategoryModalProps {
-  /** The category or asset bucket to delete. */
+  /** The category to delete. */
   node: TreeNode
+  /** Name of the catalog's default category, where orphaned assets go. */
+  defaultName: string
   onCancel: () => void
   onConfirm: () => void
 }
 
-interface Contents {
-  categories: number
-  buckets: number
-  assets: number
-}
-
-/** What sits below a node: categories, asset buckets, and the assets in those buckets. */
-function contentsOf(node: TreeNode): Contents {
-  const total: Contents = { categories: 0, buckets: 0, assets: 0 }
+/** Subcategories below a node, and the assets in it and them. */
+function contentsOf(node: TreeNode): { categories: number; assets: number } {
+  const total = { categories: 0, assets: node.count ?? 0 }
   const walk = (list: TreeNode[]) =>
     list.forEach((n) => {
-      if (n.type === 'assetBucket') {
-        total.buckets += 1
-        total.assets += n.count ?? 0
-      } else {
-        total.categories += 1
-      }
+      total.categories += 1
+      total.assets += n.count ?? 0
       if (n.children) walk(n.children)
     })
   walk(node.children ?? [])
@@ -34,27 +26,12 @@ function contentsOf(node: TreeNode): Contents {
 
 const plural = (n: number, one: string, many: string) => `${n.toLocaleString()} ${n === 1 ? one : many}`
 
-/** Confirms deleting a category (with everything inside it) or an asset bucket. */
-export function DeleteCategoryModal({ node, onCancel, onConfirm }: DeleteCategoryModalProps) {
-  const bucket = node.type === 'assetBucket'
-  const noun = bucket ? 'asset bucket' : 'category'
-
-  let detail
-  let assets: number
-  if (bucket) {
-    assets = node.count ?? 0
-    detail = <>This deletes the asset bucket <strong>{node.label}</strong>.</>
-  } else {
-    const inside = contentsOf(node)
-    assets = inside.assets
-    const parts = [
-      inside.categories > 0 && plural(inside.categories, 'category', 'categories'),
-      inside.buckets > 0 && plural(inside.buckets, 'asset bucket', 'asset buckets'),
-    ].filter(Boolean)
-    detail = parts.length
-      ? <>This deletes <strong>{node.label}</strong> and the {parts.join(' and ')} inside it.</>
-      : <>This deletes the category <strong>{node.label}</strong>.</>
-  }
+/** Confirms deleting a category with everything inside it. */
+export function DeleteCategoryModal({ node, defaultName, onCancel, onConfirm }: DeleteCategoryModalProps) {
+  const inside = contentsOf(node)
+  const detail = inside.categories > 0
+    ? <>This deletes <strong>{node.label}</strong> and the {plural(inside.categories, 'category', 'categories')} inside it.</>
+    : <>This deletes the category <strong>{node.label}</strong>.</>
 
   return (
     <Modal
@@ -64,15 +41,16 @@ export function DeleteCategoryModal({ node, onCancel, onConfirm }: DeleteCategor
       onClose={onCancel}
       footer={
         <>
-          <Button variant="secondary" onClick={onCancel} autoFocus>Keep {noun}</Button>
-          <Button variant="danger" onClick={onConfirm}>Delete {noun}</Button>
+          <Button variant="secondary" onClick={onCancel} autoFocus>Keep category</Button>
+          <Button variant="danger" onClick={onConfirm}>Delete category</Button>
         </>
       }
     >
       <p className="cm-confirm">{detail}</p>
-      {assets > 0 && (
+      {inside.assets > 0 && (
         <p className="cm-confirm cm-confirm--warning">
-          {bucket ? 'It holds' : 'Those asset buckets hold'} {plural(assets, 'asset', 'assets')}.
+          {inside.categories > 0 ? 'They hold' : 'It holds'} {plural(inside.assets, 'asset', 'assets')}. The assets aren't deleted:
+          any left without a category move to {defaultName}.
         </p>
       )}
       <p className="cm-confirm cm-confirm--muted">

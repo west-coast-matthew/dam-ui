@@ -1,11 +1,11 @@
 import { CategoryManagementPanel } from '../../components/CategoryManagementPanel'
 import { PageHeader } from '../../layout/PageHeader'
 
-/** Hosts the category management panel for the current workspace. */
+/** Hosts the category management panel for a catalog in the current workspace. */
 export function CategoryManagement() {
   return (
     <>
-      <PageHeader title="Categories" description="Organise the current workspace's categories and the asset buckets inside them. Changes are saved together." />
+      <PageHeader title="Categories" description="Organise the categories of a catalog in the current workspace. Changes are saved together." />
       <CategoryManagementPanel />
     </>
   )

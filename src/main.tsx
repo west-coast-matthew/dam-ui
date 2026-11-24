@@ -12,13 +12,14 @@ import './index.css'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider>
-      <WorkspaceProvider>
-        <AuthProvider>
-          <QueryClientProvider client={queryClient}>
+      {/* The workspace list comes from the API through React Query, so the query client wraps it. */}
+      <QueryClientProvider client={queryClient}>
+        <WorkspaceProvider>
+          <AuthProvider>
             <RouterProvider router={router} />
-          </QueryClientProvider>
-        </AuthProvider>
-      </WorkspaceProvider>
+          </AuthProvider>
+        </WorkspaceProvider>
+      </QueryClientProvider>
     </ThemeProvider>
   </StrictMode>,
 )

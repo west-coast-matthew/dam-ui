@@ -9,6 +9,10 @@
   overflow: hidden;
 }
 
+.cm-catalog {
+  min-width: 12rem;
+}
+
 .cm-header {
   display: flex;
   flex-wrap: wrap;
