@@ -1,0 +1,335 @@
+/* Asset entry panel. Class prefix: aep- (it reuses the upload panel's aup- drop zone and file rows). */
+
+.aep {
+  min-width: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+:where(.aep) fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* ---------- Header ---------- */
+.aep-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.aep-header__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.aep-header__subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.aep-header__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.aep-catalog {
+  min-width: 12rem;
+}
+
+/* ---------- Stage: the form, with the confirmation sliding over it ---------- */
+.aep-stage {
+  position: relative;
+  overflow: hidden;
+}
+
+.aep-body {
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+  gap: 24px;
+  padding: 20px;
+  min-height: 420px;
+}
+
+.aep-body--message {
+  display: block;
+  min-height: 240px;
+}
+
+.aep-help {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.aep-column__title {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* Left column: the category tree. */
+.aep-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface-alt);
+}
+
+.aep-categories .tree {
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.aep-categories--error {
+  border-color: var(--color-negative);
+}
+
+.aep-categories__chosen {
+  margin: 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border);
+  font-size: 13px;
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.aep-categories__chosen strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* Right column: files, then title and description. */
+.aep-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.aep-files {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.aep-files__list {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.aep-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.aep-message {
+  margin: 0;
+  font-size: 13px;
+}
+
+.aep-message--error {
+  color: var(--color-negative);
+}
+
+/* ---------- Footer ---------- */
+.aep-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+.aep-footer__status {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.aep-footer__actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* ---------- Confirmation panel (swipes in from the right) ---------- */
+.aep-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  background: var(--color-surface);
+  border-left: 1px solid var(--color-border);
+  box-shadow: -12px 0 32px rgb(0 0 0 / 0.12);
+}
+
+.aep-confirm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+}
+
+.aep-confirm__body {
+  flex: 1;
+  min-height: 0;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.aep-confirm__body--center {
+  display: grid;
+  place-items: center;
+}
+
+.aep-confirm__title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-text);
+  outline: none;
+}
+
+.aep-confirm__title--success {
+  color: var(--color-positive);
+}
+
+.aep-confirm__title--warning {
+  color: var(--color-negative);
+}
+
+.aep-confirm__lead {
+  margin: 4px 0 16px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.aep-confirm__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 14px 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+.aep-summary {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 8px 20px;
+  margin: 0 0 16px;
+  font-size: 14px;
+}
+
+.aep-summary > div {
+  display: contents;
+}
+
+.aep-summary dt {
+  color: var(--color-text-muted);
+}
+
+.aep-summary dd {
+  margin: 0;
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+
+.aep-summary__none {
+  color: var(--color-text-muted) !important;
+  font-style: italic;
+}
+
+.aep-review-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.aep-review-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  padding: 9px 12px;
+  font-size: 13px;
+}
+
+.aep-review-list li + li {
+  border-top: 1px solid var(--color-border);
+}
+
+.aep-review-list__title {
+  flex: 1 1 12rem;
+  min-width: 0;
+  color: var(--color-text);
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.aep-review-list__file,
+.aep-review-list__size,
+.aep-review-list__state {
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.aep-review-list__size {
+  font-variant-numeric: tabular-nums;
+}
+
+.aep-review-list--done .aep-review-list__state {
+  color: var(--color-positive);
+}
+
+.aep-review-list--failed .aep-review-list__state {
+  color: var(--color-negative);
+}
+
+@media (max-width: 900px) {
+  .aep-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .aep-header,
+  .aep-body,
+  .aep-footer,
+  .aep-confirm__body,
+  .aep-confirm__footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

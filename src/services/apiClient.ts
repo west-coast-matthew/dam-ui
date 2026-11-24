@@ -79,7 +79,7 @@ async function readBody(response: Response): Promise<unknown> {
 
 export interface ApiRequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
-  /** Sent as JSON. */
+  /** Sent as JSON, or as multipart when it's FormData (the browser sets the boundary). */
   body?: unknown
   /** Error statuses whose body should be returned instead of thrown, e.g. 503 from /heartbeat. */
   acceptStatuses?: number[]
@@ -94,12 +94,13 @@ export async function apiRequest<T>(path: string, options: ApiRequestOptions = {
   if (API_URL === null) throw new Error('REACT_APP_API_URL is not set.')
   const { method = 'GET', body, acceptStatuses = [], signal } = options
 
+  const multipart = body instanceof FormData
   let response: Response
   try {
     response = await fetch(`${requestBase}${path}`, {
       method,
-      headers: body === undefined ? { Accept: 'application/json' } : { Accept: 'application/json', 'Content-Type': 'application/json' },
-      body: body === undefined ? undefined : JSON.stringify(body),
+      headers: body === undefined || multipart ? { Accept: 'application/json' } : { Accept: 'application/json', 'Content-Type': 'application/json' },
+      body: body === undefined ? undefined : multipart ? body : JSON.stringify(body),
       signal,
     })
   } catch (err) {
