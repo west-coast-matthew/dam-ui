@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { ApplicationStatusPanel } from '../../../components/ApplicationStatusPanel'
 import { SegmentedControl } from '../../../components/FormControls'
 import { ThemeSelect } from '../../../components/ThemeSelect'
-import { fetchApplicationStatus, type ApplicationStatus, type MockStatusScenario } from '../../../services/statusService'
+import { mockApplicationStatus, type ApplicationStatus, type MockStatusScenario } from '../../../services/statusService'
 import './ApplicationStatusDemo.css'
 
 const SCENARIOS: { value: MockStatusScenario; label: string }[] = [
@@ -28,7 +28,7 @@ export function ApplicationStatusDemo() {
 
   useEffect(() => {
     let cancelled = false
-    fetchApplicationStatus(scenario).then(
+    mockApplicationStatus(scenario).then(
       (data) => !cancelled && setLoad({ data, isLoading: false, error: null }),
       (err: unknown) => !cancelled && setLoad({ data: null, isLoading: false, error: err instanceof Error ? err.message : String(err) }),
     )

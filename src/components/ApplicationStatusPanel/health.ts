@@ -32,7 +32,10 @@ export function storageHealth(percent: number, t: Thresholds): Health {
 
 /** The worst health across all dependencies. */
 export function overallHealth(status: ApplicationStatus, t: Thresholds): Health {
-  const parts: Health[] = [serviceHealth(status.database.state), serviceHealth(status.storageLocation.state)]
+  const parts: Health[] = [serviceHealth(status.database.state)]
+  // Storage counts only when it's reported; the API's heartbeat doesn't cover it yet.
+  if (!status.storageLocation) return parts[0]
+  parts.push(serviceHealth(status.storageLocation.state))
   if (status.storageUsage) parts.push(storageHealth(usagePercent(status.storageUsage.usedBytes, status.storageUsage.totalBytes), t))
   else parts.push('critical')
   return parts.includes('critical') ? 'critical' : parts.includes('warning') ? 'warning' : 'healthy'

@@ -35,7 +35,7 @@ export function DefaultDashboard() {
     return () => clearTimeout(timer)
   }, [requestId])
 
-  // Application status is its own (mock) API call, so it loads and refreshes independently.
+  // Application status is its own API call (GET /heartbeat, or a mock without REACT_APP_API_URL), so it loads and refreshes independently.
   const [statusRequest, setStatusRequest] = useState(0)
   const [status, setStatus] = useState<{ data: ApplicationStatus | null; isLoading: boolean; error: string | null }>({
     data: null,

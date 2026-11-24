@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { CATEGORY_DESCRIPTION_MAX_LENGTH, CATEGORY_NAME_MAX_LENGTH, type CategoryNodeType } from '../../services/categoryService'
+import { CATEGORY_DESCRIPTION_MAX_LENGTH, CATEGORY_NAME_MAX_LENGTH } from '../../services/categoryService'
 import { Button, TextArea, TextField } from '../FormControls'
 import { Modal } from '../Modal'
 
@@ -9,8 +9,6 @@ export interface CategoryFields {
 }
 
 export interface CategoryFormModalProps {
-  /** Whether a category or an asset bucket is being created or edited. */
-  type: CategoryNodeType
   /** Present when editing an existing node; absent when creating one. */
   initial?: CategoryFields
   /** Name of the category a new node goes into, or null for the top level. Unused when editing. */
@@ -21,15 +19,14 @@ export interface CategoryFormModalProps {
   onSubmit: (fields: CategoryFields) => void
 }
 
-const NOUN: Record<CategoryNodeType, string> = { category: 'category', assetBucket: 'asset bucket' }
+const noun = 'category'
 
 /**
- * Collects the title and optional description of a category or asset bucket, for a new one or an
- * existing one. Nothing is saved until the panel's Save changes.
+ * Collects the title and optional description of a category, for a new one or an existing one.
+ * Nothing is saved until the panel's Save changes.
  */
-export function CategoryFormModal({ type, initial, parentName, validateName, onCancel, onSubmit }: CategoryFormModalProps) {
+export function CategoryFormModal({ initial, parentName, validateName, onCancel, onSubmit }: CategoryFormModalProps) {
   const editing = initial !== undefined
-  const noun = NOUN[type]
   const [input, setInput] = useState<CategoryFields>(initial ?? { name: '', description: '' })
   const [attempted, setAttempted] = useState(false)
   const error = (name: string) => (name.trim() ? validateName(name) : 'Enter a title.')
@@ -64,7 +61,7 @@ export function CategoryFormModal({ type, initial, parentName, validateName, onC
       <form id={formId} className="cm-form" onSubmit={submit} noValidate>
         <TextField label="Title" required autoFocus autoComplete="off" value={input.name}
           error={attempted ? error(input.name) : undefined} maxLength={CATEGORY_NAME_MAX_LENGTH}
-          placeholder={type === 'assetBucket' ? 'e.g. Dogs' : 'e.g. Animals'}
+          placeholder="e.g. Animals"
           onChange={(e) => setInput((i) => ({ ...i, name: e.target.value }))} />
         <TextArea label="Description" value={input.description} maxLength={CATEGORY_DESCRIPTION_MAX_LENGTH}
           hint={`Optional. Shown when someone hovers over the ${noun}.`}

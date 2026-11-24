@@ -7,8 +7,10 @@ export interface TreeNode {
   label: string
   /** Decides the node's icon, menu wording and whether it can hold children. Untyped nodes act like categories. */
   type?: TreeNodeType
-  /** Number of assets in an asset bucket, shown after its label, e.g. "Dogs (234)". */
+  /** Number of assets, shown after the label, e.g. "Dogs (234)". Asset buckets show 0 when it's missing. */
   count?: number
+  /** Can't be deleted or dragged (it can still be renamed, edited and take children), e.g. a catalog's default category. */
+  locked?: boolean
   /** Shown in a tooltip when the pointer rests on the node. */
   description?: string
   children?: TreeNode[]

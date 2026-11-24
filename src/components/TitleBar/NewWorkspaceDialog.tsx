@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { isApiEnabled } from '../../services/apiClient'
 import { Button, TextField } from '../FormControls'
 
 interface NewWorkspaceDialogProps {
   open: boolean
   existingNames: string[]
-  onCreate: (name: string) => void
+  /** Creates the workspace; a rejected promise keeps the dialog open and shows the error. */
+  onCreate: (name: string) => Promise<void>
   onClose: () => void
 }
 
@@ -21,7 +23,9 @@ export function NewWorkspaceDialog({ open, existingNames, onCreate, onClose }: N
   const ref = useRef<HTMLDialogElement>(null)
   const [name, setName] = useState('')
   const [submitted, setSubmitted] = useState(false)
-  const error = submitted ? validateName(name, existingNames) : undefined
+  const [saving, setSaving] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
+  const error = (submitted ? validateName(name, existingNames) : undefined) ?? saveError ?? undefined
 
   useEffect(() => {
     const dialog = ref.current
@@ -29,17 +33,26 @@ export function NewWorkspaceDialog({ open, existingNames, onCreate, onClose }: N
     if (open && !dialog.open) {
       setName('')
       setSubmitted(false)
+      setSaveError(null)
       dialog.showModal()
     } else if (!open && dialog.open) {
       dialog.close()
     }
   }, [open])
 
-  const onSubmit = (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setSubmitted(true)
-    if (validateName(name, existingNames)) return
-    onCreate(name.trim())
+    setSaveError(null)
+    if (saving || validateName(name, existingNames)) return
+    setSaving(true)
+    try {
+      await onCreate(name.trim())
+    } catch (err) {
+      setSaveError(err instanceof Error ? err.message : "The workspace couldn't be created.")
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
@@ -55,12 +68,17 @@ export function NewWorkspaceDialog({ open, existingNames, onCreate, onClose }: N
     >
       <form onSubmit={onSubmit} noValidate>
         <h2 id="new-workspace-title">New workspace</h2>
-        <p className="titlebar-dialog__text">Workspaces keep assets, collections and people separate. (Mock: nothing is saved.)</p>
+        <p className="titlebar-dialog__text">
+          Workspaces keep assets, collections and people separate.{isApiEnabled() ? '' : ' (Mock: nothing is saved.)'}
+        </p>
         <TextField label="Name" required autoFocus value={name} placeholder="e.g. Marketing"
-          onChange={(e) => setName(e.target.value)} error={error} maxLength={60} />
+          onChange={(e) => {
+            setName(e.target.value)
+            setSaveError(null)
+          }} error={error} maxLength={60} />
         <div className="titlebar-dialog__actions">
           <Button variant="secondary" onClick={onClose}>Cancel</Button>
-          <Button type="submit">Create workspace</Button>
+          <Button type="submit" loading={saving}>Create workspace</Button>
         </div>
       </form>
     </dialog>

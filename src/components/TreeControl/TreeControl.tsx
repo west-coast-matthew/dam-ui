@@ -39,6 +39,8 @@ export interface TreeControlProps {
   onLabelEdit?: (node: TreeNode, newLabel: string) => void
   /** Right-click "New category" / "New asset bucket" on a category. */
   onAdd?: (parent: TreeNode, type: TreeNodeType) => void
+  /** Which kinds the "New …" menu offers in a typed tree. Defaults to both. */
+  addTypes?: TreeNodeType[]
   /** Right-click "Edit …", e.g. to open a form for the node's details. */
   onEdit?: (node: TreeNode) => void
   /** Right-click "Delete …" or the Delete key. Ask for confirmation in the handler. */
@@ -117,6 +119,7 @@ export function TreeControl({
   editable = false,
   onLabelEdit: onLabelEditProp,
   onAdd: onAddProp,
+  addTypes = ['category', 'assetBucket'],
   onEdit: onEditProp,
   onDelete: onDeleteProp,
   onMove: onMoveProp,
@@ -238,17 +241,19 @@ export function TreeControl({
       }
       // Typed trees offer both kinds; an untyped tree just adds an untyped child.
       if (node.type) {
-        items.push(
-          { key: 'add-category', label: 'New category', group: 1, opensDialog: true, run: add('category') },
-          { key: 'add-bucket', label: 'New asset bucket', group: 1, opensDialog: true, run: add('assetBucket') },
-        )
+        if (addTypes.includes('category')) {
+          items.push({ key: 'add-category', label: 'New category', group: 1, opensDialog: true, run: add('category') })
+        }
+        if (addTypes.includes('assetBucket')) {
+          items.push({ key: 'add-bucket', label: 'New asset bucket', group: 1, opensDialog: true, run: add('assetBucket') })
+        }
       } else {
         items.push({ key: 'add', label: 'New item', group: 1, opensDialog: true, run: add('category') })
       }
     }
     const noun = typeNoun(node.type)
     if (onEdit) items.push({ key: 'edit', label: `Edit ${noun}`, group: 2, opensDialog: true, run: () => onEdit(node) })
-    if (onDelete) {
+    if (onDelete && !node.locked) {
       items.push({ key: 'delete', label: `Delete ${noun}`, danger: true, group: 3, opensDialog: true, run: () => onDelete(node) })
     }
     return items
@@ -333,7 +338,7 @@ export function TreeControl({
         setEditingId(node.id)
         break
       case 'Delete':
-        if (!onDelete) return
+        if (!onDelete || node.locked) return
         onDelete(node)
         break
       case '*':
@@ -461,8 +466,8 @@ export function TreeControl({
         aria-describedby={describedBy(node)}
         tabIndex={node.id === tabStopId ? 0 : -1}
         className="tree__item"
-        draggable={draggable && !isEditing}
-        onDragStart={draggable ? (e) => onDragStart(e, node) : undefined}
+        draggable={draggable && !isEditing && !node.locked}
+        onDragStart={draggable && !node.locked ? (e) => onDragStart(e, node) : undefined}
         onDragEnd={draggable ? endDrag : undefined}
         onKeyDown={(e) => onRowKeyDown(e, row, index)}
         onFocus={(e) => {
@@ -507,10 +512,12 @@ export function TreeControl({
           ) : (
             <span className="tree__label">{node.label}</span>
           )}
-          {node.type === 'assetBucket' && !isEditing && (
+          {(node.type === 'assetBucket' || node.count !== undefined) && !isEditing && (
             <>
               <span className="tree__count" aria-hidden="true">({node.count ?? 0})</span>
-              <span className="tree__sr-only">, asset bucket, {node.count ?? 0} {node.count === 1 ? 'asset' : 'assets'}</span>
+              <span className="tree__sr-only">
+                {node.type === 'assetBucket' && ', asset bucket'}, {node.count ?? 0} {node.count === 1 ? 'asset' : 'assets'}
+              </span>
             </>
           )}
           {node.description && (

@@ -1,8 +1,9 @@
 import { INITIAL_WORKSPACES } from '../workspace/workspaces'
+import { ApiError, apiRequest, isApiEnabled } from './apiClient'
 
-// Workspace service. For now it emulates the API (dam-api /workspaces): data lives in memory
-// (reset on reload) and every call waits a random 2-8 seconds to mimic network latency. Replace the
-// bodies with real requests once the UI talks to the API; callers only depend on these signatures.
+// Workspace service. When REACT_APP_API_URL is set it calls dam-api's /workspaces. Otherwise it
+// emulates the API: data lives in memory (reset on reload) and every call waits a random 2-8 seconds
+// to mimic network latency. Callers only depend on these signatures.
 
 /** Mirrors the API's WorkspaceInstanceDto. */
 export interface WorkspaceRecord {
@@ -87,6 +88,33 @@ function assertUniqueName(name: string, exceptId?: string) {
   }
 }
 
+/** The API's WorkspaceInstanceDto as it arrives: description may be null. */
+interface WorkspaceDto {
+  id: string
+  name: string
+  description: string | null
+  createdAt: string
+}
+
+const fromDto = (dto: WorkspaceDto): WorkspaceRecord => ({
+  id: dto.id,
+  name: dto.name,
+  description: dto.description ?? '',
+  createdAt: dto.createdAt,
+})
+
+/** Turns API refusals (400, 404, 409) into WorkspaceServiceErrors so the UI shows their message. */
+async function viaApi<T>(call: () => Promise<T>): Promise<T> {
+  try {
+    return await call()
+  } catch (err) {
+    if (err instanceof ApiError && err.status >= 400 && err.status < 500) {
+      throw new WorkspaceServiceError(err.status === 404 ? 'That workspace no longer exists.' : err.message)
+    }
+    throw err
+  }
+}
+
 function find(id: string): WorkspaceRecord {
   const workspace = workspaces.find((w) => w.id === id)
   if (!workspace) throw new WorkspaceServiceError('That workspace no longer exists.')
@@ -95,12 +123,20 @@ function find(id: string): WorkspaceRecord {
 
 /** GET /workspaces, sorted by name. */
 export async function listWorkspaces(): Promise<WorkspaceRecord[]> {
+  if (isApiEnabled()) {
+    const list = await viaApi(() => apiRequest<WorkspaceDto[]>('/workspaces'))
+    return list.map(fromDto).sort(byName)
+  }
   await network()
   return [...workspaces].sort(byName).map(copy)
 }
 
 /** POST /workspaces */
 export async function createWorkspace(input: WorkspaceInput): Promise<WorkspaceRecord> {
+  if (isApiEnabled()) {
+    const body = clean(input)
+    return fromDto(await viaApi(() => apiRequest<WorkspaceDto>('/workspaces', { method: 'POST', body })))
+  }
   await network()
   const data = clean(input)
   assertUniqueName(data.name)
@@ -111,6 +147,10 @@ export async function createWorkspace(input: WorkspaceInput): Promise<WorkspaceR
 
 /** PUT /workspaces/{id}: replaces the name and description. */
 export async function updateWorkspace(id: string, input: WorkspaceInput): Promise<WorkspaceRecord> {
+  if (isApiEnabled()) {
+    const body = clean(input)
+    return fromDto(await viaApi(() => apiRequest<WorkspaceDto>(`/workspaces/${encodeURIComponent(id)}`, { method: 'PUT', body })))
+  }
   await network()
   const data = clean(input)
   find(id)

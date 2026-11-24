@@ -19,7 +19,8 @@ export interface TitleBarProps {
  */
 export function TitleBar({ userName, onLogout }: TitleBarProps) {
   const { theme, setTheme } = useTheme()
-  const { workspaces, current, selectWorkspace, createWorkspace } = useWorkspace()
+  const { workspaces, current, status, reload, selectWorkspace, createWorkspace } = useWorkspace()
+  const currentLabel = status === 'loading' ? 'Loading…' : status === 'error' ? 'Unavailable' : current.name
   const [creating, setCreating] = useState(false)
 
   return (
@@ -42,11 +43,14 @@ export function TitleBar({ userName, onLogout }: TitleBarProps) {
               trigger={
                 <>
                   <span>Workspaces</span>
-                  <span className="titlebar__current">{current.name}</span>
+                  <span className="titlebar__current">{currentLabel}</span>
                   <TitleBarIcon name="chevron" size={14} />
                 </>
               }
             >
+              {status === 'error' && (
+                <MenuItem onSelect={reload}>Couldn't load workspaces. Try again</MenuItem>
+              )}
               <MenuGroup label="Switch workspace">
                 {workspaces.map((w) => (
                   <MenuItemRadio key={w.id} checked={w.id === current.id} onSelect={() => selectWorkspace(w.id)}>
@@ -93,8 +97,8 @@ export function TitleBar({ userName, onLogout }: TitleBarProps) {
         open={creating}
         existingNames={workspaces.map((w) => w.name)}
         onClose={() => setCreating(false)}
-        onCreate={(name) => {
-          createWorkspace(name)
+        onCreate={async (name) => {
+          await createWorkspace(name)
           setCreating(false)
         }}
       />

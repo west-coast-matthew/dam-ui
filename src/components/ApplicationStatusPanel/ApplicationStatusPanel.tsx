@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react'
-import type { ApplicationStatus } from '../../services/statusService'
+import type { ApplicationStatus, DatabaseStatus } from '../../services/statusService'
 import { ErrorState } from '../ErrorState'
 import { Button } from '../FormControls'
 import { LoadingState } from '../LoadingState'
@@ -32,6 +32,13 @@ const OVERALL_TEXT: Record<Health, string> = {
   healthy: 'All systems healthy',
   warning: 'Needs attention',
   critical: 'Issues detected',
+}
+
+/** Product, host and response time, whichever the API reported. */
+function databaseDetail(database: DatabaseStatus): string {
+  const parts = [database.product, database.host, database.responseTimeMs !== null ? `${database.responseTimeMs} ms` : null]
+  const reported = parts.filter((p): p is string => p !== null)
+  return reported.length ? reported.join(' · ') : 'Reported by the API heartbeat'
 }
 
 function StatusDot({ health }: { health: Health }) {
@@ -99,41 +106,43 @@ export function ApplicationStatusPanel({
         <DependencyRow
           health={serviceHealth(database.state)}
           name="Database"
-          detail={<>{database.product} · {database.host}{database.responseTimeMs !== null && <> · {database.responseTimeMs} ms</>}</>}
+          detail={databaseDetail(database)}
           status={database.state === 'UP' ? 'Connected' : 'Unreachable'}
         />
-        <DependencyRow
-          health={serviceHealth(storageLocation.state)}
-          name="Storage location"
-          detail={<code className="asp-path">{storageLocation.path}</code>}
-          status={storageLocation.state === 'DOWN' ? 'Unavailable' : storageLocation.writable ? 'Available' : 'Read-only'}
-        />
-        <DependencyRow
-          health={usage}
-          name="Storage space"
-          detail={
-            storageUsage && percent !== null
-              ? <>{formatBytes(storageUsage.usedBytes)} of {formatBytes(storageUsage.totalBytes)} used · {formatBytes(storageUsage.totalBytes - storageUsage.usedBytes)} free</>
-              : 'Unknown: the storage location can’t be read.'
-          }
-          status={percent === null ? 'Unknown' : `${Math.round(percent)}% used`}
-        >
-          {percent !== null && (
-            <div
-              className={`asp-meter asp-meter--${usage}`}
-              role="meter"
-              aria-label="Storage space used"
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-valuenow={Math.round(percent)}
-              aria-valuetext={`${Math.round(percent)}% used`}
-            >
-              <span className="asp-meter__fill" style={{ width: `${percent}%` }} />
-              {/* Marks where storage turns yellow. */}
-              <span className="asp-meter__threshold" style={{ left: `${t.warning}%` }} title={`Warning at ${t.warning}%`} />
-            </div>
-          )}
-        </DependencyRow>
+        {storageLocation && <>
+          <DependencyRow
+            health={serviceHealth(storageLocation.state)}
+            name="Storage location"
+            detail={<code className="asp-path">{storageLocation.path}</code>}
+            status={storageLocation.state === 'DOWN' ? 'Unavailable' : storageLocation.writable ? 'Available' : 'Read-only'}
+          />
+          <DependencyRow
+            health={usage}
+            name="Storage space"
+            detail={
+              storageUsage && percent !== null
+                ? <>{formatBytes(storageUsage.usedBytes)} of {formatBytes(storageUsage.totalBytes)} used · {formatBytes(storageUsage.totalBytes - storageUsage.usedBytes)} free</>
+                : 'Unknown: the storage location can’t be read.'
+            }
+            status={percent === null ? 'Unknown' : `${Math.round(percent)}% used`}
+          >
+            {percent !== null && (
+              <div
+                className={`asp-meter asp-meter--${usage}`}
+                role="meter"
+                aria-label="Storage space used"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={Math.round(percent)}
+                aria-valuetext={`${Math.round(percent)}% used`}
+              >
+                <span className="asp-meter__fill" style={{ width: `${percent}%` }} />
+                {/* Marks where storage turns yellow. */}
+                <span className="asp-meter__threshold" style={{ left: `${t.warning}%` }} title={`Warning at ${t.warning}%`} />
+              </div>
+            )}
+          </DependencyRow>
+        </>}
       </ul>
     )
   }

@@ -1,18 +1,24 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { listCatalogs } from '../../services/catalogService'
 import { listCategories, saveCategoryChanges, type CategoryChangeSet } from '../../services/categoryService'
 
-const categoriesKey = (workspaceId: string) => ['categories', workspaceId] as const
+const categoriesKey = (catalogId: string) => ['categories', catalogId] as const
 
-/** Every category in the workspace, flat. */
-export function useCategoryList(workspaceId: string) {
-  return useQuery({ queryKey: categoriesKey(workspaceId), queryFn: () => listCategories(workspaceId) })
+/** The workspace's catalogs, sorted by name. */
+export function useCatalogList(workspaceId: string) {
+  return useQuery({ queryKey: ['catalogs', workspaceId], queryFn: () => listCatalogs(workspaceId), enabled: workspaceId !== '' })
+}
+
+/** Every category in the catalog, flat. */
+export function useCategoryList(catalogId: string) {
+  return useQuery({ queryKey: categoriesKey(catalogId), queryFn: () => listCategories(catalogId) })
 }
 
 /** Saves a change set in one go; the saved list replaces the cached one. */
-export function useSaveCategories(workspaceId: string) {
+export function useSaveCategories(catalogId: string) {
   const client = useQueryClient()
   return useMutation({
-    mutationFn: (changes: CategoryChangeSet) => saveCategoryChanges(workspaceId, changes),
-    onSuccess: (saved) => client.setQueryData(categoriesKey(workspaceId), saved),
+    mutationFn: (changes: CategoryChangeSet) => saveCategoryChanges(catalogId, changes),
+    onSuccess: (saved) => client.setQueryData(categoriesKey(catalogId), saved),
   })
 }
