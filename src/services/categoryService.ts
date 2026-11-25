@@ -275,6 +275,11 @@ function applyMockChanges(catalogId: string, changes: CategoryChangeSet): Catego
   return sorted(next)
 }
 
+/** Mock only: the catalog's categories as they are now, without waiting (for other mocks). */
+export function mockCategorySnapshot(catalogId: string): CategoryRecord[] {
+  return categoriesOf(catalogId).map((c) => ({ ...c }))
+}
+
 /** Mock only: counts assets the mock asset service "uploaded" into a category. */
 export function recordMockAssets(catalogId: string, categoryId: string, count: number) {
   const category = categoriesOf(catalogId).find((c) => c.id === categoryId)
