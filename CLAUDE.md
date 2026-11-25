@@ -24,9 +24,14 @@ listed here.
 `vite` (dev) requests go through the `/dam-api` proxy to that URL, so the API needs no CORS; a
 production build calls the URL directly. `src/services/apiClient.ts` holds the shared client.
 Workspaces, catalogs, categories (workspace → catalog → category, `POST /categories/changes` for
-the editor's bulk save), asset uploads (`POST /assets`, one per file), the asset page's recent uploads
-panel (`GET /assets/activity/summary`) and the heartbeat use the API; login, users, installation and the
+the editor's bulk save), asset uploads (`POST /assets`, one per file), the asset page's browse panel
+(`GET /assets/search`, `/assets/{id}/thumbnail`, `/assets/{id}/file`), its recent uploads panel
+(`GET /assets/activity/summary`) and the heartbeat use the API; login, users, installation and the
 dashboard's activity panels are still mocked.
+
+Client-only state: the browse panel keeps its view, page size and Recents history in a zustand store
+persisted to localStorage (`src/components/AssetExplorerPanel/browseStore.ts`). Pages can collapse the
+left menu through `useLayout()` (`src/layout/LayoutContext.ts`).
 
 ## Specs workflow
 

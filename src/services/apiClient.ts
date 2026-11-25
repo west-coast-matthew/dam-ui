@@ -20,6 +20,11 @@ const DEV_PROXY_PREFIX = '/dam-api'
 /** Where requests are actually sent: the dev proxy under `vite`, the API itself in a build. */
 const requestBase = import.meta.env.DEV ? DEV_PROXY_PREFIX : API_URL
 
+/** Full URL of an API path, for elements that load it themselves (e.g. <img src>). Null without an API. */
+export function apiUrl(path: string): string | null {
+  return API_URL === null ? null : `${requestBase}${path}`
+}
+
 /** Mirrors the API's ErrorResponseVO, the body of every error response. */
 export interface ErrorResponse {
   timestamp: string
