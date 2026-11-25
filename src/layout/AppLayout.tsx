@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Outlet } from 'react-router'
 import { useAuth } from '../auth/useAuth'
 import { useLogout } from '../auth/useLogout'
 import { SideNav, type SideNavItem } from '../components/SideNav'
 import { AssetsIcon, CategoriesIcon, DashboardIcon, InitializeIcon, LightboxIcon, UsersIcon, WorkspacesIcon } from '../components/SideNav/icons'
 import { TitleBar } from '../components/TitleBar'
+import { LayoutContext } from './LayoutContext'
 import './AppLayout.css'
 
 const COLLAPSED_KEY = 'dam-ui.nav-collapsed'
@@ -34,16 +35,18 @@ export function AppLayout() {
   const { user } = useAuth()
   const logOut = useLogout()
 
-  const changeCollapsed = (next: boolean) => {
+  const changeCollapsed = useCallback((next: boolean) => {
     setCollapsed(next)
     try {
       localStorage.setItem(COLLAPSED_KEY, String(next))
     } catch {
       // Storage can be unavailable (private mode); the menu still works for this visit.
     }
-  }
+  }, [])
+  const layout = useMemo(() => ({ navCollapsed: collapsed, setNavCollapsed: changeCollapsed }), [collapsed, changeCollapsed])
 
   return (
+    <LayoutContext.Provider value={layout}>
     <div className="app">
       {/* RequireAuth guarantees a user here. */}
       <TitleBar userName={user?.displayName ?? ''} onLogout={logOut} />
@@ -54,5 +57,6 @@ export function AppLayout() {
         </main>
       </div>
     </div>
+    </LayoutContext.Provider>
   )
 }

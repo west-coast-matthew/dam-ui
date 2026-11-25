@@ -13,3 +13,4 @@ export type {
   BrowseAsset,
   ThumbnailSize,
 } from './types'
+export { Pagination, type PaginationProps } from './Pagination'
