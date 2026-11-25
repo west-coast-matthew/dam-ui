@@ -6,6 +6,7 @@ import { useWorkspace } from '../../workspace/useWorkspace'
 import { DEFAULT_ACCEPT, fileKind, formatBytes, screenFiles, UploadDropZone, UploadFileRow, type RejectedFile } from '../AssetUploadPanel'
 import { toTree } from '../CategoryManagementPanel/categoryTree'
 import { useCatalogList, useCategoryList } from '../CategoryManagementPanel/useCategories'
+import { CatalogTagInput } from '../CatalogTagInput'
 import { ErrorState } from '../ErrorState'
 import { Button, SegmentedControl, Select, TextArea, TextField } from '../FormControls'
 import { LoadingState } from '../LoadingState'
@@ -107,6 +108,10 @@ function AssetEntry({
   const [rejected, setRejected] = useState<RejectedFile[]>([])
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  // Tags for every file; they belong to the catalog, so switching catalogs clears them.
+  const [tagState, setTagState] = useState<{ catalogId: string; tags: string[] }>({ catalogId: '', tags: [] })
+  const tags = tagState.catalogId === catalog?.id ? tagState.tags : []
+  const setTags = (next: string[]) => catalog && setTagState({ catalogId: catalog.id, tags: next })
   const [attempted, setAttempted] = useState(false)
   const [stage, setStage] = useState<Stage>('edit')
   const run = useUploadRun()
@@ -211,7 +216,7 @@ function AssetEntry({
     if (!catalog || !categoryId) return
     const files = reviewFiles.filter((f) => !only || only.has(f.key)).map((f) => ({ ...f, description }))
     setStage('run')
-    void run.start(files, { catalogId: catalog.id, categoryId }).then((results) => {
+    void run.start(files, { catalogId: catalog.id, categoryId, tags }).then((results) => {
       // Keep only the files that didn't go in, so they can be retried or changed.
       const uploaded = new Set(results.filter((r) => r.status === 'done').map((r) => r.key))
       if (uploaded.size === 0) return
@@ -234,6 +239,7 @@ function AssetEntry({
     if (run.items.length > 0 && run.items.every((i) => i.status === 'done')) {
       setTitle('')
       setDescription('')
+      setTags([])
       setAttempted(false)
     }
     requestAnimationFrame(() => document.getElementById(continueId)?.focus())
@@ -387,6 +393,13 @@ function AssetEntry({
                   maxLength={ASSET_DESCRIPTION_MAX_LENGTH}
                   onChange={(e) => setDescription(e.target.value)}
                 />
+                <CatalogTagInput
+                  catalogId={catalog?.id}
+                  label={mode === 'single' ? 'Tags' : 'Tags for every file'}
+                  hint="Pick existing tags or type new ones; press Enter or comma to add."
+                  value={tags}
+                  onChange={setTags}
+                />
               </div>
             </div>
           </div>
@@ -409,6 +422,7 @@ function AssetEntry({
                 categoryPath={categoryPath(records, categoryId)}
                 files={reviewFiles}
                 description={description}
+                tags={tags}
                 items={run.items}
                 running={run.running}
                 cancelling={run.cancelling}

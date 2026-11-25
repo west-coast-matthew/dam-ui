@@ -1,9 +1,11 @@
 import { ApiError, apiRequest, isApiEnabled } from './apiClient'
 import { recordMockAssets } from './categoryService'
+import { setMockAssetTags, recordMockUploadTags, normalizeTags } from './tagService'
 import { recordMockUpload, type UploadFileType } from './uploadActivityService'
 
 // Asset service. With REACT_APP_API_URL set it calls dam-api's POST /assets (multipart: an "asset"
-// JSON part and the "file"); otherwise it emulates the upload with a delay based on the file size.
+// JSON part and the "file") and PUT /assets/{id}; otherwise it emulates the upload with a delay based
+// on the file size, and edits in memory.
 // Callers only depend on these signatures.
 
 export const ASSET_TITLE_MAX_LENGTH = 255
@@ -20,6 +22,8 @@ export interface AssetCreate {
   /** Empty means none. */
   description: string
   versioningEnabled: boolean
+  /** Tag names; unknown ones are created in the catalog. Optional, none by default. */
+  tags?: string[]
 }
 
 /** The new asset, as the API returns it (the fields the UI uses). */
@@ -31,6 +35,13 @@ export interface AssetRecord {
   categoryIds: string[]
   title: string
   description: string
+  tags: string[]
+}
+
+/** Metadata changes for PUT /assets/{id}. Fields left out stay as they are. */
+export interface AssetUpdate {
+  /** Replaces every tag; [] removes them all. */
+  tags?: string[]
 }
 
 /** Thrown when the API refuses an upload, e.g. an unsupported type. Its message is safe to show. */
@@ -49,6 +60,7 @@ interface AssetDto {
   fileSize: number | null
   categoryIds: string[] | null
   customMetadata: Record<string, unknown> | null
+  tags: string[] | null
 }
 
 const text = (value: unknown) => (typeof value === 'string' ? value : '')
@@ -61,6 +73,7 @@ const fromDto = (dto: AssetDto): AssetRecord => ({
   categoryIds: dto.categoryIds ?? [],
   title: text(dto.customMetadata?.title),
   description: text(dto.customMetadata?.description),
+  tags: dto.tags ?? [],
 })
 
 // ---- Mock ----
@@ -108,7 +121,9 @@ function mockFileType(file: File): UploadFileType {
 async function mockUpload(asset: AssetCreate, signal?: AbortSignal): Promise<AssetRecord> {
   await mockTransfer(asset.file.size, signal)
   if (Math.random() < failureRate()) throw new Error("The upload didn't complete. Please try again.")
+  const tags = normalizeTags(asset.tags ?? [])
   recordMockAssets(asset.catalogId, asset.categoryId, 1)
+  recordMockUploadTags(asset.catalogId, tags)
   recordMockUpload(asset.catalogId, asset.categoryId, mockFileType(asset.file))
   return {
     id: crypto.randomUUID(),
@@ -118,6 +133,7 @@ async function mockUpload(asset: AssetCreate, signal?: AbortSignal): Promise<Ass
     categoryIds: [asset.categoryId],
     title: asset.title.trim(),
     description: asset.description.trim(),
+    tags,
   }
 }
 
@@ -139,7 +155,7 @@ export async function uploadAsset(asset: AssetCreate, options: { signal?: AbortS
     versioningEnabled: asset.versioningEnabled,
     categoryIds: [asset.categoryId],
     customMetadata: metadata,
-    tags: [],
+    tags: normalizeTags(asset.tags ?? []),
   }
   form.append('asset', new Blob([JSON.stringify(part)], { type: 'application/json' }))
   form.append('file', asset.file, asset.file.name)
@@ -156,5 +172,33 @@ export async function uploadAsset(asset: AssetCreate, options: { signal?: AbortS
       )
     }
     throw err
+  }
+}
+
+/** The API's 4xx messages are safe to show; for server faults say what was being done. */
+function updateError(err: unknown): unknown {
+  if (err instanceof ApiError && err.status >= 400 && err.status < 500) return new AssetServiceError(err.message)
+  if (err instanceof ApiError) return new AssetServiceError(`The DAM service couldn't save the asset (error ${err.status}). Please try again.`)
+  return err
+}
+
+/** PUT /assets/{id}: changes the asset's metadata and returns its tags as saved. */
+export async function updateAsset(id: string, patch: AssetUpdate, options: { signal?: AbortSignal } = {}): Promise<{ tags: string[] }> {
+  const tags = patch.tags === undefined ? undefined : normalizeTags(patch.tags)
+  if (!isApiEnabled()) {
+    await new Promise((resolve) => setTimeout(resolve, 300 + Math.random() * 300))
+    if (Math.random() < failureRate()) throw new AssetServiceError("The changes weren't saved. Please try again.")
+    if (tags) setMockAssetTags(id, tags)
+    return { tags: tags ?? [] }
+  }
+  try {
+    const dto = await apiRequest<AssetDto>(`/assets/${encodeURIComponent(id)}`, {
+      method: 'PUT',
+      body: { tags },
+      signal: options.signal,
+    })
+    return { tags: dto.tags ?? [] }
+  } catch (err) {
+    throw updateError(err)
   }
 }
