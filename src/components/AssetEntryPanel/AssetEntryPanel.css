@@ -261,6 +261,23 @@
   white-space: pre-line;
 }
 
+.aep-summary__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aep-summary__tags li {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
 .aep-summary__none {
   color: var(--color-text-muted) !important;
   font-style: italic;

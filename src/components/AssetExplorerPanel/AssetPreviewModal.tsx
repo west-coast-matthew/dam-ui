@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { displayTitle, type BrowsedAsset } from '../../services/assetBrowseService'
+import { AssetTagEditor } from './AssetTagEditor'
 import { AssetThumb } from './AssetThumb'
 import { formatBytes, formatDateTime, MEDIA_LABEL } from './format'
 import { CloseIcon, DownloadIcon, NextIcon, PrevIcon } from './icons'
@@ -66,8 +67,8 @@ export function AssetPreviewModal({ items, index, onIndexChange }: AssetPreviewM
         if (e.target === e.currentTarget) close()
       }}
       onKeyDown={(e) => {
-        // Arrows move between assets, except inside the video/audio controls.
-        if ((e.target as HTMLElement).closest('video, audio')) return
+        // Arrows move between assets, except inside the video/audio controls and form fields.
+        if ((e.target as HTMLElement).closest('video, audio, input, textarea, select')) return
         if (e.key === 'ArrowLeft') go(-1)
         if (e.key === 'ArrowRight') go(1)
       }}
@@ -106,8 +107,8 @@ export function AssetPreviewModal({ items, index, onIndexChange }: AssetPreviewM
             <div><dt>Type</dt><dd>{MEDIA_LABEL[asset.mediaType]} · {asset.mimeType}</dd></div>
             <div><dt>Size</dt><dd>{formatBytes(asset.fileSize)}</dd></div>
             <div><dt>Added</dt><dd>{formatDateTime(asset.createdAt)}</dd></div>
-            {asset.tags.length > 0 && <div><dt>Tags</dt><dd>{asset.tags.join(', ')}</dd></div>}
             {asset.description.trim() && <div className="axp-preview__wide"><dt>Description</dt><dd>{asset.description}</dd></div>}
+            <AssetTagEditor key={asset.id} asset={asset} />
           </dl>
         </div>
       )}

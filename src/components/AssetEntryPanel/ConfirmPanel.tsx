@@ -21,6 +21,8 @@ export interface ConfirmPanelProps {
   categoryPath: string
   files: ReviewFile[]
   description: string
+  /** Tags every file gets. */
+  tags: string[]
   /** The run's files and their status (stage 'run'). */
   items: UploadItem[]
   running: boolean
@@ -71,7 +73,7 @@ export function ConfirmPanel(props: ConfirmPanelProps) {
 
 type SectionProps = ConfirmPanelProps & { headingRef: RefObject<HTMLHeadingElement | null> }
 
-function Review({ workspaceName, catalogName, categoryPath, files, description, onBack, onConfirm, headingRef }: SectionProps) {
+function Review({ workspaceName, catalogName, categoryPath, files, description, tags, onBack, onConfirm, headingRef }: SectionProps) {
   const total = files.reduce((sum, f) => sum + f.file.size, 0)
   const count = files.length
   return (
@@ -92,6 +94,16 @@ function Review({ workspaceName, catalogName, categoryPath, files, description, 
           <div>
             <dt>Description</dt>
             <dd className={description.trim() ? undefined : 'aep-summary__none'}>{description.trim() || 'None'}</dd>
+          </div>
+          <div>
+            <dt>{count === 1 ? 'Tags' : 'Tags on every file'}</dt>
+            <dd className={tags.length ? undefined : 'aep-summary__none'}>
+              {tags.length ? (
+                <ul className="aep-summary__tags">
+                  {tags.map((t) => <li key={t}>{t}</li>)}
+                </ul>
+              ) : 'None'}
+            </dd>
           </div>
         </dl>
 

@@ -1,6 +1,7 @@
 import mockAssetData from '../pages/mockups/AssetBrowseDemo/mockAssets.json'
 import { ApiError, apiRequest, apiUrl, isApiEnabled } from './apiClient'
 import { mockCategorySnapshot } from './categoryService'
+import { mockAssetTags, registerMockAssetSource } from './tagService'
 
 // Asset browsing: a paged, filtered listing of a catalog's assets (dam-api GET /assets/search),
 // plus the URLs of each asset's thumbnail and file. Without REACT_APP_API_URL it pages through the
@@ -180,12 +181,16 @@ function mockAssets(catalogId: string): BrowsedAsset[] {
     status: 'READY',
     createdAt: new Date(m.createdAt),
     categoryIds: [categories[(i * 7) % categories.length].id],
-    tags: [TAG_POOL[i % TAG_POOL.length], TAG_POOL[(i * 3 + 1) % TAG_POOL.length]].filter((t, j, all) => all.indexOf(t) === j),
+    tags:
+      mockAssetTags(`${catalogId}:${m.id}`) ??
+      [TAG_POOL[i % TAG_POOL.length], TAG_POOL[(i * 3 + 1) % TAG_POOL.length]].filter((t, j, all) => all.indexOf(t) === j),
     thumbnailUrl: m.thumbnails.large.url,
     fileUrl: m.thumbnails.preview.url,
     downloadUrl: m.thumbnails.preview.url,
   }))
 }
+
+registerMockAssetSource(mockAssets)
 
 function descendants(catalogId: string, categoryId: string): Set<string> {
   const records = mockCategorySnapshot(catalogId)

@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useRef, useState } from 'react'
 import { uploadAsset } from '../../services/assetService'
+import { catalogTagsKey } from '../../services/useCatalogTags'
 
 export type UploadStatus = 'waiting' | 'uploading' | 'done' | 'failed' | 'cancelled'
 
@@ -17,6 +18,8 @@ export interface UploadItem {
 export interface UploadTarget {
   catalogId: string
   categoryId: string
+  /** Tags every file gets. */
+  tags: string[]
 }
 
 const message = (error: unknown) => (error instanceof Error ? error.message : 'The upload failed.')
@@ -55,7 +58,7 @@ export function useUploadRun() {
         set(f.key, { status: 'uploading' })
         try {
           await uploadAsset(
-            { ...target, file: f.file, title: f.title, description: f.description, versioningEnabled: true },
+            { catalogId: target.catalogId, categoryId: target.categoryId, tags: target.tags, file: f.file, title: f.title, description: f.description, versioningEnabled: true },
             { signal: abort.signal },
           )
           uploaded++
@@ -72,6 +75,9 @@ export function useUploadRun() {
       if (uploaded > 0) {
         void client.invalidateQueries({ queryKey: ['categories', target.catalogId] })
         void client.invalidateQueries({ queryKey: ['uploadActivity', target.catalogId] })
+        // New tags show up in the tag suggestions, and the browse panel shows the new assets.
+        if (target.tags.length) void client.invalidateQueries({ queryKey: catalogTagsKey(target.catalogId) })
+        void client.invalidateQueries({ queryKey: ['assetSearch'] })
       }
       return results
     },

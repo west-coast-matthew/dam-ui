@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
-import { Button, SegmentedControl, Select, Switch, TextField } from '../FormControls'
-import { DEFAULT_ACCEPT, fileKind, formatBytes, parseTags, screenFiles } from './fileRules'
+import { CatalogTagInput } from '../CatalogTagInput'
+import { Button, SegmentedControl, Select, Switch } from '../FormControls'
+import { DEFAULT_ACCEPT, fileKind, formatBytes, screenFiles } from './fileRules'
 import { CheckIcon } from './icons'
 import { UploadDropZone } from './UploadDropZone'
 import { UploadFileRow } from './UploadFileRow'
@@ -66,7 +67,7 @@ export function AssetUploadPanel({
   const [entries, setEntries] = useState<Entry[]>([])
   const [rejected, setRejected] = useState<RejectedFile[]>([])
   const [catalogId, setCatalogId] = useState(defaultCatalogId ?? '')
-  const [tagsText, setTagsText] = useState('')
+  const [tags, setTags] = useState<string[]>([])
   const [versioning, setVersioning] = useState(true)
   const [attempted, setAttempted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
@@ -160,7 +161,7 @@ export function AssetUploadPanel({
       mode,
       items: entries.map((entry) => ({ file: entry.file, title: entry.title.trim() || null })),
       catalogId: needsCatalog ? catalogId : null,
-      tags: parseTags(tagsText),
+      tags,
       versioningEnabled: versioning,
     }
     setSubmitError(null)
@@ -265,15 +266,20 @@ export function AssetUploadPanel({
                 options={catalogs!.map((c) => ({ value: c.id, label: c.name }))}
                 value={catalogId}
                 error={catalogError}
-                onChange={(e) => setCatalogId(e.target.value)}
+                onChange={(e) => {
+                  // Tags belong to a catalog, so a different catalog starts with none.
+                  setCatalogId(e.target.value)
+                  setTags([])
+                }}
               />
             )}
-            <TextField
+            <CatalogTagInput
+              catalogId={needsCatalog ? catalogId || null : null}
               label="Tags"
-              hint="Separate tags with commas."
-              placeholder="e.g. campaign, 2026, hero"
-              value={tagsText}
-              onChange={(e) => setTagsText(e.target.value)}
+              hint={mode === 'multiple' ? 'Every file gets these tags. Press Enter or comma to add.' : 'Pick existing tags or type new ones; press Enter or comma to add.'}
+              placeholder="e.g. campaign"
+              value={tags}
+              onChange={setTags}
             />
             <Switch
               label="Keep versions"

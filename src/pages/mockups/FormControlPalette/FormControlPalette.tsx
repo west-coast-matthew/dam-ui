@@ -9,6 +9,7 @@ import {
   Select,
   Slider,
   Switch,
+  TagInput,
   TextArea,
   TextField,
 } from '../../../components/FormControls'
@@ -178,6 +179,35 @@ function TextAreasAndSelects() {
             ))}
           </datalist>
         </div>
+      </div>
+    </Panel>
+  )
+}
+
+/* ---------- Tag input ---------- */
+
+const TAG_SUGGESTIONS = [
+  { name: 'brand', count: 42 },
+  { name: 'campaign', count: 18 },
+  { name: 'hero', count: 9 },
+  { name: 'print', count: 7 },
+  { name: 'social', count: 25 },
+  { name: 'spring', count: 4 },
+  { name: 'summer', count: 3 },
+]
+
+function TagInputs() {
+  const [tags, setTags] = useState(['brand', 'hero'])
+  const [empty, setEmpty] = useState<string[]>([])
+  return (
+    <Panel title="Tag input" subtitle="Chips with suggestions; Enter or comma adds, Backspace removes" columns={2}>
+      <div className="fcp-stack">
+        <TagInput label="Tags" value={tags} onChange={setTags} suggestions={TAG_SUGGESTIONS}
+          hint="Pick existing tags or type new ones." />
+        <TagInput label="Empty, with placeholder" value={empty} onChange={setEmpty} suggestions={TAG_SUGGESTIONS}
+          placeholder="e.g. campaign" />
+        <TagInput label="With error" value={['x']} onChange={() => {}} error="Add at least two tags." />
+        <TagInput label="Disabled" value={['archive', 'approved']} onChange={() => {}} disabled />
       </div>
     </Panel>
   )
@@ -464,6 +494,7 @@ export function FormControlPalette() {
         <ValidationStates />
         <InputTypes />
         <TextAreasAndSelects />
+        <TagInputs />
         <Checkboxes />
         <Radios />
         <Switches />

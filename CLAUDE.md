@@ -25,9 +25,18 @@ listed here.
 production build calls the URL directly. `src/services/apiClient.ts` holds the shared client.
 Workspaces, catalogs, categories (workspace → catalog → category, `POST /categories/changes` for
 the editor's bulk save), asset uploads (`POST /assets`, one per file), the asset page's browse panel
-(`GET /assets/search`, `/assets/{id}/thumbnail`, `/assets/{id}/file`), its recent uploads panel
-(`GET /assets/activity/summary`) and the heartbeat use the API; login, users, installation and the
+(`GET /assets/search`, `/assets/{id}/thumbnail`, `/assets/{id}/file`, and `PUT /assets/{id}` for
+editing an asset's tags in the preview), its recent uploads panel (`GET /assets/activity/summary`),
+tag suggestions (`GET /tags`) and the heartbeat use the API; login, users, installation and the
 dashboard's activity panels are still mocked.
+
+Tags (spec 026): `services/tagService.ts` (`listTags`, `normalizeTags`) and `services/useCatalogTags.ts`
+(debounced React Query hook, key `['tags', catalogId, q]`). `FormControls/TagInput` is the generic chip
+input (ARIA combobox; its suggestion list is `position: fixed` so `overflow: hidden` panels don't clip it).
+`CatalogTagInput` wires it to a catalog's tags. It's used in `AssetEntryPanel` (single and bulk: the
+same tags go on every file and show in the review step), `AssetUploadPanel`, the Search tab, and the
+preview modal's `AssetTagEditor`. Saving there patches the cached `['assetSearch']` pages, then
+refetches them. In mock mode, edited and uploaded tags live in memory in `tagService`.
 
 Client-only state: the browse panel keeps its view, page size and Recents history in a zustand store
 persisted to localStorage (`src/components/AssetExplorerPanel/browseStore.ts`). Pages can collapse the

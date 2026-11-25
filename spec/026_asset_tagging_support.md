@@ -1,4 +1,4 @@
-status: ready
+status: completed
 
 # 026 — Asset tagging support
 
