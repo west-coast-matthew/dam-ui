@@ -1,5 +1,6 @@
 import { ApiError, apiRequest, isApiEnabled } from './apiClient'
 import { recordMockAssets } from './categoryService'
+import { recordMockUpload, type UploadFileType } from './uploadActivityService'
 
 // Asset service. With REACT_APP_API_URL set it calls dam-api's POST /assets (multipart: an "asset"
 // JSON part and the "file"); otherwise it emulates the upload with a delay based on the file size.
@@ -96,10 +97,19 @@ function mockTransfer(bytes: number, signal?: AbortSignal): Promise<void> {
   })
 }
 
+function mockFileType(file: File): UploadFileType {
+  if (file.type.startsWith('image/')) return 'image'
+  if (file.type.startsWith('video/')) return 'video'
+  if (file.type.startsWith('audio/')) return 'audio'
+  if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) return 'pdf'
+  return 'other'
+}
+
 async function mockUpload(asset: AssetCreate, signal?: AbortSignal): Promise<AssetRecord> {
   await mockTransfer(asset.file.size, signal)
   if (Math.random() < failureRate()) throw new Error("The upload didn't complete. Please try again.")
   recordMockAssets(asset.catalogId, asset.categoryId, 1)
+  recordMockUpload(asset.catalogId, asset.categoryId, mockFileType(asset.file))
   return {
     id: crypto.randomUUID(),
     catalogId: asset.catalogId,

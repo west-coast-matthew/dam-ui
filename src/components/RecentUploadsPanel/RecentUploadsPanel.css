@@ -1,0 +1,233 @@
+/* Recent uploads panel. Class prefix: rup- */
+
+.rup {
+  min-width: 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.rup-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px 0;
+}
+
+.rup-header__text {
+  min-width: 0;
+}
+
+.rup-header__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.rup-header__subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.rup-refresh--busy svg {
+  animation: rup-spin 1s linear infinite;
+}
+
+@keyframes rup-spin {
+  to { transform: rotate(360deg); }
+}
+
+.rup-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.rup-filter {
+  min-width: 12rem;
+}
+
+.rup-body {
+  min-height: 160px;
+}
+
+.rup-empty {
+  margin: 0;
+  padding: 32px 20px;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* ---------- Category rows ---------- */
+.rup-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rup-row + .rup-row {
+  border-top: 1px solid var(--color-border);
+}
+
+.rup-row__toggle {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 20px;
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.rup-row__toggle:hover {
+  background: var(--color-surface-alt);
+}
+
+.rup-row__toggle:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.rup-row__chevron {
+  display: inline-flex;
+  color: var(--color-text-muted);
+  transition: transform 0.15s ease;
+}
+
+.rup-row--open .rup-row__chevron {
+  transform: rotate(90deg);
+}
+
+.rup-row__path {
+  min-width: 0;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.rup-row__ancestor,
+.rup-row__sep {
+  color: var(--color-text-muted);
+}
+
+.rup-row__name {
+  font-weight: 600;
+}
+
+.rup-row__count {
+  margin-left: 6px;
+  font-weight: 600;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.rup-row__meta {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* ---------- Upload events ---------- */
+.rup-events {
+  width: calc(100% - 40px);
+  margin: 0 20px 14px;
+  border-collapse: collapse;
+  font-size: 13px;
+  background: var(--color-surface-alt);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.rup-events th,
+.rup-events td {
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.rup-events th {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.rup-events tbody tr + tr td {
+  border-top: 1px solid var(--color-border);
+}
+
+.rup-events__num {
+  text-align: right !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.rup-events__full {
+  margin-left: 8px;
+  color: var(--color-text-muted);
+}
+
+.rup-type {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.rup-type--mixed {
+  color: var(--color-accent);
+  border-color: currentColor;
+}
+
+@media (max-width: 600px) {
+  .rup-header,
+  .rup-filters,
+  .rup-row__toggle {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .rup-filter {
+    flex: 1 1 100%;
+  }
+
+  /* The upload count moves under the path. */
+  .rup-row__toggle {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .rup-row__meta {
+    grid-column: 2;
+  }
+
+  .rup-events {
+    width: calc(100% - 32px);
+    margin: 0 16px 12px;
+  }
+
+  .rup-events__full {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rup-refresh--busy svg {
+    animation: none;
+  }
+  .rup-row__chevron {
+    transition: none;
+  }
+}

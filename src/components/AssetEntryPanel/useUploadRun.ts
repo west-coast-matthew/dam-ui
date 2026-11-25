@@ -68,8 +68,11 @@ export function useUploadRun() {
       controller.current = null
       setRunning(false)
       setCancelling(false)
-      // The category tree shows asset counts.
-      if (uploaded > 0) void client.invalidateQueries({ queryKey: ['categories', target.catalogId] })
+      // The category tree shows asset counts, and the recent uploads panel lists the new uploads.
+      if (uploaded > 0) {
+        void client.invalidateQueries({ queryKey: ['categories', target.catalogId] })
+        void client.invalidateQueries({ queryKey: ['uploadActivity', target.catalogId] })
+      }
       return results
     },
     [client],
