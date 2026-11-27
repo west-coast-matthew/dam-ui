@@ -154,7 +154,8 @@ const fromDto = (dto: AssetDto): BrowsedAsset => ({
 
 interface MockSource {
   id: string
-  title: string
+  /** Null for some mock assets (show the file name). */
+  title: string | null
   originalFilename: string
   mediaType: BrowseMediaType
   mimeType: string
@@ -172,7 +173,7 @@ function mockAssets(catalogId: string): BrowsedAsset[] {
   return (mockAssetData as MockSource[]).map((m, i) => ({
     id: `${catalogId}:${m.id}`,
     catalogId,
-    title: m.title,
+    title: m.title ?? '',
     description: '',
     originalFilename: m.originalFilename,
     mediaType: m.mediaType,

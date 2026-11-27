@@ -1,10 +1,13 @@
 import { useState, type KeyboardEvent } from 'react'
 import { DEFAULT_DIRECTION, displayTitle, type AssetSort, type AssetSortField, type BrowsedAsset } from '../../services/assetBrowseService'
+import { SelectionToggle } from '../Lightbox/SelectionToggle'
 import { AssetThumb } from './AssetThumb'
 import { formatBytes, formatDate, MEDIA_LABEL } from './format'
 
 export interface AssetListProps {
   items: BrowsedAsset[]
+  /** Ids of the assets in the selection. */
+  selected: Set<string>
   sort: AssetSort
   onSortChange: (sort: AssetSort) => void
   onOpen: (asset: BrowsedAsset) => void
@@ -24,7 +27,7 @@ const SortArrow = ({ direction }: { direction: 'asc' | 'desc' | null }) => (
  * headers sort: clicking the current column flips its direction, another column starts in its
  * natural direction (newest, largest, A–Z).
  */
-export function AssetList({ items, sort, onSortChange, onOpen }: AssetListProps) {
+export function AssetList({ items, selected, sort, onSortChange, onOpen }: AssetListProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
   const onKeyDown = (e: KeyboardEvent<HTMLTableRowElement>, asset: BrowsedAsset, index: number) => {
@@ -62,6 +65,7 @@ export function AssetList({ items, sort, onSortChange, onOpen }: AssetListProps)
       <caption className="fc-visually-hidden">Assets. Double-click a row, or press Enter, to preview it.</caption>
       <thead>
         <tr>
+          <th scope="col" className="axp-list__pick"><span className="fc-visually-hidden">In selection</span></th>
           <th scope="col"><span className="fc-visually-hidden">Thumbnail</span></th>
           {header('name', 'Title')}
           {header('type', 'Type', 'axp-list__optional')}
@@ -74,12 +78,14 @@ export function AssetList({ items, sort, onSortChange, onOpen }: AssetListProps)
           <tr
             key={asset.id}
             tabIndex={0}
-            className={selectedId === asset.id ? 'axp-list__row axp-list__row--selected' : 'axp-list__row'}
+            className={['axp-list__row', selectedId === asset.id && 'axp-list__row--selected', selected.has(asset.id) && 'axp-list__row--picked']
+              .filter(Boolean).join(' ')}
             onClick={() => setSelectedId(asset.id)}
             onFocus={() => setSelectedId(asset.id)}
             onDoubleClick={() => onOpen(asset)}
             onKeyDown={(e) => onKeyDown(e, asset, i)}
           >
+            <td className="axp-list__pick"><SelectionToggle asset={asset} variant="inline" /></td>
             <td className="axp-list__thumb"><AssetThumb asset={asset} shape="square" /></td>
             <td>
               <span className="axp-list__title">{displayTitle(asset)}</span>

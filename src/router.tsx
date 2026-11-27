@@ -38,6 +38,7 @@ export const router = createBrowserRouter([
       { path: '/workspaces', element: <WorkspaceManagement /> },
       { path: '/categories', element: <CategoryManagement /> },
       { path: '/lightboxes', element: <Lightboxes /> },
+      { path: '/lightboxes/:lightboxId', element: <Lightboxes /> },
       { path: '/assets', element: <AssetManagement /> },
     ],
   },

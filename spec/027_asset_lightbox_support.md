@@ -1,4 +1,4 @@
-status: ready
+status: completed
 
 # 027 — Asset lightbox support
 
