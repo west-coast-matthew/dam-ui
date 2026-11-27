@@ -1,5 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { useState, type ReactNode } from 'react'
+import { useMemo, useState, type ReactNode } from 'react'
 import {
   PAGE_SIZE_OPTIONS,
   parseSortKey,
@@ -12,7 +12,8 @@ import {
 } from '../../services/assetBrowseService'
 import { Pagination } from '../AssetBrowsePanel'
 import { ErrorState } from '../ErrorState'
-import { Select } from '../FormControls'
+import { Button, Select } from '../FormControls'
+import { useSelection, useSelectionStore } from '../Lightbox'
 import { LoadingState } from '../LoadingState'
 import { AssetGallery } from './AssetGallery'
 import { AssetList } from './AssetList'
@@ -55,6 +56,9 @@ export function AssetResults({ query, heading, controls, emptyMessage, onAssetVi
   const setSortPreference = useBrowseStore((s) => s.setSort)
   const [page, setPage] = useState(1)
   const [previewIndex, setPreviewIndex] = useState<number | null>(null)
+  const selection = useSelection()
+  const addMany = useSelectionStore((s) => s.addMany)
+  const selected = useMemo(() => new Set(selection.map((a) => a.id)), [selection])
 
   const results = useQuery({
     queryKey: ['assetSearch', query, page, pageSize, sort],
@@ -92,12 +96,13 @@ export function AssetResults({ query, heading, controls, emptyMessage, onAssetVi
     body = <p className="axp-empty">{emptyMessage}</p>
   } else {
     body = view === 'list'
-      ? <AssetList items={items} sort={sort} onSortChange={changeSort} onOpen={openPreview} />
-      : <AssetGallery items={items} onOpen={openPreview} />
+      ? <AssetList items={items} selected={selected} sort={sort} onSortChange={changeSort} onOpen={openPreview} />
+      : <AssetGallery items={items} selected={selected} onOpen={openPreview} />
   }
 
   const first = data && data.totalItems > 0 ? (data.page - 1) * data.pageSize + 1 : 0
   const last = data ? Math.min(data.page * data.pageSize, data.totalItems) : 0
+  const pageInSelection = items.length > 0 && items.every((a) => selected.has(a.id))
 
   return (
     <div className="axp-results">
@@ -115,6 +120,15 @@ export function AssetResults({ query, heading, controls, emptyMessage, onAssetVi
         </div>
         {controls}
         <div className="axp-results__tools">
+          <Button
+            variant="secondary"
+            size="sm"
+            disabled={items.length === 0 || pageInSelection}
+            onClick={() => addMany(items)}
+            title={pageInSelection ? 'Every asset on this page is in the selection' : undefined}
+          >
+            {pageInSelection ? 'Page in selection' : 'Add page to selection'}
+          </Button>
           <Select
             className="axp-results__select"
             aria-label="Sort"

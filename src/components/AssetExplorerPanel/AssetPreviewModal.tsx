@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { displayTitle, type BrowsedAsset } from '../../services/assetBrowseService'
+import { SelectionToggle } from '../Lightbox/SelectionToggle'
 import { AssetTagEditor } from './AssetTagEditor'
 import { AssetThumb } from './AssetThumb'
 import { formatBytes, formatDateTime, MEDIA_LABEL } from './format'
@@ -78,6 +79,7 @@ export function AssetPreviewModal({ items, index, onIndexChange }: AssetPreviewM
           <header className="axp-preview__header">
             <h2 id="axp-preview-title" className="axp-preview__title">{displayTitle(asset)}</h2>
             <span className="axp-preview__position">{index! + 1} of {items.length}</span>
+            <SelectionToggle asset={asset} variant="button" />
             {asset.downloadUrl && (
               <a className="axp-preview__action" href={asset.downloadUrl} download={asset.originalFilename}>
                 <DownloadIcon /> Download

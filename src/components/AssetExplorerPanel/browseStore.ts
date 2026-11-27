@@ -4,6 +4,10 @@ import { DEFAULT_PAGE_SIZE, DEFAULT_SORT, type AssetSort } from '../../services/
 
 export type ResultsView = 'list' | 'gallery'
 
+/** Seconds each slideshow item shows for. */
+export const SLIDE_INTERVALS = [3, 5, 10, 20] as const
+export type SlideInterval = (typeof SLIDE_INTERVALS)[number]
+
 /** One category the user has viewed assets in. Kept only in this browser. */
 export interface CategoryVisit {
   workspaceId: string
@@ -21,9 +25,11 @@ interface BrowseState {
   pageSize: number
   sort: AssetSort
   visits: CategoryVisit[]
+  slideInterval: SlideInterval
   setView: (view: ResultsView) => void
   setPageSize: (size: number) => void
   setSort: (sort: AssetSort) => void
+  setSlideInterval: (seconds: SlideInterval) => void
   /** Records that an asset in this category was viewed (opened in the preview). */
   recordView: (visit: Omit<CategoryVisit, 'views' | 'viewedAt'>) => void
   clearVisits: (workspaceId: string) => void
@@ -44,9 +50,11 @@ export const useBrowseStore = create<BrowseState>()(
       pageSize: DEFAULT_PAGE_SIZE,
       sort: DEFAULT_SORT,
       visits: [],
+      slideInterval: 5,
       setView: (view) => set({ view }),
       setPageSize: (pageSize) => set({ pageSize }),
       setSort: (sort) => set({ sort }),
+      setSlideInterval: (slideInterval) => set({ slideInterval }),
       recordView: (visit) =>
         set((state) => {
           const now = Date.now()

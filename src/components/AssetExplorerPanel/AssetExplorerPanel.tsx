@@ -4,6 +4,7 @@ import { useLayout } from '../../layout/LayoutContext'
 import { useWorkspace } from '../../workspace/useWorkspace'
 import { useCatalogList, useCategoryList } from '../CategoryManagementPanel/useCategories'
 import { ErrorState } from '../ErrorState'
+import { SelectionButton, useSelectionStore } from '../Lightbox'
 import { Select } from '../FormControls'
 import { LoadingState } from '../LoadingState'
 import { BrowseTab } from './BrowseTab'
@@ -59,9 +60,14 @@ function AssetExplorer({ workspaceId, workspaceName, title = 'Browse assets', cl
   const tabRefs = useRef<Record<Tab, HTMLButtonElement | null>>({ browse: null, recents: null, search: null })
 
   const catalogs = useCatalogList(workspaceId)
-  const [chosenCatalogId, setChosenCatalogId] = useState<string | null>(null)
+  // The chosen catalog is shared with the selection (and the Lightboxes page): its selection is the one shown.
+  const chosenCatalogId = useSelectionStore((s) => s.catalogId)
+  const setChosenCatalogId = useSelectionStore((s) => s.setCatalog)
   const catalogList = catalogs.data ?? []
   const catalog = catalogList.find((c) => c.id === chosenCatalogId) ?? catalogList[0]
+  useEffect(() => {
+    if (catalog && catalog.id !== chosenCatalogId) setChosenCatalogId(catalog.id)
+  }, [catalog, chosenCatalogId, setChosenCatalogId])
   const categories = useCategoryList(catalog?.id ?? '')
   const records = catalog ? categories.data : undefined
   const [browseCategory, setBrowseCategory] = useState<{ catalogId: string; id: string } | null>(null)
@@ -192,6 +198,7 @@ function AssetExplorer({ workspaceId, workspaceName, title = 'Browse assets', cl
             </div>
           )}
           <div className="axp-titlebar__tools">
+            {catalog && <SelectionButton catalogId={catalog.id} />}
             {!minimized && catalogList.length > 1 && catalog && (
               <Select
                 className="axp-catalog"
